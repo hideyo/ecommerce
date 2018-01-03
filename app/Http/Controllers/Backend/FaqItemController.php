@@ -41,7 +41,7 @@ class FaqItemController extends Controller
             )
             ->with(array('faqItemGroup'))
             ->leftJoin('faq_item_group', 'faq_item_group.id', '=', 'faq_item.faq_item_group_id')
-            ->where('faq_item.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('faq_item.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = Datatables::of($query)
             ->addColumn('faqitemgroup', function ($query) {

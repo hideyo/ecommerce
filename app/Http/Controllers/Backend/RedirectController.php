@@ -100,7 +100,7 @@ class RedirectController extends Controller
               $results = $reader->get();
 
             if ($results->count()) {
-                $result = $this->redirect->importCsv($results, \Auth::guard('hideyobackend')->user()->selected_shop_id);
+                $result = $this->redirect->importCsv($results, auth('hideyobackend')->user()->selected_shop_id);
 
                 Notification::success('The redirects are imported.');
        

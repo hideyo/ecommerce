@@ -195,7 +195,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function refactorAllImagesByShopId($shopId)
     {
-        $result = $this->model->get();
+        $result = $this->modelImage->get();
         $shop = $this->shop->find($shopId);
         foreach ($result as $productImage) {
             if ($shop->thumbnail_square_sizes) {

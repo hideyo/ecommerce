@@ -39,7 +39,7 @@ class InvoiceController extends Controller
                 
                 'id', 'generated_custom_invoice_id', 'order_id',
                 'price_with_tax']
-            )->with(array('Order'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->with(array('Order'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             
             $datatables = \Datatables::of($invoice)

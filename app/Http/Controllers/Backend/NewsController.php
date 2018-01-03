@@ -37,7 +37,7 @@ class NewsController extends Controller
                 $this->news->getModel()->getTable().'.id',
                 $this->news->getModel()->getTable().'.title',
                 $this->news->getGroupModel()->getTable().'.title as newsgroup']
-            )->where($this->news->getModel()->getTable().'.shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)
+            )->where($this->news->getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
             ->with(array('newsGroup'))        ->leftJoin($this->news->getGroupModel()->getTable(), $this->news->getGroupModel()->getTable().'.id', '=', 'news_group_id');
             
             $datatables = Datatables::of($query)
@@ -96,14 +96,14 @@ class NewsController extends Controller
 
     public function reDirectoryAllImages()
     {
-        $this->newsImage->reDirectoryAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
+        $this->newsImage->reDirectoryAllImagesByShopId(auth('hideyobackend')->user()->selected_shop_id);
 
         return redirect()->route('news.index');
     }
 
     public function refactorAllImages()
     {
-        $this->newsImage->refactorAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
+        $this->newsImage->refactorAllImagesByShopId(auth('hideyobackend')->user()->selected_shop_id);
 
         return redirect()->route('news.index');
     }

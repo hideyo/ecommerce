@@ -58,7 +58,7 @@ class ProductController extends Controller
 
             ->leftJoin('brand as brand', 'brand.id', '=', 'product.brand_id')
 
-            ->where('product.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('product.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \Datatables::of($product)
             ->filterColumn('reference_code', function ($query, $keyword) {
@@ -217,7 +217,7 @@ class ProductController extends Controller
             )->with(array('productCategory', 'brand', 'subcategories', 'attributes',  'productImages','taxRate'))
             ->leftJoin('product_category as product_category', 'product_category.id', '=', 'product.product_category_id')
             ->leftJoin('brand as brand', 'brand.id', '=', 'product.brand_id')
-            ->where('product.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('product.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \Datatables::of($product)
             ->addColumn('rank', function ($product) {
@@ -251,7 +251,7 @@ class ProductController extends Controller
 
     public function refactorAllImages()
     {
-        $this->productImage->refactorAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
+        $this->productImage->refactorAllImagesByShopId(auth('hideyobackend')->user()->selected_shop_id);
         return redirect()->route('product.index');
     }
 

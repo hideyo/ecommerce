@@ -39,7 +39,7 @@ class ClientOrderController extends Controller
             $order = $this->order->getModel()->select(
                 ['id', 'created_at', 'generated_custom_order_id', 'order_status_id', 'client_id', 'delivery_order_address_id', 'bill_order_address_id',
                 'price_with_tax']
-            )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)->where('client_id', '=', $clientId);
+            )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('client_id', '=', $clientId);
             
             
             $datatables = Datatables::of($order)

@@ -29,7 +29,7 @@ class CouponGroupController extends Controller
         if ($this->request->wantsJson()) {
 
             $query = $this->coupon->getGroupModel()->select(['id', 'title'])
-            ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = \Datatables::of($query)
             ->addColumn('action', function ($query) {

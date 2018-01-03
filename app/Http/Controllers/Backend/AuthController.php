@@ -35,7 +35,7 @@ class AuthController extends Controller
      */
     public function getLogout()
     {
-        Auth::guard('hideyobackend')->logout();
+        auth('hideyobackend')->logout();
 
         return redirect()->intended('/admin');
     }
@@ -54,7 +54,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::guard('hideyobackend')->attempt($credentials)) {
+        if (auth('hideyobackend')->attempt($credentials)) {
             return redirect()->intended('/admin');
         }
 

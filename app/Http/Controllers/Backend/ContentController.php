@@ -37,7 +37,7 @@ class ContentController extends Controller
                 
                 $this->content->getModel()->getTable().'.id',
                 $this->content->getModel()->getTable().'.title', $this->content->getModel()->getTable().'.content_group_id', $this->content->getGroupModel()->getTable().'.title as contenttitle']
-            )->where($this->content->getModel()->getTable().'.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
+            )->where($this->content->getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
 
 
             ->with(array('contentGroup'))        ->leftJoin($this->content->getGroupModel()->getTable(), $this->content->getGroupModel()->getTable().'.id', '=', $this->content->getModel()->getTable().'.content_group_id');

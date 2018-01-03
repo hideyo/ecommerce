@@ -29,7 +29,7 @@ class BrandController extends Controller
         if ($this->request->wantsJson()) {
             $brand = $this->brand->getModel()
             ->select(['id', 'rank','title'])
-            ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($brand)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('brand.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $query->title);

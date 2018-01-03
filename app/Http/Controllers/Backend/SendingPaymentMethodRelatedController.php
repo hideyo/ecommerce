@@ -31,7 +31,7 @@ class SendingPaymentMethodRelatedController extends Controller
                 ->select(['payment_method.title as payment_method_title', 
                     'sending_method.title as sending_method_title', 
                     'sending_payment_method_related.*'])
-               ->where('sending_method.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+               ->where('sending_method.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             $datatables = Datatables::of($query)
 
             ->addColumn('payment_method', function ($query) {

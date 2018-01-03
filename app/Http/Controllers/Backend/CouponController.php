@@ -41,7 +41,7 @@ class CouponController extends Controller
                 [
                 
                 $this->coupon->getGroupModel()->getTable().'.title as coupontitle']
-            )->where($this->coupon->getModel()->getTable().'.shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id)
+            )->where($this->coupon->getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
 
 
             ->with(array('couponGroup'))        ->leftJoin($this->coupon->getGroupModel()->getTable(), $this->coupon->getGroupModel()->getTable().'.id', '=', $this->coupon->getModel()->getTable().'.coupon_group_id');

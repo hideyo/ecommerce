@@ -55,7 +55,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $shop  = Auth::guard('hideyobackend')->user()->shop;
+        $shop  = auth('hideyobackend')->user()->shop;
         $now = Carbon::now();
 
         $revenueThisMonth = null;
@@ -76,7 +76,7 @@ class OrderController extends Controller
                 'order.delivery_order_address_id',
                 'order.bill_order_address_id',
                 'order.price_with_tax']
-            )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id)
+            )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
 
 
 

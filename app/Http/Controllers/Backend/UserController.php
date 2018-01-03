@@ -126,8 +126,8 @@ class UserController extends Controller
 
     public function changeShopProfile($shopId)
     {
-        if (Auth::guard('hideyobackend')->user()) {
-            $id = Auth::guard('hideyobackend')->id();
+        if (auth('hideyobackend')->user()) {
+            $id = auth('hideyobackend')->id();
         }
 
         $shop = $this->shop->find($shopId);

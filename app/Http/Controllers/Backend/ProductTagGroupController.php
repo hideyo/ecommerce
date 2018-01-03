@@ -32,7 +32,7 @@ class ProductTagGroupController extends Controller
 
             $query = $this->productTagGroup->getModel()
             ->select(['id','tag'])
-            ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax(url()->route('product-tag-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

@@ -41,7 +41,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $shop  = Auth::guard('hideyobackend')->user()->shop;
+        $shop  = auth('hideyobackend')->user()->shop;
 
         return view('backend.dashboard.stats')->with(
             array(

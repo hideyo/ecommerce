@@ -34,7 +34,7 @@ class ExtraFieldController extends Controller
 
             $query = $this->extraField->getModel()
             ->select(['id', 'all_products','title'])
-            ->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)
 

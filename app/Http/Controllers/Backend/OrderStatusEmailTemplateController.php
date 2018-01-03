@@ -35,7 +35,7 @@ class OrderStatusEmailTemplateController extends Controller
 
             $query = $this->orderHtmlTemplate->getModel()->select(
                 ['id', 'title', 'subject']
-            )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)
             ->addColumn('action', function ($query) {

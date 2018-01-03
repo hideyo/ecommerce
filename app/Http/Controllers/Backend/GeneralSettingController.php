@@ -26,7 +26,7 @@ class GeneralSettingController extends Controller
                 
                 'id',
                 'name', 'value']
-            )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('general-setting.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));

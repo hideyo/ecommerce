@@ -36,16 +36,16 @@ class ClientController extends Controller
 
     public function index()
     {
-        $shop  = Auth::guard('hideyobackend')->user()->shop;
+        $shop  = auth('hideyobackend')->user()->shop;
 
         if ($this->request->wantsJson()) {
-            $shop  = Auth::guard('hideyobackend')->user()->shop();
+            $shop  = auth('hideyobackend')->user()->shop();
             $clients = $this->client->getModel()->select(
                 [
                 
                 'id', 'confirmed', 'active',
                 'email', 'last_login']
-            )->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($clients)
 
@@ -92,7 +92,7 @@ class ClientController extends Controller
     {
         $input = $this->request->all();
         $result  = $this->client->activate($clientId);
-        $shop  = Auth::guard('hideyobackend')->user()->shop;
+        $shop  = auth('hideyobackend')->user()->shop;
 
         if ($input['send_mail']) {
                 Mail::send('frontend.email.activate-mail', array('user' => $result->toArray(), 'billAddress' => $result->clientBillAddress->toArray()), function ($message) use ($result) {
@@ -200,7 +200,7 @@ class ClientController extends Controller
         $input = $this->request->all();
         if (isset($result->id)) {
             if ($result->active) {
-                $shop  = Auth::guard('hideyobackend')->user()->shop;
+                $shop  = auth('hideyobackend')->user()->shop;
 
                 if ($input['send_mail']) {
                     Mail::send('frontend.email.activate-mail', array('user' => $result->toArray(), 'billAddress' => $result->clientBillAddress->toArray()), function ($message) use ($result) {

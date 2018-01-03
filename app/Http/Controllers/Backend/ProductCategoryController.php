@@ -34,7 +34,7 @@ class ProductCategoryController extends Controller
 
             $productCategory = $this->productCategory->getModel()->select(
                 ['id', 'active','shop_id','parent_id', 'redirect_product_category_id','title', 'meta_title', 'meta_description']
-            )->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($productCategory)
 
@@ -92,18 +92,18 @@ class ProductCategoryController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.product_category.index')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(Auth::guard('hideyobackend')->user()->shop->id)->toArray()));
+        return view('backend.product_category.index')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(auth('hideyobackend')->user()->shop->id)->toArray()));
     }
 
     public function refactorAllImages()
     {
-        $this->productCategoryImage->refactorAllImagesByShopId(\Auth::guard('hideyobackend')->user()->selected_shop_id);
+        $this->productCategoryImage->refactorAllImagesByShopId(auth('hideyobackend')->user()->selected_shop_id);
         return redirect()->route('product-category.index');
     }
 
     public function tree()
     {
-        return view('backend.product_category.tree')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(Auth::guard('hideyobackend')->user()->shop->id)->toArray()));
+        return view('backend.product_category.tree')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(auth('hideyobackend')->user()->shop->id)->toArray()));
     }
 
     public function ajaxCategories(Request $request)
@@ -211,7 +211,7 @@ class ProductCategoryController extends Controller
 
     public function ajaxRootTree()
     {
-        $tree = $this->productCategory->entireTreeStructure(Auth::guard('hideyobackend')->user()->shop->id);
+        $tree = $this->productCategory->entireTreeStructure(auth('hideyobackend')->user()->shop->id);
         foreach ($tree as $key => $row) {
             $children = false;
             if ($row->children->count()) {

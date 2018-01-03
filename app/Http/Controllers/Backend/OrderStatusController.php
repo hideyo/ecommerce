@@ -34,7 +34,7 @@ class OrderStatusController extends Controller
 
             $query = $this->orderStatus->getModel()->select(
                 ['id', 'color','title']
-            )->where('shop_id', '=', \Auth::guard('hideyobackend')->user()->selected_shop_id);
+            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \Datatables::of($query)
 
@@ -64,7 +64,7 @@ class OrderStatusController extends Controller
 
     public function create()
     {
-        return view('backend.order-status.create')->with(array('templates' => $this->orderStatusEmailTemplate->selectAllByShopId(Auth::guard('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')));
+        return view('backend.order-status.create')->with(array('templates' => $this->orderStatusEmailTemplate->selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')));
     }
 
     public function store()
@@ -92,7 +92,7 @@ class OrderStatusController extends Controller
             array(
             'orderStatus' => $orderStatus,
             'populatedData' => $populatedData,
-            'templates' => $this->orderStatusEmailTemplate->selectAllByShopId(Auth::guard('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')
+            'templates' => $this->orderStatusEmailTemplate->selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')
             )
         );
     }

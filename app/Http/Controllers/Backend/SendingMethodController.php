@@ -36,7 +36,7 @@ class SendingMethodController extends Controller
     public function index()
     {
         if ($this->request->wantsJson()) {
-            $query = $this->sendingMethod->getModel()->where('shop_id', '=', Auth::guard('hideyobackend')->user()->selected_shop_id);
+            $query = $this->sendingMethod->getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('sending-method.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));
