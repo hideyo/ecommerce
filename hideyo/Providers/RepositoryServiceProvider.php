@@ -111,8 +111,6 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->singleton(WholesaleClientAddressRepositoryInterface::class, WholesaleClientAddressRepository::class);
         $this->app->singleton(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->singleton(ProductCategoryRepositoryInterface::class, ProductCategoryRepository::class);
-        $this->app->singleton(ContentCategoryRepositoryInterface::class, ContentCategoryRepository::class);
-        $this->app->singleton(ContentCategoryImageRepositoryInterface::class, ContentCategoryImageRepository::class);
         $this->app->singleton(ContentRepositoryInterface::class, ContentRepository::class);
         $this->app->singleton(ContentImageRepositoryInterface::class, ContentImageRepository::class);
         $this->app->singleton(HtmlBlockRepositoryInterface::class, HtmlBlockRepository::class);

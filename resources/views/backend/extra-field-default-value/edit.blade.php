@@ -6,7 +6,7 @@
         <ul class="nav nav-sidebar">
             <li><a href="{!! URL::route('extra-field.index') !!}">Overview <span class="sr-only">(current)</span></a></li>
             <li><a href="{!! URL::route('extra-field.edit', $extraFieldDefaultValue->extra_field_id) !!}">Edit</a></li>
-            <li class="active"><a href="{!! URL::route('extra-field-values.index', $extraFieldDefaultValue->extra_field_id) !!}">Values</a></li>
+            <li class="active"><a href="{!! URL::route('extra-field.values.index', $extraFieldDefaultValue->extra_field_id) !!}">Values</a></li>
 
         </ul>
     </div>
@@ -21,7 +21,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($extraFieldDefaultValue, array('method' => 'put', 'route' => array('extra-field-values.update', $extraFieldDefaultValue->extra_field_id, $extraFieldDefaultValue->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($extraFieldDefaultValue, array('method' => 'put', 'route' => array('extra-field.values.update', $extraFieldDefaultValue->extra_field_id, $extraFieldDefaultValue->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
 
 
                 <div class="form-group">   
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-5">
                         {!! Form::submit('Save', array('class' => 'btn btn-default')) !!}
-                        <a href="{!! URL::route('extra-field-values.index', $extraFieldDefaultValue->extra_field_id) !!}" class="btn btn-large">Cancel</a>
+                        <a href="{!! URL::route('extra-field.values.index', $extraFieldDefaultValue->extra_field_id) !!}" class="btn btn-large">Cancel</a>
                     </div>
                 </div>
 

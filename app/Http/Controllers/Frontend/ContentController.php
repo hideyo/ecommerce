@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Repositories\ContentRepositoryInterface;
-use Hideyo\Repositories\ContentCategoryRepositoryInterface;
 use Hideyo\Repositories\FaqItemRepositoryInterface;
 
 class ContentController extends Controller
@@ -14,11 +13,9 @@ class ContentController extends Controller
      */
     public function __construct(
         ContentRepositoryInterface $content,
-        ContentCategoryRepositoryInterface $category,
         FaqItemRepositoryInterface $faqItem
     ) { 
         $this->content = $content;
-        $this->category = $category;
         $this->faqItem = $faqItem;
     }
 
@@ -32,16 +29,6 @@ class ContentController extends Controller
             }
 
             return view('frontend.text.index')->with(array('content' => $content));
-        }
-
-        abort(404);
-    }
-
-    public function getOverview($slug)
-    {
-        $category = $this->category->selectOneByShopIdAndSlug(config()->get('app.shop_id'), $slug);
-        if ($category) {
-              return view('frontend.text.overview')->with(array('category' => $category));
         }
 
         abort(404);

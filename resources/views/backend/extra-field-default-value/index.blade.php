@@ -7,7 +7,7 @@
         <ul class="nav nav-sidebar">
             <li><a href="{!! URL::route('extra-field.index') !!}">Overview <span class="sr-only">(current)</span></a></li>
             <li><a href="{!! URL::route('extra-field.edit', $extraField->id) !!}">Edit</a></li>
-            <li class="active"><a href="{!! URL::route('extra-field-values.index', $extraField->id) !!}">Values</a></li>
+            <li class="active"><a href="{!! URL::route('extra-field.values.index', $extraField->id) !!}">Values</a></li>
 
         </ul>
     </div>
@@ -16,11 +16,11 @@
             <li><a href="{{ URL::route('dashboard.index') }}">Dashboard</a></li>
             <li><a href="{!! URL::route('extra-field.index') !!}">Extra fields</a></li>  
             <li><a href="{!! URL::route('extra-field.edit', $extraField->id) !!}">edit</a></li>
-            <li class="active"><a href="{!! URL::route('extra-field-values.index', $extraField->id) !!}">{!! $extraField->title !!}</a></li>
+            <li class="active"><a href="{!! URL::route('extra-field.values.index', $extraField->id) !!}">{!! $extraField->title !!}</a></li>
             <li class="active">values</li>  
         </ol>
 
-        <a href="{!! URL::route('extra-field-values.create', $extraField->id) !!}" class="btn btn-success pull-right" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
+        <a href="{!! URL::route('extra-field.values.create', $extraField->id) !!}" class="btn btn-success pull-right" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
 
         <h2>Extra fields values <small>overview</small></h2>
         <hr/>
@@ -42,7 +42,7 @@
                 oTable = $('#datatable').DataTable({
                     "processing": true,
                     "serverSide": true,
-                    "ajax": "{{ URL::route('extra-field-values.index', $extraField->id ) }}",
+                    "ajax": "{{ URL::route('extra-field.values.index', $extraField->id ) }}",
 
            
 

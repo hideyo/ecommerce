@@ -48,9 +48,10 @@ class ExtraFieldController extends Controller
                     return implode(' | ', $output);
                 }
             })
+
             ->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('extra-field.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $links = '<a href="'.url()->route('extra-field-values.index', $query->id).'" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>'.$query->values->count().' values</a>
+                $links = '<a href="'.url()->route('extra-field.values.index', $query->id).'" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>'.$query->values->count().' values</a>
                  <a href="'.url()->route('extra-field.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
                 '.$deleteLink;
             

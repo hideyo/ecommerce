@@ -34,8 +34,8 @@ class ExtraFieldDefaultValueController extends Controller
             )->where('extra_field_id', '=', $extraFieldId);
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($extraFieldId) {
-                $deleteLink = Form::deleteajax(url()->route('extra-field-values.destroy', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $links = ' <a href="'.url()->route('extra-field-values.edit', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
+                $deleteLink = Form::deleteajax(url()->route('extra-field.values.destroy', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $links = ' <a href="'.url()->route('extra-field.values.edit', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
                 '.$deleteLink;
             
                 return $links;
@@ -59,7 +59,7 @@ class ExtraFieldDefaultValueController extends Controller
 
         if (isset($result->id)) {
             Notification::success('The extra field was inserted.');
-            return redirect()->route('extra-field-values.index', $extraFieldId);
+            return redirect()->route('extra-field.values.index', $extraFieldId);
         }
 
         foreach ($result->errors()->all() as $error) {
@@ -80,7 +80,7 @@ class ExtraFieldDefaultValueController extends Controller
 
         if (isset($result->id)) {
             Notification::success('The extra field was updated.');
-            return redirect()->route('extra-field-values.index', $extraFieldId);
+            return redirect()->route('extra-field.values.index', $extraFieldId);
         }
 
         foreach ($result->errors()->all() as $error) {
@@ -96,7 +96,7 @@ class ExtraFieldDefaultValueController extends Controller
 
         if ($result) {
             Notification::success('Extra field was deleted.');
-            return Redirect::route('hideyo.extra-field-values.index', $extraFieldId);
+            return Redirect::route('hideyo.extra-field.values.index', $extraFieldId);
         }
     }
 }

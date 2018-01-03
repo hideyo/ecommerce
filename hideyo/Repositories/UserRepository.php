@@ -163,7 +163,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         return $this->updateEntity($attributes, $avatar);
     }
 
-    public function updateEntity(array $attributes = array(), $avatar)
+    public function updateEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->model->username = array_get($attributes, 'username');

@@ -126,7 +126,7 @@
 
     Route::resource('attribute-group', 'AttributeGroupController');
 
-    Route::resource('extra-field/{extraFieldId}/values', 'ExtraFieldDefaultValueController', ['as' => 'extra-fields-values']);
+    Route::resource('extra-field/{extraFieldId}/values', 'ExtraFieldDefaultValueController', ['as' => 'extra-field']);
     
     Route::resource('extra-field', 'ExtraFieldController');
 
