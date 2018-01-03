@@ -14,7 +14,7 @@ require('../../../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js')
 require('../../../node_modules/bootstrap-validator/dist/validator.js');
 require('../../../node_modules/summernote/dist/summernote.js');
 
-
+require('../../../node_modules/sweetalert2/dist/sweetalert2.all.min.js');
 
 
 
