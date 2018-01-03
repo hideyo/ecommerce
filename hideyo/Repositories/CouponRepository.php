@@ -126,7 +126,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
+    public function updateEntity(array $attributes = array())
     {
         if (count($attributes) > 0) {
             $this->model->fill($attributes);

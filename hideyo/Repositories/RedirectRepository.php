@@ -111,32 +111,10 @@ class RedirectRepository  extends BaseRepository implements RedirectRepositoryIn
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($redirectId)
-    {
-        $this->model = $this->find($redirectId);
-        return $this->model->delete();
-    }
-
     public function destroyByUrl($url)
     {
         $result = $this->model->where('url', '=', $url)->delete();
         return $result;
-    }
-
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id);
     }
 
     public function selectNewRedirects()

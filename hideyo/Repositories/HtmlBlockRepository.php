@@ -178,7 +178,7 @@ class HtmlBlockRepository extends BaseRepository implements HtmlBlockRepositoryI
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
+    public function updateEntity(array $attributes = array())
     {
 
         $shopId = auth('hideyobackend')->user()->selected_shop_id;

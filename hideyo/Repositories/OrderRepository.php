@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use Auth;
 use Cart;
  
-class OrderRepository extends BaseRepository  implements OrderRepositoryInterface
+class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
 
     protected $model;

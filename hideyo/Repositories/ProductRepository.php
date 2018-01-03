@@ -264,7 +264,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $result;
     }
 
-    private function updateEntity(array $attributes = array())
+    public function updateEntity(array $attributes = array())
     {
         if (empty($attributes['leading_atrribute_group_id'])) {
             $attributes['leading_atrribute_group_id'] = null;

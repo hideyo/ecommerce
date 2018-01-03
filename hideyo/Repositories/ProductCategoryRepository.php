@@ -194,7 +194,7 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
         return $result;
     }
 
-    private function updateEntity(array $attributes = array())
+    public function updateEntity(array $attributes = array())
     {
         if (!isset($attributes['parent_id'])) {
             $attributes['parent_id'] = null;
