@@ -48,7 +48,7 @@ class ProductRelatedProductRepository implements ProductRelatedProductRepository
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllByShopId($shopId)

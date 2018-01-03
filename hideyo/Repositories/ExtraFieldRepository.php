@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Auth;
 use Validator;
 
-class ExtraFieldRepository implements ExtraFieldRepositoryInterface
+class ExtraFieldRepository extends BaseRepository  implements ExtraFieldRepositoryInterface
 {
 
     protected $model;
@@ -56,13 +56,13 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
 
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
 
@@ -81,7 +81,7 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
         if ($validator->fails()) {
             return $validator;
         } else {
-            $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+            $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             $this->modelValue->fill($attributes);
             $this->modelValue->save();
             return $this->modelValue;
@@ -92,13 +92,13 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
     public function updateById(array $attributes, $extraFieldId)
     {
         $this->model = $this->find($extraFieldId);
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules($extraFieldId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
     }
 
@@ -130,7 +130,7 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
         }
 
         $this->modelValue = $this->findValue($defaultValueId);
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateValueEntity($attributes);
     }
 
@@ -144,15 +144,6 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
         return $this->modelValue;
     }
 
-
-    public function destroy($extraFieldId)
-    {
-        $this->model = $this->find($extraFieldId);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
     public function destroyValue($defaultValueId)
     {
         $this->modelValue = $this->findValue($defaultValueId);
@@ -161,25 +152,9 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
         return $this->modelValue->delete();
     }
 
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
-    }
-    
-    public function find($extrafieldId)
-    {
-        return $this->model->find($extrafieldId);
-    }
-
     public function findValue($defaultValueId)
     {
         return $this->modelValue->find($defaultValueId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 
     public function getValueModel()
@@ -201,8 +176,6 @@ class ExtraFieldRepository implements ExtraFieldRepositoryInterface
             });
         })
 
-        ->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    
+        ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
+    }    
 }

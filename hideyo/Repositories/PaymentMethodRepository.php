@@ -39,13 +39,13 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -55,13 +55,13 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
     public function updateById(array $attributes, $paymentMethodId)
     {
         $this->model = $this->find($paymentMethodId);
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules($paymentMethodId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
 
 
         return $this->updateEntity($attributes);
@@ -87,7 +87,7 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllActiveByShopId($shopId)
@@ -107,7 +107,7 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
 
     function selectOneById($paymentMethodId)
     {
-        $result = $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
+        $result = $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
         
         if ($result->isEmpty()) {
             return false;

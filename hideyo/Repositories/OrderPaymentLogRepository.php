@@ -15,7 +15,7 @@ class OrderPaymentLogRepository implements OrderPaymentLogRepositoryInterface
   
     public function create(array $attributes, $orderId)
     {
-        $userId = \auth()->guard('hideyobackend')->user()->id;
+        $userId = \auth('hideyobackend')->user()->id;
         $attributes['modified_by_user_id'] = $userId;
         $attributes['order_id'] = $orderId;
   
@@ -39,7 +39,7 @@ class OrderPaymentLogRepository implements OrderPaymentLogRepositoryInterface
 
     public function updateById(array $attributes, $orderId, $id)
     {
-        $attributes['modified_by_user_id'] = \auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
     }
@@ -68,7 +68,7 @@ class OrderPaymentLogRepository implements OrderPaymentLogRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllByShopId($shopId)

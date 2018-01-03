@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Validator;
 use Auth;
  
-class TaxRateRepository implements TaxRateRepositoryInterface
+class TaxRateRepository extends BaseRepository implements TaxRateRepositoryInterface
 {
 
     protected $model;
@@ -39,13 +39,13 @@ class TaxRateRepository implements TaxRateRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -55,44 +55,13 @@ class TaxRateRepository implements TaxRateRepositoryInterface
     public function updateById(array $attributes, $taxRateId)
     {
         $this->model = $this->find($taxRateId);
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules($taxRateId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
-    }
-
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($taxRateId)
-    {
-        $this->model = $this->find($taxRateId);
-        $this->model->save();
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    public function getModel() {
-        return $this->model;
-    }
-
-    public function find($taxRateId)
-    {
-        return $this->model->find($taxRateId);
     }
 }

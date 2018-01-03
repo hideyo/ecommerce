@@ -80,14 +80,14 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -100,8 +100,8 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function createImage(array $attributes, $newsId)
     {
-        $userId = auth()->guard('hideyobackend')->user()->id;
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $userId = auth('hideyobackend')->user()->id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
         $destinationPath = $this->storageImagePath.$newsId;
@@ -156,14 +156,14 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function createGroup(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rulesGroup());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             
         $this->modelGroup->fill($attributes);
         $this->modelGroup->save();
@@ -209,7 +209,7 @@ class NewsRepository implements NewsRepositoryInterface
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($newsId);
         return $this->updateEntity($attributes);
     }
@@ -226,7 +226,7 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function updateImageById(array $attributes, $newsId, $newsImageId)
     {
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->modelImage = $this->findImage($newsImageId);
         return $this->updateImageEntity($attributes);
     }
@@ -249,7 +249,7 @@ class NewsRepository implements NewsRepositoryInterface
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->modelGroup = $this->findGroup($newsGroupId);
         return $this->updateGroupEntity($attributes);
     }
@@ -284,7 +284,7 @@ class NewsRepository implements NewsRepositoryInterface
     {
         $this->modelImage = $this->findImage($newsImageId);
         $filename = $this->storageImagePath.$this->modelImage->news_id."/".$this->modelImage->file;
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (File::exists($filename)) {
@@ -316,7 +316,7 @@ class NewsRepository implements NewsRepositoryInterface
 
     public function selectAllGroups()
     {
-       return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+       return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     public function find($newsId)

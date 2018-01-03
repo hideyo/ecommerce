@@ -12,7 +12,7 @@ use Hideyo\Repositories\ShopRepositoryInterface;
 use Validator;
 use Auth;
  
-class ContentRepository implements ContentRepositoryInterface
+class ContentRepository extends BaseRepository implements ContentRepositoryInterface
 {
 
     protected $model;
@@ -78,14 +78,14 @@ class ContentRepository implements ContentRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             
         $this->model->fill($attributes);
         $this->model->save();
@@ -99,14 +99,14 @@ class ContentRepository implements ContentRepositoryInterface
 
     public function createGroup(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rulesGroup());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             
         $this->modelGroup->fill($attributes);
         $this->modelGroup->save();
@@ -116,8 +116,8 @@ class ContentRepository implements ContentRepositoryInterface
 
     public function createImage(array $attributes, $contentId)
     {
-        $userId = auth()->guard('hideyobackend')->user()->id;
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $userId = auth('hideyobackend')->user()->id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
        
@@ -180,19 +180,9 @@ class ContentRepository implements ContentRepositoryInterface
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($newsId);
         return $this->updateEntity($attributes);
-    }
-
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
     }
 
     public function updateGroupById(array $attributes, $newsGroupId)
@@ -203,7 +193,7 @@ class ContentRepository implements ContentRepositoryInterface
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->modelGroup = $this->findGroup($newsGroupId);
         return $this->updateGroupEntity($attributes);
     }
@@ -220,7 +210,7 @@ class ContentRepository implements ContentRepositoryInterface
 
     public function updateImageById(array $attributes, $contentId, $newsImageId)
     {
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->modelImage = $this->find($newsImageId);
         return $this->updateImageEntity($attributes);
     }
@@ -257,7 +247,7 @@ class ContentRepository implements ContentRepositoryInterface
     {
         $this->modelImage = $this->findImage($newsImageId);
         $filename = storage_path() ."/app/files/content/".$this->modelImage->content_id."/".$this->modelImage->file;
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (File::exists($filename)) {
@@ -284,25 +274,12 @@ class ContentRepository implements ContentRepositoryInterface
     }
 
 
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
     public function selectGroupAll()
     {
-        return $this->modelGroup->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->modelGroup->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
  
-    public function find($newsId)
-    {
-        return $this->model->find($newsId);
-    }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
 
     public function findGroup($newsGroupId)
     {

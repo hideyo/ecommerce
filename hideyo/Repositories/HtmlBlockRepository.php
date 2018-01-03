@@ -10,7 +10,7 @@ use Image;
 use Auth;
 use Validator;
 
-class HtmlBlockRepository implements HtmlBlockRepositoryInterface
+class HtmlBlockRepository extends BaseRepository implements HtmlBlockRepositoryInterface
 {
 
     protected $model;
@@ -46,14 +46,14 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;            
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;            
       
         $this->model->fill($attributes);
         $this->model->save();
@@ -120,14 +120,14 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     {
 
         $product =  $this->find($htmlBlockId);
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
    
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
 
         $this->model->sluggify();
         $this->model->fill($attributes);
@@ -173,7 +173,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($htmlBlockId);
         return $this->updateEntity($attributes);
     }
@@ -181,7 +181,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
     private function updateEntity(array $attributes = array())
     {
 
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
 
         if (count($attributes) > 0) {
@@ -255,12 +255,12 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectOneById($htmlBlockId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $htmlBlockId)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $htmlBlockId)->get();
         
         if ($result->isEmpty()) {
             return false;
@@ -305,13 +305,7 @@ class HtmlBlockRepository implements HtmlBlockRepositoryInterface
         return $result->first();
     }
     
-    public function find($htmlBlockId)
-    {
-        return $this->model->find($htmlBlockId);
-    }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
+
+
 }

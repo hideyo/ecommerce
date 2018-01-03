@@ -36,7 +36,7 @@ class OrderStatusEmailTemplateRepository implements OrderStatusEmailTemplateRepo
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
@@ -52,7 +52,7 @@ class OrderStatusEmailTemplateRepository implements OrderStatusEmailTemplateRepo
 
     public function updateById(array $attributes, $id)
     {
-                $attributes['shop_id'] = \auth()->guard('hideyobackend')->user()->selected_shop_id;
+                $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules($id, $attributes));
 
         if ($validator->fails()) {

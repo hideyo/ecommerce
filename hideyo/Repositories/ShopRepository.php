@@ -8,7 +8,7 @@ use File;
 use Image;
 use Validator;
  
-class ShopRepository implements ShopRepositoryInterface
+class ShopRepository extends BaseRepository implements ShopRepositoryInterface
 {
     protected $model;
 
@@ -41,7 +41,6 @@ class ShopRepository implements ShopRepositoryInterface
 
     public function create(array $attributes)
     {
-
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
@@ -141,17 +140,7 @@ class ShopRepository implements ShopRepositoryInterface
     public function selectAll()
     {
         return $this->model->get();
-    }
-
-    public function find($shopId)
-    {
-        return $this->model->find($shopId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
+    }    
 
     public function checkByUrl($shopUrl)
     {

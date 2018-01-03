@@ -12,7 +12,7 @@ use File;
 use Auth;
 use Validator;
 
-class ProductRepository implements ProductRepositoryInterface
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
 
     protected $model;
@@ -71,14 +71,14 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function createCopy(array $attributes, $productId)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
    
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         if (empty($attributes['discount_value'])) {
             $attributes['discount_value'] = null;
         }
@@ -98,14 +98,14 @@ class ProductRepository implements ProductRepositoryInterface
     public function create(array $attributes)
     {
         
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
    
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         if (empty($attributes['discount_value'])) {
             $attributes['discount_value'] = null;
         }
@@ -123,8 +123,8 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function createImage(array $attributes, $productId)
     {
-        $userId = auth()->guard('hideyobackend')->user()->id;
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $userId = auth('hideyobackend')->user()->id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
         $attributes['modified_by_user_id'] = $userId;
 
@@ -226,7 +226,7 @@ class ProductRepository implements ProductRepositoryInterface
     public function updateById(array $attributes, $productId)
     {
 
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
 
         $validator = Validator::make($attributes, $this->rules($productId, $attributes));
 
@@ -234,7 +234,7 @@ class ProductRepository implements ProductRepositoryInterface
             return $validator;
         }
  
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($productId);
 
         $oldTitle = $this->model->title;
@@ -293,7 +293,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function updateImageById(array $attributes, $productId, $imageId)
     {
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->modelImage = $this->findImage($imageId);
         return $this->updateImageEntity($attributes);
     }
@@ -351,7 +351,7 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $this->modelImage = $this->findImage($imageId);
         $filename = $this->modelImage->path;
-        $shopId = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $shopId = auth('hideyobackend')->user()->selected_shop_id;
         $shop = $this->shop->find($shopId);
         
         if (File::exists($filename)) {
@@ -379,11 +379,6 @@ class ProductRepository implements ProductRepositoryInterface
         }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->limit($limit)->orderBy('id', $orderBy)->get();
     }
 
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
     function selectAllByShopId($shopId)
     {
          return $this->model->where('shop_id', '=', $shopId)->get();
@@ -393,12 +388,12 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return $this->model->with(array('productImages' => function ($query) {
             $query->orderBy('rank', 'asc');
-        }))->where('active', '=', 1)->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        }))->where('active', '=', 1)->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     public function selectAllWithCombinations()
     {
-        $result = $this->model->with(array('attributes'))->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        $result = $this->model->with(array('attributes'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
 
         $newResult = array();
         foreach ($result as $product) {
@@ -420,7 +415,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function selectAllByProductParentId($productParentId)
     {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->where('product_parent_id', '=', $productParentId)->get();
+        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('product_parent_id', '=', $productParentId)->get();
     }
 
     function selectOneById($productId)
@@ -543,16 +538,6 @@ class ProductRepository implements ProductRepositoryInterface
         return false;
     }
     
-    public function find($productId)
-    {
-        return $this->model->find($productId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
     public function findImage($imageId)
     {
         return $this->modelImage->find($imageId);

@@ -38,14 +38,14 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
             
         $this->model->fill($attributes);
         $this->model->save();
@@ -60,13 +60,13 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
     public function updateById(array $attributes, $tagGroupId)
     {
         $this->model = $this->find($tagGroupId);
-        $attributes['shop_id'] = \auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules($tagGroupId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
     }
 
@@ -96,7 +96,7 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectAllActiveByShopId($shopId)
@@ -132,7 +132,7 @@ class ProductTagGroupRepository implements ProductTagGroupRepositoryInterface
     
     function selectOneById($tagGroupId)
     {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \auth()->guard('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $tagGroupId)->get();
+        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $tagGroupId)->get();
         
         if ($result->isEmpty()) {
             return false;

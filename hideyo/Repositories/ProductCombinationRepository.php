@@ -54,7 +54,7 @@ class ProductCombinationRepository implements ProductCombinationRepositoryInterf
             }
 
             $data = $attributes;
-            $data['modified_by_user_id'] = \auth()->guard('hideyobackend')->user()->id;
+            $data['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
             $data['product_id'] = $product->id;
 
             $new = new ProductAttribute;
@@ -82,7 +82,7 @@ class ProductCombinationRepository implements ProductCombinationRepositoryInterf
 
     public function updateById(array $attributes, $productId, $productAttributeId)
     {
-        $attributes['modified_by_user_id'] = \auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
         $attributes['product_id'] = $productId;
         $this->model = $this->find($productAttributeId);
         return $this->updateEntity($attributes);

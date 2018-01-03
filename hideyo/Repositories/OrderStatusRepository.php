@@ -37,7 +37,7 @@ class OrderStatusRepository implements OrderStatusRepositoryInterface
 
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
@@ -58,7 +58,7 @@ class OrderStatusRepository implements OrderStatusRepositoryInterface
         }
         
         $this->model = $this->find($id);
-        $attributes['shop_id'] = \auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         return $this->updateEntity($attributes);
     }
 
@@ -81,7 +81,7 @@ class OrderStatusRepository implements OrderStatusRepositoryInterface
 
     public function selectAll()
     {
-        return $this->model->where('shop_id', '=', \auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
     }
     
     public function find($id)

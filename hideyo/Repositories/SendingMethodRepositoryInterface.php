@@ -11,8 +11,6 @@ interface SendingMethodRepositoryInterface
     
     public function selectAll();
     
-    public function selectOneById($id);
-
     public function selectAllActiveByShopId($shopId);
 
     public function selectOneByShopIdAndId($shopId, $id);

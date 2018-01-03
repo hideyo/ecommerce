@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Auth;
 use Validator;
  
-class GeneralSettingRepository implements GeneralSettingRepositoryInterface
+class GeneralSettingRepository extends BaseRepository implements GeneralSettingRepositoryInterface
 {
 
     protected $model;
@@ -39,13 +39,13 @@ class GeneralSettingRepository implements GeneralSettingRepositoryInterface
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -55,42 +55,14 @@ class GeneralSettingRepository implements GeneralSettingRepositoryInterface
     public function updateById(array $attributes, $settingId)
     {
         $this->model = $this->find($settingId);
-        $attributes['shop_id'] = auth()->guard('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rules($settingId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = auth()->guard('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
-    }
-
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($settingId)
-    {
-        $this->model = $this->find($settingId);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth()->guard('hideyobackend')->user()->selected_shop_id)->get();
-    }
-    
-    public function find($settingId)
-    {
-        return $this->model->find($settingId);
     }
 
     function selectOneByShopIdAndName($shopId, $name)
@@ -103,9 +75,4 @@ class GeneralSettingRepository implements GeneralSettingRepositoryInterface
         }
         return $result->first();
     }
-
-    public function getModel()
-    {
-        return $this->model;
-    } 
 }
