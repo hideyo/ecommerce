@@ -6,7 +6,7 @@
         <ul class="nav nav-sidebar">
             <li><a href="{!! URL::route('extra-field.index') !!}">Overview <span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="{!! URL::route('extra-field.edit', $extraField->id) !!}">Edit</a></li>
-            <li><a href="{!! URL::route('extra-field-values.index', $extraField->id) !!}">Values</a></li>
+            <li><a href="{!! URL::route('extra-field.values.index', $extraField->id) !!}">Values</a></li>
 
         </ul>
     </div>
