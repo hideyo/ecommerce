@@ -233,7 +233,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         if ($validator->fails()) {
             return $validator;
         }
- 
+
         $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($productId);
 
@@ -241,6 +241,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $oldSlug = $this->model->slug;
         $oldProductCategoryId = $this->model->product_category_id;
         $oldProductCategorySlug = $this->model->productCategory->slug;
+
         $result = $this->updateEntity($attributes);
 
         if (isset($attributes['title']) and isset($attributes['product_category_id'])) {
@@ -285,7 +286,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $this->model->save();
         }
         
-        $this->model->addAllToIndex();
+        //$this->model->addAllToIndex();
 
         return $this->model;
     }

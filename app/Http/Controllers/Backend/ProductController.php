@@ -418,6 +418,7 @@ class ProductController extends Controller
 
     public function update($productId)
     {
+
         $input = $this->request->all();
         $result  = $this->product->updateById($input, $productId);
 

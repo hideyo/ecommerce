@@ -5,7 +5,7 @@ use Hideyo\Models\ProductAmountSeries;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
  
-class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInterface
+class ProductAmountSeriesRepository extends BaseRepository implements ProductAmountSeriesRepositoryInterface
 {
 
     protected $model;
@@ -32,7 +32,6 @@ class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInte
         
         return $rules;
     }
-
 
     public function create(array $attributes, $productId)
     {

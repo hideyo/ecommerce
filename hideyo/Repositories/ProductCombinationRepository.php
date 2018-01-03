@@ -5,7 +5,7 @@ use Hideyo\Models\ProductAttribute;
 use Hideyo\Models\ProductAttributeCombination;
 use Hideyo\Repositories\ProductCombinationRepositoryInterface;
  
-class ProductCombinationRepository  extends BaseRepository implements ProductCombinationRepositoryInterface
+class ProductCombinationRepository extends BaseRepository implements ProductCombinationRepositoryInterface
 {
 
     protected $model;
@@ -144,12 +144,6 @@ class ProductCombinationRepository  extends BaseRepository implements ProductCom
         }
 
         return $this->model;
-    }
-
-    public function destroy($productAttributeId)
-    {
-        $this->model = $this->find($productAttributeId);
-        return $this->model->delete();
     }
 
     public function selectAllByProductId($productId)

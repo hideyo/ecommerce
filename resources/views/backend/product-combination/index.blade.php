@@ -52,8 +52,8 @@
                     <th class="col-md-3">{{{ trans('table.price') }}}</th>
                     <th class="col-md-1">{{{ trans('table.reference-code') }}}</th>
                     <th class="col-md-3">{{{ trans('table.combinations') }}}</th>
-                    <th class="col-md-1">{{{ trans('table.default-on') }}}</th>
-                    <th class="col-md-1">{{{ trans('table.actions') }}}</th>
+                    <th class="col-md-2">{{{ trans('table.default-on') }}}</th>
+                    <th class="col-md-2">{{{ trans('table.actions') }}}</th>
                 </tr>
             </thead>
         </table>

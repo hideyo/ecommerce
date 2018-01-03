@@ -5,7 +5,7 @@ use Hideyo\Models\OrderStatus;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
  
-class OrderStatusRepository implements OrderStatusRepositoryInterface
+class OrderStatusRepository extends BaseRepository implements OrderStatusRepositoryInterface
 {
 
     protected $model;
