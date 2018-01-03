@@ -9,6 +9,11 @@ class BaseRepository
 	    return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
 	}
 
+    function selectAllByShopId($shopId)
+    {
+         return $this->model->where('shop_id', '=', $shopId)->get();
+    }
+
     public function selectAllActiveByShopId($shopId)
     {
          return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
@@ -22,6 +27,17 @@ class BaseRepository
     {
         return $this->model->find($modelId);
     }
+
+    private function updateEntity(array $attributes = array())
+    {
+        if (count($attributes) > 0) {
+            $this->model->fill($attributes);
+            $this->model->save();
+        }
+
+        return $this->model;
+    }
+    
 
     public function destroy($modelId)
     {

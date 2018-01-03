@@ -3,7 +3,7 @@ namespace Hideyo\Repositories;
  
 use Hideyo\Models\ClientAddress;
  
-class ClientAddressRepository implements ClientAddressRepositoryInterface
+class ClientAddressRepository extends BaseRepository implements ClientAddressRepositoryInterface
 {
 
     protected $model;
@@ -48,17 +48,6 @@ class ClientAddressRepository implements ClientAddressRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
     public function destroy($id)
     {
         $this->model = $this->find($id);
@@ -69,16 +58,6 @@ class ClientAddressRepository implements ClientAddressRepositoryInterface
         }
 
         return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    function selectAllByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->get();
     }
 
     function selectAllByClientId($clientId)
@@ -98,15 +77,4 @@ class ClientAddressRepository implements ClientAddressRepositoryInterface
 
         return $result;
     }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
 }

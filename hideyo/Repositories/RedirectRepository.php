@@ -8,7 +8,7 @@ use File;
 use Image;
 use Validator;
 
-class RedirectRepository implements RedirectRepositoryInterface
+class RedirectRepository  extends BaseRepository implements RedirectRepositoryInterface
 {
 
     protected $model;
@@ -175,16 +175,5 @@ class RedirectRepository implements RedirectRepositoryInterface
     {
         $result = $this->model->where('company_id', '=', $companyId)->where('url', '=', $shopUrl)->get()->first();
         return $result;
-    }
-
-    public function find($redirectId)
-    {
-        return $this->model->find($redirectId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-    
+    }    
 }

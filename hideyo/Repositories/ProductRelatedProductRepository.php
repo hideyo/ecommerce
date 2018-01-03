@@ -6,7 +6,7 @@ use Hideyo\Models\Product;
 use Hideyo\Repositories\ProductRepositoryInterface;
 use Auth;
  
-class ProductRelatedProductRepository implements ProductRelatedProductRepositoryInterface
+class ProductRelatedProductRepository  extends BaseRepository implements ProductRelatedProductRepositoryInterface
 {
 
     protected $model;
@@ -28,16 +28,6 @@ class ProductRelatedProductRepository implements ProductRelatedProductRepository
         return $parentProduct->save();
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
     public function destroy($relatedId)
     {
         $this->model = $this->find($relatedId);
@@ -46,28 +36,10 @@ class ProductRelatedProductRepository implements ProductRelatedProductRepository
         return $this->model->delete();
     }
 
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    function selectAllByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->get();
-    }
-
     function selectAllByProductId($productId)
     {
          return $this->model->where('product_id', '=', $productId)->get();
     }
     
-    public function find($relatedId)
-    {
-        return $this->model->find($relatedId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }   
+ 
 }

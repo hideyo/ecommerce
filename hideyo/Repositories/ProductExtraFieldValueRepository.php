@@ -4,7 +4,7 @@ namespace Hideyo\Repositories;
 use Hideyo\Models\ProductExtraFieldValue;
 use Hideyo\Repositories\ProductExtraFieldValueRepositoryInterface;
  
-class ProductExtraFieldValueRepository implements ProductExtraFieldValueRepositoryInterface
+class ProductExtraFieldValueRepository extends BaseRepository implements ProductExtraFieldValueRepositoryInterface
 {
 
     protected $model;
@@ -65,12 +65,6 @@ class ProductExtraFieldValueRepository implements ProductExtraFieldValueReposito
         return $result;
     }
  
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        return $this->model->delete();
-    }
-
     public function selectAllByProductId($productId)
     {
         return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('product_id', '=', $productId)->get();
@@ -80,12 +74,6 @@ class ProductExtraFieldValueRepository implements ProductExtraFieldValueReposito
     {
 
         return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('product_id', '=', $productId)->where('extra_field_id', '=', $extraFieldId)->get();
-    }
-
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectOneByShopIdAndSlug($shopId, $slug)
@@ -113,17 +101,5 @@ class ProductExtraFieldValueRepository implements ProductExtraFieldValueReposito
                 }
                 )
          )->get();
-    }
-
-
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 }

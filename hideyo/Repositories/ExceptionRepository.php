@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Validator;
 use Auth;
  
-class ExceptionRepository implements ExceptionRepositoryInterface
+class ExceptionRepository extends BaseRepository  implements ExceptionRepositoryInterface
 {
 
     protected $model;
@@ -63,34 +63,6 @@ class ExceptionRepository implements ExceptionRepositoryInterface
         }
         $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
-    }
-
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->get();
-    }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
     }
 
     function selectOneByShopIdAndName($shopId, $name)

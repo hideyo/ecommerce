@@ -18,7 +18,7 @@ use Carbon\Carbon;
 use Auth;
 use Cart;
  
-class OrderRepository implements OrderRepositoryInterface
+class OrderRepository extends BaseRepository  implements OrderRepositoryInterface
 {
 
     protected $model;
@@ -208,29 +208,6 @@ class OrderRepository implements OrderRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-
-        
-            if (isset($attributes['categories'])) {
-                $this->model->categories()->sync($attributes['categories']);
-            }
-
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $this->model->save();
-        return $this->model->delete();
-    }
-
     public function selectAllByShopIdAndStatusId($orderStatusId, $startDate = false, $endDate = false, $shopId = false)
     {
         $query = $this->model
@@ -256,11 +233,6 @@ class OrderRepository implements OrderRepositoryInterface
         return $this->model->select('extra_field.*')->leftJoin('product_category_related_extra_field', 'extra_field.id', '=', 'product_category_related_extra_field.extra_field_id')->where('all_products', '=', 1)->orWhere('product_category_related_extra_field.product_category_id', '=', $productCategoryId)->get();
     }
 
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
     public function orderProductsByClientId($clientId, $shopId)
     {
 
@@ -272,11 +244,6 @@ class OrderRepository implements OrderRepositoryInterface
     public function selectAllByCompany()
     {
         return $this->model->leftJoin('shop', 'order.shop_id', '=', 'shop.id')->get();
-    }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
     }
 
     public function productsByOrderIds(array $orderIds) 
@@ -299,9 +266,4 @@ class OrderRepository implements OrderRepositoryInterface
         $result = array_merge($result, $result2);
         return $result;
     }
-
-    public function getModel()
-    {
-        return $this->model;
-    } 
 }

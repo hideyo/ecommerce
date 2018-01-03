@@ -3,7 +3,7 @@ namespace Hideyo\Repositories;
  
 use Hideyo\Models\OrderStatusEmailTemplate;
 
-class OrderStatusEmailTemplateRepository implements OrderStatusEmailTemplateRepositoryInterface
+class OrderStatusEmailTemplateRepository extends BaseRepository implements OrderStatusEmailTemplateRepositoryInterface
 {
 
     protected $model;
@@ -52,7 +52,7 @@ class OrderStatusEmailTemplateRepository implements OrderStatusEmailTemplateRepo
 
     public function updateById(array $attributes, $id)
     {
-                $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules($id, $attributes));
 
         if ($validator->fails()) {
@@ -62,32 +62,6 @@ class OrderStatusEmailTemplateRepository implements OrderStatusEmailTemplateRepo
        
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
-    }
-
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->get();
-    }
-
-    function selectAllByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->get();
     }
 
     public function selectBySendingMethodIdAndPaymentMethodId($paymentMethodId, $sendingMethodId)
@@ -111,15 +85,4 @@ class OrderStatusEmailTemplateRepository implements OrderStatusEmailTemplateRepo
             return false;
         }
     }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-    
 }

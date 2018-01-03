@@ -16,7 +16,7 @@ use Hideyo\Repositories\PaymentMethodRepositoryInterface;
 use Validator;
 use Auth;
  
-class InvoiceRepository implements InvoiceRepositoryInterface
+class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInterface
 {
 
     protected $model;
@@ -165,41 +165,10 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-
-        
-            if (isset($attributes['categories'])) {
-                $this->model->categories()->sync($attributes['categories']);
-            }
-
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $this->model->save();
-        return $this->model->delete();
-    }
-
     public function selectAllByAllProductsAndProductCategoryId($productCategoryId)
     {
         return $this->model->select('extra_field.*')->leftJoin('product_category_related_extra_field', 'extra_field.id', '=', 'product_category_related_extra_field.extra_field_id')->where('all_products', '=', 1)->orWhere('product_category_related_extra_field.product_category_id', '=', $productCategoryId)->get();
     }
 
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth()->user()->selected_shop_id)->get();
-    }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
+
 }

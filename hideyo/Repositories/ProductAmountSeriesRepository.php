@@ -67,30 +67,6 @@ class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInte
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
     function selectOneById($id)
     {
         $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
@@ -99,11 +75,6 @@ class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInte
             return false;
         }
         return $result->first();
-    }
-
-    function selectAllActiveByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
     }
 
     function selectOneByShopIdAndId($shopId, $id)
@@ -117,15 +88,4 @@ class ProductAmountSeriesRepository implements ProductAmountSeriesRepositoryInte
         }
         return $result->first();
     }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-    
 }

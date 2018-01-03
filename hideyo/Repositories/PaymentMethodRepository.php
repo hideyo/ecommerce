@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Validator;
 use Auth;
  
-class PaymentMethodRepository implements PaymentMethodRepositoryInterface
+class PaymentMethodRepository extends BaseRepository implements PaymentMethodRepositoryInterface
 {
 
     protected $model;
@@ -67,34 +67,6 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($paymentMethodId)
-    {
-        $this->model = $this->find($paymentMethodId);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    function selectAllActiveByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
-    }
-
     function selectOneByShopIdAndId($shopId, $paymentMethodId)
     {
         $result = $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $paymentMethodId)->get();
@@ -113,14 +85,5 @@ class PaymentMethodRepository implements PaymentMethodRepositoryInterface
             return false;
         }
         return $result->first();
-    }
-    
-    public function find($paymentMethodId)
-    {
-        return $this->model->find($paymentMethodId);
-    }
-
-    public function getModel() {
-        return $this->model;
     }
 }

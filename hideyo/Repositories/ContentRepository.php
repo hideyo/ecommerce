@@ -273,14 +273,11 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
         return $this->modelGroup->delete();
     }
 
-
     public function selectGroupAll()
     {
         return $this->modelGroup->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
  
-
-
     public function findGroup($newsGroupId)
     {
         return $this->modelGroup->find($newsGroupId);

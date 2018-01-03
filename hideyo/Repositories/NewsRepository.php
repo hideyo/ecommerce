@@ -11,7 +11,7 @@ use Hideyo\Repositories\ShopRepositoryInterface;
 use Validator;
 use Auth;
 
-class NewsRepository implements NewsRepositoryInterface
+class NewsRepository  extends BaseRepository implements NewsRepositoryInterface
 {
 
     /**
@@ -214,16 +214,6 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
     public function updateImageById(array $attributes, $newsId, $newsImageId)
     {
         $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
@@ -309,24 +299,9 @@ class NewsRepository implements NewsRepositoryInterface
         return $this->modelGroup->delete();
     }
 
-    public function selectAll()
-    {
-        return $this->model->get();
-    }
-
     public function selectAllGroups()
     {
        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    public function find($newsId)
-    {
-        return $this->model->find($newsId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 
     public function findGroup($groupId)

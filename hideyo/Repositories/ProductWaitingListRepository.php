@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Auth;
 use Validator;
  
-class ProductWaitingListRepository implements ProductWaitingListRepositoryInterface
+class ProductWaitingListRepository  extends BaseRepository implements ProductWaitingListRepositoryInterface
 {
 
     protected $model;
@@ -90,84 +90,8 @@ class ProductWaitingListRepository implements ProductWaitingListRepositoryInterf
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-     
-
-            $this->model->save();
-        
-            if (isset($attributes['products'])) {
-                $this->model->relatedProducts()->sync($attributes['products']);
-            }
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($waitingListId)
-    {
-        $this->model = $this->find($waitingListId);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
     public function selectAll()
     {
         return $this->model->get();
-    }
-
-    function selectOneById($waitingListId)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('active', '=', 1)->where('id', '=', $waitingListId)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
-    }
-
-    function selectAllActiveByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
-    }
-
-    function selectAllByTagAndShopId($shopId, $tag)
-    {
-        $result = $this->model->with(array('relatedProducts' => function ($query) {
-            $query->with(array('productCategory', 'productImages' => function ($query) {
-                $query->orderBy('rank', 'asc');
-            }))->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('tag', '=', $tag)->get();
-        if ($result->count()) {
-            return $result->first()->relatedProducts;
-        }
-        
-        return false;
-    }
-
-    function selectOneByShopIdAndId($shopId, $waitingListId)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
-            $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $waitingListId)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
-    }
-    
-    public function find($waitingListId)
-    {
-        return $this->model->find($waitingListId);
-    }
-    
-    public function getModel()
-    {
-        return $this->model;
-    }
-
+    }    
 }

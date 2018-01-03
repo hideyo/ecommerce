@@ -95,11 +95,5 @@ class FaqItemRepository extends BaseRepository implements FaqItemRepositoryInter
     {
          return $this->model->where('shop_id', '=', $shopId)->get();
     }
-    
-    public function find($faqItemId)
-    {
-        return $this->model->find($faqItemId);
-    }
-
-    
+        
 }

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
 use Validator;
  
-class CouponRepository implements CouponRepositoryInterface
+class CouponRepository extends BaseRepository  implements CouponRepositoryInterface
 {
 
     protected $model;
@@ -181,15 +181,6 @@ class CouponRepository implements CouponRepositoryInterface
         return $this->modelGroup;
     }
 
-
-    public function destroy($couponId)
-    {
-        $this->model = $this->find($couponId);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
     public function destroyGroup($groupId)
     {
         $this->modelGroup = $this->findGroup($groupId);
@@ -197,12 +188,6 @@ class CouponRepository implements CouponRepositoryInterface
 
         return $this->modelGroup->delete();
     }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-    
 
     public function selectAllGroups()
     {
@@ -225,16 +210,6 @@ class CouponRepository implements CouponRepositoryInterface
             return false;
         }
         return $result->first();
-    }
-
-    public function find($couponId)
-    {
-        return $this->model->find($couponId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 
     public function findGroup($groupId)

@@ -13,7 +13,7 @@ use Validator;
 use Auth;
 use Hash;
 
-class ClientRepository implements ClientRepositoryInterface
+class ClientRepository extends BaseRepository implements ClientRepositoryInterface
 {
 
     protected $model;
@@ -126,23 +126,6 @@ class ClientRepository implements ClientRepositoryInterface
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($clientId)
-    {
-        $this->model = $this->find($clientId);
-        $this->model->save();
-        return $this->model->delete();
-    }
-
     public function selectAll()
     {
         return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
@@ -153,11 +136,6 @@ class ClientRepository implements ClientRepositoryInterface
         return $this->model->selectRaw('CONCAT(client_address.firstname, " ", client_address.lastname) as fullname, client_address.*, client.id')
         ->leftJoin('client_address', 'client.bill_client_address_id', '=', 'client_address.id')->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
         ->get();
-    }
-
-    public function find($clientId)
-    {
-        return $this->model->find($clientId);
     }
 
     public function findByEmail($email, $shopId)
@@ -188,9 +166,6 @@ class ClientRepository implements ClientRepositoryInterface
 
         return true;
     }
-
-
-
 
     function selectOneByShopIdAndId($shopId, $clientId)
     {
@@ -251,7 +226,6 @@ class ClientRepository implements ClientRepositoryInterface
         
         return false;
     }
-
 
     function deactivate($clientId)
     {
@@ -438,9 +412,4 @@ class ClientRepository implements ClientRepositoryInterface
         // Return derived key of correct length
         return substr($derivedKey, $start, $length);
     }
-
-    public function getModel()
-    {
-        return $this->model;
-    } 
 }

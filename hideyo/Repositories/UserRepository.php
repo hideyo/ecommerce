@@ -8,7 +8,7 @@ use Config;
 use Mail;
 use Lang;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
 
 
@@ -265,16 +265,4 @@ class UserRepository implements UserRepositoryInterface
     {
         return $instance->save();
     }
-
-    public function destroy($userId)
-    {
-        $this->model = $this->find($userId);
-        return $this->model->delete();
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-    
 }

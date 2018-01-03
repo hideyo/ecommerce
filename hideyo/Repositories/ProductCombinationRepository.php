@@ -5,7 +5,7 @@ use Hideyo\Models\ProductAttribute;
 use Hideyo\Models\ProductAttributeCombination;
 use Hideyo\Repositories\ProductCombinationRepositoryInterface;
  
-class ProductCombinationRepository implements ProductCombinationRepositoryInterface
+class ProductCombinationRepository  extends BaseRepository implements ProductCombinationRepositoryInterface
 {
 
     protected $model;
@@ -78,7 +78,6 @@ class ProductCombinationRepository implements ProductCombinationRepositoryInterf
             return $new;
         }
     }
-
 
     public function updateById(array $attributes, $productId, $productAttributeId)
     {
@@ -167,11 +166,6 @@ class ProductCombinationRepository implements ProductCombinationRepositoryInterf
         }))->get();
     }
 
-    public function selectAll()
-    {
-        return $this->model->get();
-    }
-
     function selectOneByShopIdAndSlug($shopId, $slug)
     {
            return $this->model->with(array('productCategory', 'productImages'))->get()->first();
@@ -182,15 +176,6 @@ class ProductCombinationRepository implements ProductCombinationRepositoryInterf
            return $this->model->with(array('productCategory', 'productImages'))->where('id', '=', $productAttributeId)->get()->first();
     }
     
-    public function find($productAttributeId)
-    {
-        return $this->model->find($productAttributeId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
 
     public function changeAmount($productAttributeId, $amount)
     {

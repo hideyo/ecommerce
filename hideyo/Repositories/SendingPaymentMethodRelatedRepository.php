@@ -5,7 +5,7 @@ use Hideyo\Models\SendingPaymentMethodRelated;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
  
-class SendingPaymentMethodRelatedRepository implements SendingPaymentMethodRelatedRepositoryInterface
+class SendingPaymentMethodRelatedRepository extends BaseRepository implements SendingPaymentMethodRelatedRepositoryInterface
 {
 
     protected $model;
@@ -50,14 +50,6 @@ class SendingPaymentMethodRelatedRepository implements SendingPaymentMethodRelat
         }
 
         return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $this->model->save();
-
-        return $this->model->delete();
     }
 
     public function selectAll()
@@ -133,10 +125,5 @@ class SendingPaymentMethodRelatedRepository implements SendingPaymentMethodRelat
             return false;
         }
         return $result->first();
-    }
-        
-    public function find($id)
-    {
-        return $this->model->find($id);
     }
 }

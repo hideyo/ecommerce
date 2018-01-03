@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Auth;
  
-class ProductAmountOptionRepository implements ProductAmountOptionRepositoryInterface
+class ProductAmountOptionRepository extends BaseRepository implements ProductAmountOptionRepositoryInterface
 {
 
     protected $model;
@@ -70,30 +70,6 @@ class ProductAmountOptionRepository implements ProductAmountOptionRepositoryInte
         return $this->updateEntity($attributes);
     }
 
-    private function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($AmountOptionId)
-    {
-        $this->model = $this->find($AmountOptionId);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
     function selectOneById($AmountOptionId)
     {
         $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $AmountOptionId)->get();
@@ -102,11 +78,6 @@ class ProductAmountOptionRepository implements ProductAmountOptionRepositoryInte
             return false;
         }
         return $result->first();
-    }
-
-    function selectAllActiveByShopId($shopId)
-    {
-         return $this->model->where('shop_id', '=', $shopId)->where('active', '=', 1)->get();
     }
 
     function selectOneByShopIdAndId($shopId, $AmountOptionId)
@@ -119,16 +90,5 @@ class ProductAmountOptionRepository implements ProductAmountOptionRepositoryInte
             return false;
         }
         return $result->first();
-    }
-    
-    public function find($AmountOptionId)
-    {
-        return $this->model->find($AmountOptionId);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-    
+    }  
 }
