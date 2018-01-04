@@ -23,7 +23,7 @@ class GeneralSettingRepository extends BaseRepository implements GeneralSettingR
      * @param  integer  $settingId id attribute model    
      * @return array
      */
-    private function rules($settingId = false)
+    public function rules($settingId = false)
     {
         $rules = array(
             'name' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
@@ -36,36 +36,8 @@ class GeneralSettingRepository extends BaseRepository implements GeneralSettingR
 
         return $rules;
     }
-  
-    public function create(array $attributes)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules());
 
-        if ($validator->fails()) {
-            return $validator;
-        }
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        $this->model->fill($attributes);
-        $this->model->save();
-        
-        return $this->model;
-    }
-
-    public function updateById(array $attributes, $settingId)
-    {
-        $this->model = $this->find($settingId);
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules($settingId));
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        return $this->updateEntity($attributes);
-    }
-
-    function selectOneByShopIdAndName($shopId, $name)
+    public function selectOneByShopIdAndName($shopId, $name)
     {     
         $result = $this->model
         ->where('shop_id', '=', $shopId)->where('name', '=', $name)->get();

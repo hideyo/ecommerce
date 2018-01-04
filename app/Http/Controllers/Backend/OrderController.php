@@ -144,13 +144,9 @@ class OrderController extends Controller
                 $deleteLink = \Form::deleteajax('/admin/order/'. $order->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $download = '<a href="/admin/order/'.$order->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
             
-                $label = "";
-                if($order->orderLabel()->count()) {
-                    $label = '<a href="/admin/order/'.$order->id.'/download-label" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Label</a>  ';
-                }      
-         
+       
                 
-                $links = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download.' '.$label;
+                $links = '<a href="/admin/order/'.$order->id.'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$download;
             
                 return $links;
             });

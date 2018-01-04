@@ -21,7 +21,7 @@ class AttributeGroupRepository extends BaseRepository implements AttributeGroupR
      * @param  integer  $id id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    public function rules($id = false)
     {
         $rules = array(
             'title' => 'required|between:1,65|unique_with:'.$this->model->getTable().', shop_id'
@@ -32,38 +32,5 @@ class AttributeGroupRepository extends BaseRepository implements AttributeGroupR
         }
 
         return $rules;
-    }
-
-    /**
-     * Validate and fill the model with attributes and save in the database.
-     *
-     * @return model
-     */
-    public function create(array $attributes)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules());
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        $this->model->fill($attributes);
-        $this->model->save();
-        return $this->model;
-    }
-
-    public function updateById(array $attributes, $id)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules($id));
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $this->model = $this->find($id);
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        return $this->updateEntity($attributes);   
     }
 }

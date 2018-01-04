@@ -21,7 +21,7 @@ class AttributeRepository extends BaseRepository implements AttributeRepositoryI
      * @param  integer  $id id attribute model    
      * @return array
      */
-    private function rules($id = false)
+    public function rules($id = false)
     {
         if ($id) {
             return [

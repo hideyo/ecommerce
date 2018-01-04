@@ -41,40 +41,6 @@ class FaqItemRepository extends BaseRepository implements FaqItemRepositoryInter
 
         return $rules;
     }
-  
-    public function create(array $attributes)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-            
-        $this->model->fill($attributes);
-        $this->model->save();
-
-        if (isset($attributes['payment_methods'])) {
-            $this->model->relatedPaymentMethods()->sync($attributes['payment_methods']);
-        }
-   
-        return $this->model;
-    }
-
-    public function updateById(array $attributes, $faqItemId)
-    {
-        $validator = \Validator::make($attributes, $this->rules($faqItemId, $attributes));
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        $this->model = $this->find($faqItemId);
-        return $this->updateEntity($attributes);
-    }
 
     public function selectAllGroups()
     {

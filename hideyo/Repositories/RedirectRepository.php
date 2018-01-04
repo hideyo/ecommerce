@@ -24,7 +24,7 @@ class RedirectRepository  extends BaseRepository implements RedirectRepositoryIn
      * @param  integer  $redirectId id attribute model    
      * @return array
      */
-    private function rules($redirectId = false)
+    public function rules($redirectId = false)
     {
         $rules = array(
             'url' => 'required|unique_with:'.$this->model->getTable().', shop_id'
@@ -36,23 +36,6 @@ class RedirectRepository  extends BaseRepository implements RedirectRepositoryIn
 
         return $rules;
     }
-
-  
-    public function create(array $attributes)
-    {
-        $attributes['modified_by_user_id'] = null;
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules());
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-        $this->model->fill($attributes);
-        $this->model->save();
-        
-        return $this->model;
-    }
-
 
     public function importCsv($results, $shopId)
     {
@@ -95,20 +78,6 @@ class RedirectRepository  extends BaseRepository implements RedirectRepositoryIn
             $this->model = $this->find($result->id);
             return $this->updateEntity(array('clicks' => $result->clicks + 1));
         }
-    }
-
-
-    public function updateById(array $attributes, $redirectId)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules($redirectId));
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $this->model = $this->find($redirectId);
-        return $this->updateEntity($attributes);
     }
 
     public function destroyByUrl($url)

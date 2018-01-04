@@ -30,7 +30,7 @@ class HtmlBlockRepository extends BaseRepository implements HtmlBlockRepositoryI
      * @param  integer  $htmlBlockId id attribute model    
      * @return array
      */
-    private function rules($htmlBlockId = false, $attributes = false)
+    public function rules($htmlBlockId = false, $attributes = false)
     {
 
         $rules = array(

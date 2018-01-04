@@ -23,7 +23,7 @@ class TaxRateRepository extends BaseRepository implements TaxRateRepositoryInter
      * @param  integer  $taxRateId id attribute model    
      * @return array
      */
-    private function rules($taxRateId = false)
+    public function rules($taxRateId = false)
     {
         $rules = array(
             'title' => 'required|between:2,65|unique_with:'.$this->model->getTable().', shop_id',
@@ -35,33 +35,5 @@ class TaxRateRepository extends BaseRepository implements TaxRateRepositoryInter
         }
 
         return $rules;
-    }
-  
-    public function create(array $attributes)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules());
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        $this->model->fill($attributes);
-        $this->model->save();
-        
-        return $this->model;
-    }
-
-    public function updateById(array $attributes, $taxRateId)
-    {
-        $this->model = $this->find($taxRateId);
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules($taxRateId));
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        return $this->updateEntity($attributes);
-    }
+    } 
 }

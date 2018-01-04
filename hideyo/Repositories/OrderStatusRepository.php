@@ -21,7 +21,7 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusReposit
      * @param  integer  $id id attribute model    
      * @return array
      */  
-    private function rules($id = false)
+    public function rules($id = false)
     {
         $rules = array(
             'title' => 'required|between:4,65|unique_with:order_status, shop_id'
@@ -33,32 +33,5 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusReposit
         }
 
         return $rules;
-    }
-
-    public function create(array $attributes)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = \Validator::make($attributes, $this->rules());
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $this->model->fill($attributes);
-        $this->model->save();
-        return $this->model;
-    }
-
-    public function updateById(array $attributes, $id)
-    {
-        $validator = \Validator::make($attributes, $this->rules($id));
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-        
-        $this->model = $this->find($id);
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        return $this->updateEntity($attributes);
-    }    
+    }   
 }

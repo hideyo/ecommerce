@@ -31,7 +31,7 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
      * @param  integer  $id id attribute model    
      * @return array
      */
-    private function rules($contentId = false, $attributes = false)
+    public function rules($contentId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -55,7 +55,7 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
      *
      * @return array
      */
-    private function rulesGroup($contentGroupId = false, $attributes = false)
+    public function rulesGroup($contentGroupId = false, $attributes = false)
     {
         if (isset($attributes['seo'])) {
             $rules = array(
@@ -75,26 +75,7 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
     }
 
   
-    public function create(array $attributes)
-    {
-        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
-        $validator = Validator::make($attributes, $this->rules());
 
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-            
-        $this->model->fill($attributes);
-        $this->model->save();
-
-        if (isset($attributes['payment_methods'])) {
-            $this->model->relatedPaymentMethods()->sync($attributes['payment_methods']);
-        }
-   
-        return $this->model;
-    }
 
     public function createGroup(array $attributes)
     {
@@ -169,19 +150,6 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
             return $this->modelImage;
         }
     
-    }
-
-    public function updateById(array $attributes, $newsId)
-    {
-        $validator = Validator::make($attributes, $this->rules($newsId, $attributes));
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
-        $this->model = $this->find($newsId);
-        return $this->updateEntity($attributes);
     }
 
     public function updateGroupById(array $attributes, $newsGroupId)
