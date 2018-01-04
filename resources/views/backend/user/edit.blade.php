@@ -19,13 +19,13 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-           {!! Form::model($user, array('method' => 'put', 'route' => array('user.update', $user->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+           {!! Form::model($user, array('method' => 'put', 'route' => array('user.update', $user->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
                      <input type="hidden" name="_token" value="{!! Session::token() !!}">
                      <div class="form-group">
                         {!! Form::label('username', 'Username', array('class' => 'col-sm-3 control-label')) !!}
 
                         <div class="col-sm-5">
-                            {!! Form::text('username', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                            {!! Form::text('username', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                         {!! Form::label('password', 'Wachtwoord', array('class' => 'col-sm-3 control-label')) !!}
 
                         <div class="col-sm-5">
-                            {!! Form::password('password', array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This field is required.')) !!}
+                            {!! Form::password('password', array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This field is required.')) !!}
                         </div>
                     </div>
 
@@ -50,7 +50,7 @@
                         {!! Form::label('password_confirmation', 'Wachtwoord', array('class' => 'col-sm-3 control-label')) !!}
 
                         <div class="col-sm-5">
-                            {!! Form::password('password_confirmation', array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This field is required.')) !!}
+                            {!! Form::password('password_confirmation', array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This field is required.')) !!}
                         </div>
                     </div>
 

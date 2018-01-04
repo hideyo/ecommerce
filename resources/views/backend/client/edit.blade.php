@@ -25,7 +25,7 @@
 
 
 
-					{!! Form::model($client, array('method' => 'put', 'route' => array('client.update', $client->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+					{!! Form::model($client, array('method' => 'put', 'route' => array('client.update', $client->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 				
                     <div class="form-group">
                         {!! Form::label('send_mail', 'Send e-mail notification', array('class' => 'col-sm-3 control-label')) !!}
@@ -45,7 +45,7 @@
 						{!! Form::label('email', 'Email', array('class' => 'col-sm-3 control-label')) !!}
 
 						<div class="col-sm-5">
-						    {!! Form::email('email', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+						    {!! Form::email('email', null, array('class' => 'form-control', 'required' => 'required')) !!}
 						</div>
 					</div>
 

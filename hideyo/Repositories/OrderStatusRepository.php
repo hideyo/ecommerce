@@ -24,12 +24,12 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusReposit
     private function rules($id = false)
     {
         $rules = array(
-            'title' => 'required|between:4,65|unique_with:payment_method, shop_id'
+            'title' => 'required|between:4,65|unique_with:order_status, shop_id'
 
         );
         
         if ($id) {
-            $rules['title'] =   'required|between:4,65|unique_with:payment_method, shop_id, '.$id.' = id';
+            $rules['title'] =   'required|between:4,65|unique_with:order_status, shop_id, '.$id.' = id';
         }
 
         return $rules;
@@ -37,7 +37,7 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusReposit
 
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
@@ -58,7 +58,7 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusReposit
         }
         
         $this->model = $this->find($id);
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         return $this->updateEntity($attributes);
     }    
 }

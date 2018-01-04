@@ -21,13 +21,13 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($attribute, array('method' => 'put', 'route' => array('attribute.update', $attribute->attribute_group_id, $attribute->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($attribute, array('method' => 'put', 'route' => array('attribute.update', $attribute->attribute_group_id, $attribute->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
             <div class="form-group">   
                 {!! Form::label('value', 'Value', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::text('value', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('value', null, array('class' => 'form-control', 'required' => 'required')) !!}
                 </div>
             </div>
 

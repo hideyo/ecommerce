@@ -27,7 +27,7 @@
 
  
 
-        {!! Form::open(array('route' => array('client.store'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::open(array('route' => array('client.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
     	 
      
             <div class="form-group">
@@ -41,7 +41,7 @@
                 {!! Form::label('email', 'Email', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::email('email', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::email('email', null, array('class' => 'form-control', 'required' => 'required')) !!}
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
                 {!! Form::label('password', 'Wachtwoord', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::password('password', array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This field is required.')) !!}
+                    {!! Form::password('password', array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This field is required.')) !!}
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
                 {!! Form::label('password_confirmation', 'Herhaal wachtwoord', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::password('password_confirmation', array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This field is required.')) !!}
+                    {!! Form::password('password_confirmation', array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This field is required.')) !!}
                 </div>
             </div>    
 
@@ -87,28 +87,28 @@
             <div class="form-group">
                 {!! Form::label('firstname', 'Firstname', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('firstname', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('firstname', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('lastname', 'Lastname', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('lastname', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('lastname', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('street', 'Street', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('street', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('street', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('housenumber', 'Housenumber', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('housenumber', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('housenumber', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
@@ -122,14 +122,14 @@
             <div class="form-group">
                 {!! Form::label('zipcode', 'Zipcode', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('zipcode', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('zipcode', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('city', 'City', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('city', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('city', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>   
 

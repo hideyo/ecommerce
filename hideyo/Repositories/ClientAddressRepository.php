@@ -2,6 +2,7 @@
 namespace Hideyo\Repositories;
  
 use Hideyo\Models\ClientAddress;
+use File;
  
 class ClientAddressRepository extends BaseRepository implements ClientAddressRepositoryInterface
 {
@@ -15,7 +16,7 @@ class ClientAddressRepository extends BaseRepository implements ClientAddressRep
   
     public function create(array $attributes, $clientId)
     {
-        $userId = \auth('hideyobackend')->user()->id;
+        $userId = auth('hideyobackend')->user()->id;
         $attributes['modified_by_user_id'] = $userId;
         $attributes['client_id'] = $clientId;
   
@@ -37,7 +38,7 @@ class ClientAddressRepository extends BaseRepository implements ClientAddressRep
 
     public function updateById(array $attributes, $clientId, $id)
     {
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
     }
@@ -48,33 +49,13 @@ class ClientAddressRepository extends BaseRepository implements ClientAddressRep
         return $this->updateEntity($attributes);
     }
 
-    public function destroy($id)
+    public function selectAllByClientId($clientId)
     {
-        $this->model = $this->find($id);
-        $filename = $this->model->path;
-
-        if (\File::exists($filename)) {
-            \File::delete($filename);
-        }
-
-        return $this->model->delete();
+         return $this->model->where('client_id', '=', $clientId)->get();
     }
 
-    function selectAllByClientId($clientId)
+    public function selectOneByClientIdAndId($clientId, $id)
     {
-         return $this->model
-         ->where('client_id', '=', $clientId)
-         ->get();
-    }
-
-    function selectOneByClientIdAndId($clientId, $id)
-    {
-        $result = $this->model
-        ->where('client_id', '=', $clientId)
-        ->where('id', '=', $id)
-        ->get()
-        ->first();
-
-        return $result;
+        return $this->model->where('client_id', '=', $clientId)->where('id', '=', $id)->get()->first();
     }
 }

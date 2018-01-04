@@ -27,10 +27,10 @@ class ProductExtraFieldValueRepository extends BaseRepository implements Product
                 $data = array();
 
                 $check  = $this->model->where('extra_field_id', '=', $row['extra_field_id'])->where('product_id', '=', $productId)->first();
-                $data['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+                $data['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
                 if (!empty($row['extra_field_default_value_id']) or !empty($row['value'])) {
                     if ($check) {
-                        $data['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+                        $data['modified_by_user_id'] = auth('hideyobackend')->user()->id;
                         $data['extra_field_id'] = $row['extra_field_id'];
                         $data['product_id'] = $product->id;
                         if (isset($row['extra_field_default_value_id']) and $row['extra_field_default_value_id']) {
@@ -46,7 +46,7 @@ class ProductExtraFieldValueRepository extends BaseRepository implements Product
                         $result->fill($data);
                         $result->save();
                     } else {
-                        $data['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+                        $data['modified_by_user_id'] = auth('hideyobackend')->user()->id;
                         $data['extra_field_id'] = $row['extra_field_id'];
                         $data['product_id'] = $product->id;
                         if (isset($row['extra_field_default_value_id']) and $row['extra_field_default_value_id']) {
@@ -67,13 +67,13 @@ class ProductExtraFieldValueRepository extends BaseRepository implements Product
  
     public function selectAllByProductId($productId)
     {
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('product_id', '=', $productId)->get();
+        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('product_id', '=', $productId)->get();
     }
 
     public function selectByProductIdAndExtraFieldId($productId, $extraFieldId)
     {
 
-        return $this->model->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('product_id', '=', $productId)->where('extra_field_id', '=', $extraFieldId)->get();
+        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('product_id', '=', $productId)->where('extra_field_id', '=', $extraFieldId)->get();
     }
 
     function selectOneByShopIdAndSlug($shopId, $slug)

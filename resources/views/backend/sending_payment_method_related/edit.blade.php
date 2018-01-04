@@ -21,7 +21,7 @@
         {!! Notification::showAll() !!}
         <div class="row">
             <div class="col-md-8">
-                {!! Form::model($sendingPaymentMethodRelated, array('method' => 'put', 'route' => array('sending-payment-method-related.update', $sendingPaymentMethodRelated->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+                {!! Form::model($sendingPaymentMethodRelated, array('method' => 'put', 'route' => array('sending-payment-method-related.update', $sendingPaymentMethodRelated->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
                 <div class="form-group">
                      <div class="col-sm-3 control-label">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-sm-9">
                       
-                        {!! Form::textarea('pdf_text', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                        {!! Form::textarea('pdf_text', null, array('class' => 'form-control ckeditor', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
 
                     
                     <div class="col-sm-9">
-                        {!! Form::textarea('payment_text', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                        {!! Form::textarea('payment_text', null, array('class' => 'form-control ckeditor', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="col-sm-9">
-                        {!! Form::textarea('payment_confirmed_text', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                        {!! Form::textarea('payment_confirmed_text', null, array('class' => 'form-control ckeditor', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                     </div>
                 </div>
 

@@ -23,7 +23,7 @@
         {!! Notification::showAll() !!}
 
         
-        {!! Form::open(array('route' => array('client.export'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::open(array('route' => array('client.export'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">
         
         <div class="form-group">

@@ -37,7 +37,7 @@
                 {!! Form::label('url', 'Url', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::text('url', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.', 'placeholder' => 'type a name')) !!}
+                    {!! Form::text('url', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.', 'placeholder' => 'type a name')) !!}
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
                 {!! Form::label('redirect_url', 'Redirect url', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::text('redirect_url', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.', 'placeholder' => 'type a name')) !!}
+                    {!! Form::text('redirect_url', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.', 'placeholder' => 'type a name')) !!}
                 </div>
             </div>
 

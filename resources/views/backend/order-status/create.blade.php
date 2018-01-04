@@ -19,7 +19,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::open(array('route' => array('order-status.store'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::open(array('route' => array('order-status.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">
  
 
@@ -27,7 +27,7 @@
             {!! Form::label('title', 'Title', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('title', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 
@@ -38,7 +38,7 @@
 
             <div class="col-sm-5">
                 <div class="input-group ">
-                    {!! Form::text('color', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('color', null, array('class' => 'form-control', 'required' => 'required')) !!}
                     <span class="input-group-addon"><i></i></span>
                 </div>
 
@@ -98,7 +98,7 @@
         <div class="form-group">
             {!! Form::label('send_email_copy_to', 'Send email copy to', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
-                {!! Form::text('send_email_copy_to', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('send_email_copy_to', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 

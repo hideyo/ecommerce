@@ -60,7 +60,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
 
         $validator = Validator::make($attributes, $this->rules());
 
@@ -68,7 +68,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model->fill($attributes);
         $this->model->save();
         
@@ -94,14 +94,14 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
   
     public function createGroup(array $attributes)
     {
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = Validator::make($attributes, $this->rulesGroup());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             
         $this->modelGroup->fill($attributes);
         $this->modelGroup->save();
@@ -113,7 +113,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
     public function updateById(array $attributes, $couponId)
     {
         $this->model = $this->find($couponId);
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
 
         $validator = Validator::make($attributes, $this->rules($couponId));
 
@@ -121,7 +121,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
 
         return $this->updateEntity($attributes);
     }
@@ -166,7 +166,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->modelGroup = $this->findGroup($groupId);
         return $this->updateGroupEntity($attributes);
     }
@@ -191,7 +191,7 @@ class CouponRepository extends BaseRepository  implements CouponRepositoryInterf
 
     public function selectAllGroups()
     {
-        return $this->modelGroup->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->get();
+        return $this->modelGroup->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
     }
 
     function selectOneByShopIdAndCode($shopId, $code)

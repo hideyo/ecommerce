@@ -28,18 +28,8 @@ class ProductRelatedProductRepository  extends BaseRepository implements Product
         return $parentProduct->save();
     }
 
-    public function destroy($relatedId)
-    {
-        $this->model = $this->find($relatedId);
-        $filename = $this->model->path;
-
-        return $this->model->delete();
-    }
-
     function selectAllByProductId($productId)
     {
          return $this->model->where('product_id', '=', $productId)->get();
-    }
-    
- 
+    }   
 }

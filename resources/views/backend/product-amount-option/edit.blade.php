@@ -30,7 +30,7 @@
 
 						<div class="col-md-12">
 
-							{!! Form::model($productAmountOption, array('method' => 'put', 'route' => array('product.{productId}.product-amount-option.update', $product->id, $productAmountOption->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+							{!! Form::model($productAmountOption, array('method' => 'put', 'route' => array('product.{productId}.product-amount-option.update', $product->id, $productAmountOption->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
 							<input type="hidden" name="_token" value="{!! Session::token() !!}">
 
@@ -40,7 +40,7 @@
 							<div class="form-group">
 								{!! Form::label('amount', 'Amount', array('class' => 'col-sm-3 control-label')) !!}
 								<div class="col-sm-5">
-									{!! Form::text('amount', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+									{!! Form::text('amount', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
 								</div>
 							</div>
 

@@ -15,7 +15,7 @@ class OrderPaymentLogRepository extends BaseRepository  implements OrderPaymentL
   
     public function create(array $attributes, $orderId)
     {
-        $userId = \auth('hideyobackend')->user()->id;
+        $userId = auth('hideyobackend')->user()->id;
         $attributes['modified_by_user_id'] = $userId;
         $attributes['order_id'] = $orderId;
   
@@ -38,7 +38,7 @@ class OrderPaymentLogRepository extends BaseRepository  implements OrderPaymentL
 
     public function updateById(array $attributes, $orderId, $id)
     {
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
     }

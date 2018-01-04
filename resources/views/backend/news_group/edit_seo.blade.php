@@ -20,7 +20,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($newsGroup, array('method' => 'put', 'route' => array('news-group.update', $newsGroup->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($newsGroup, array('method' => 'put', 'route' => array('news-group.update', $newsGroup->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">     
         {!! Form::hidden('seo', 1) !!}                      
             
@@ -44,7 +44,7 @@
             {!! Form::label('meta_keywords', 'Meta keywords', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('meta_keywords', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This field is required.')) !!}
+                {!! Form::text('meta_keywords', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This field is required.')) !!}
             </div>
         </div> 
 

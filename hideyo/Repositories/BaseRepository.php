@@ -38,12 +38,10 @@ class BaseRepository
         return $this->model;
     }
 
-
     public function destroy($modelId)
     {
         $this->model = $this->find($modelId);
         $this->model->save();
         return $this->model->delete();
-    } 
-
+    }
 }

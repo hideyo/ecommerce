@@ -60,7 +60,7 @@
             <div class="form-group">
                 {!! Form::label('content', 'Content', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-9">
-                    {!! Form::textarea('content', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::textarea('content', null, array('class' => 'form-control ckeditor', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 

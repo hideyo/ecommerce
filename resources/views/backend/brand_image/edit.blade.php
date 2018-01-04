@@ -22,13 +22,13 @@
         <h2>Brand <small>images edit</small></h2>
         {!! Notification::showAll() !!}
         <hr/>
-        {!! Form::model($brandImage, array('method' => 'put', 'route' => array('brand-image.update', $brand->id, $brandImage->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($brandImage, array('method' => 'put', 'route' => array('brand-image.update', $brand->id, $brandImage->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
         <div class="form-group">
             {!! Form::label('tag', 'Tag', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
-                {!! Form::select('tag', array('square' => 'square', 'widescreen' => 'widescreen'), null,  array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                {!! Form::select('tag', array('square' => 'square', 'widescreen' => 'widescreen'), null,  array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
             </div>
         </div>
 

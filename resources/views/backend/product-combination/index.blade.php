@@ -23,7 +23,7 @@
         {!! Notification::showAll() !!}
 
 
-        {!! Form::model($product, array('method' => 'put', 'route' => array('product.update', $product->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($product, array('method' => 'put', 'route' => array('product.update', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">     
         {!! Form::hidden('product-combination', 1) !!}                      
             

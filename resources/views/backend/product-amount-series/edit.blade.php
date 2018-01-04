@@ -30,7 +30,7 @@
 
 						<div class="col-md-12">
 
-							{!! Form::model($productAmountSeries, array('method' => 'put', 'route' => array('product.product-amount-series.update', $product->id, $productAmountSeries->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+							{!! Form::model($productAmountSeries, array('method' => 'put', 'route' => array('product.product-amount-series.update', $product->id, $productAmountSeries->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
 							<input type="hidden" name="_token" value="{!! Session::token() !!}">
 
@@ -44,21 +44,21 @@
     				        <div class="form-group">
 					            {!! Form::label('series_value', 'Series value', array('class' => 'col-sm-3 control-label')) !!}
 					            <div class="col-sm-5">
-					                {!! Form::text('series_value', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+					                {!! Form::text('series_value', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
 					            </div>
 					        </div>
 
     				        <div class="form-group">
 					            {!! Form::label('series_start', 'Series start', array('class' => 'col-sm-3 control-label')) !!}
 					            <div class="col-sm-5">
-					                {!! Form::text('series_start', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+					                {!! Form::text('series_start', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
 					            </div>
 					        </div>
 
     				        <div class="form-group">
 					            {!! Form::label('series_max', 'Series max', array('class' => 'col-sm-3 control-label')) !!}
 					            <div class="col-sm-5">
-					                {!! Form::text('series_max', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+					                {!! Form::text('series_max', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
 					            </div>
 					        </div>
 

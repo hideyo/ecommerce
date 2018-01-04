@@ -38,8 +38,7 @@
                 oTable = $('#datatable').DataTable({
                     "processing": true,
                     "serverSide": true,
-                   "ajax": "{{ URL::route('sending-method.index') }}",
-
+                    "ajax": "{{ URL::route('sending-method.index') }}",
                  columns: [
                         {data: 'id', name: 'id'},
                         {data: 'title', name: 'title'},

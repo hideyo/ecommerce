@@ -11,7 +11,7 @@
 
            
 
-	    {!! Form::open(array('route' => array('product.related-product.store', $product->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+	    {!! Form::open(array('route' => array('product.related-product.store', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
 
 	        <div class="form-group">

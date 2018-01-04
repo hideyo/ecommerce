@@ -293,7 +293,6 @@ class ClientRepository extends BaseRepository implements ClientRepositoryInterfa
             $attributes['active'] = 1;
             $attributes['confirmed'] = 1;
         }
-
         
         if (isset($attributes['password'])) {            
             $attributes['password'] = Hash::make($attributes['password']);

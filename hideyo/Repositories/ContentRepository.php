@@ -50,7 +50,6 @@ class ContentRepository extends BaseRepository implements ContentRepositoryInter
         return $rules;
     }
 
-
     /**
      * The validation rules for the modelGroup.
      *

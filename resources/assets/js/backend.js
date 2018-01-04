@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('../../../node_modules/bootbox/bootbox.js');
 require('../../../node_modules/datatables/media/js/jquery.dataTables.js');
 require('../../../node_modules/select2/dist/js/select2.js');
 
@@ -13,10 +14,6 @@ require('../../../node_modules/jstree/dist/jstree.min.js');
 require('../../../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js');
 require('../../../node_modules/bootstrap-validator/dist/validator.js');
 require('../../../node_modules/summernote/dist/summernote.js');
-
-require('../../../node_modules/sweetalert2/dist/sweetalert2.all.min.js');
-
-
 
 function recalculate(el){
 
@@ -51,24 +48,29 @@ function recalculate(el){
 
 $(document).ready(function() {
     
-
+    var bootbox = require('bootbox');
 
     $("body").on("submit", ".delete-button", function(e){
         event.preventDefault();
-        var $this = $(this);
+        var $this = $(this);       
 
-        swal({
-            title: "Delete item: " + $this.attr('data-title') + "?",
-            text: "You will not be able to recover this iem",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, delete it!",
-            closeOnConfirm: false,
-            html: false,
-            imageUrl: null
-        }, function(){
-            $this.submit();
+        bootbox.confirm({
+            message: "Delete item: " + $this.attr('data-title') + "?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result) {
+                    $this.submit();
+                }  
+            }
         });
     });
 

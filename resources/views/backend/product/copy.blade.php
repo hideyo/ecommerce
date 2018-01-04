@@ -22,7 +22,7 @@
         {!! Notification::showAll() !!}
 
 
-        {!! Form::model($product, array('route' => array('product.store-copy', $product->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($product, array('route' => array('product.store-copy', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <input type="hidden" name="_token" value="{!! Session::token() !!}">
             <div class="form-group">
                 {!! Form::label('active', 'Active', array('class' => 'col-sm-3 control-label')) !!}
@@ -34,7 +34,7 @@
             <div class="form-group">
                 {!! Form::label('title', 'Title', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('title', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
@@ -85,14 +85,14 @@
             <div class="form-group">
                 {!! Form::label('short_description', 'Short description', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::textarea('short_description', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::textarea('short_description', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('description', 'Description', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::textarea('description', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::textarea('description', null, array('class' => 'form-control ckeditor', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
             <div class="form-group">
                 {!! Form::label('price', 'Price without tax', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('price', null, array('class' => 'price form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                    {!! Form::text('price', null, array('class' => 'price form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
             <div class="form-group">
                 {!! Form::label('weight', 'Weight', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('weight', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                    {!! Form::text('weight', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                 </div>
             </div>
 

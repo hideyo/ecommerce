@@ -10,10 +10,6 @@ interface ProductAmountSeriesRepositoryInterface
     public function selectAll();
 
     public function selectAllActiveByShopId($shopId);
-
-    public function selectOneByShopIdAndId($shopId, $id);
-    
-    public function selectOneById($id);
     
     public function find($id);
 }

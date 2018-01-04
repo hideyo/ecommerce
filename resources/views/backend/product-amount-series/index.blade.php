@@ -23,7 +23,7 @@
 
         <h3>Create Quick</h3>
 
-                        {!! Form::open(array('route' => array('product.product-amount-series.store', $product->id), 'method'=>'POST', 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+                        {!! Form::open(array('route' => array('product.product-amount-series.store', $product->id), 'method'=>'POST', 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
                             <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
                             <input type="hidden" name="active" value="1">
@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 {!! Form::label('series_max', 'Series max', array('class' => 'col-sm-3 control-label')) !!}
                                 <div class="col-sm-5">
-                                    {!! Form::text('series_max', 200, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                                    {!! Form::text('series_max', 200, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                                 </div>
                             </div>
 

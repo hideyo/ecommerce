@@ -3,7 +3,7 @@ namespace Hideyo\Repositories;
  
 use Hideyo\Models\Language;
  
-class LanguageRepository implements LanguageRepositoryInterface
+class LanguageRepository extends BaseRepository implements LanguageRepositoryInterface
 {
 
     protected $model;
@@ -31,38 +31,5 @@ class LanguageRepository implements LanguageRepositoryInterface
         $attributes['modified_by_user_id'] = \auth()->user()->id;
 
         return $this->updateEntity($attributes);
-    }
-
-    public function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $this->model->save();
-
-        return $this->model->delete();
-    }
-
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', \auth()->user()->selected_shop_id)->get();
-    }
-    
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
     }
 }

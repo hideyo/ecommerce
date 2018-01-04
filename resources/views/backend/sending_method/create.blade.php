@@ -19,7 +19,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::open(array('route' => array('sending-method.store'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::open(array('route' => array('sending-method.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
     	    <input type="hidden" name="_token" value="{!! Session::token() !!}">
      
             <div class="form-group">
@@ -32,21 +32,23 @@
          	<div class="form-group">   
                 {!! Form::label('title', 'Title', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('title', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required')) !!}
+                    <div class="help-block with-errors"></div>
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('price', 'Price', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('price', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('price', null, array('class' => 'form-control', 'required' => 'required')) !!}
+                    <div class="help-block with-errors"></div>
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('no_price_from', 'No Price from', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('no_price_from', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('no_price_from', null, array('class' => 'form-control')) !!}
                 </div>
             </div>
 
@@ -60,14 +62,14 @@
             <div class="form-group">
                 {!! Form::label('minimal_weight', 'Minimal weight', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('minimal_weight', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('minimal_weight', null, array('class' => 'form-control')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('maximal_weight', 'Maximal weight', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('maximal_weight', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('maximal_weight', null, array('class' => 'form-control')) !!}
                 </div>
             </div>
 

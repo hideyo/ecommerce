@@ -30,7 +30,7 @@
 
                     <div class="col-md-12">
 
-					    {!! Form::open(array('route' => array('product-combination.store', $product->id), 'method'=>'POST', 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+					    {!! Form::open(array('route' => array('product-combination.store', $product->id), 'method'=>'POST', 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 						    <input type="hidden" name="_token" value="{!! Session::token() !!}">
 						    <input type="hidden" name="default_attribute_group_id" class="default_attribute_group_id" value="{!! key($attributeGroups->toArray()) !!}">
 					        <div class="form-group">
@@ -77,7 +77,7 @@
 					        <div class="form-group">
 					            {!! Form::label('price', 'Price without tax', array('class' => 'col-sm-3 control-label')) !!}
 					            <div class="col-sm-5">
-					                {!! Form::text('price', null, array('class' => 'price form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+					                {!! Form::text('price', null, array('class' => 'price form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
 					            </div>
 					        </div>
 
@@ -91,7 +91,7 @@
 					        <div class="form-group">
 					            {!! Form::label('amount', 'Amount', array('class' => 'col-sm-3 control-label')) !!}
 					            <div class="col-sm-5">
-					                {!! Form::text('amount', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+					                {!! Form::text('amount', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
 					            </div>
 					        </div>
 

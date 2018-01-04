@@ -22,7 +22,7 @@
         {!! Notification::showAll() !!}
 
         @if($extraFields)
-        {!! Form::open(array('route' => array('product.product-extra-field-value.store', $product->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::open(array('route' => array('product.product-extra-field-value.store', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
         <table class="table">
@@ -43,10 +43,10 @@
                     <td>
                         @if($row->values->count())
                         @if(isset($populateData[$row->id]['extra_field_default_value_id']))
-                        {!! Form::select('rows['.$row->id.'][extra_field_default_value_id]', array('' => '---select---') + $row->values()->get()->pluck('value', 'id')->toArray(), $populateData[$row->id]['extra_field_default_value_id'],  array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                        {!! Form::select('rows['.$row->id.'][extra_field_default_value_id]', array('' => '---select---') + $row->values()->get()->pluck('value', 'id')->toArray(), $populateData[$row->id]['extra_field_default_value_id'],  array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                         
                         @else
-                        {!! Form::select('rows['.$row->id.'][extra_field_default_value_id]', array('' => '---select---') + $row->values()->get()->pluck('value', 'id')->toArray(), null,  array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                        {!! Form::select('rows['.$row->id.'][extra_field_default_value_id]', array('' => '---select---') + $row->values()->get()->pluck('value', 'id')->toArray(), null,  array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                         
                         @endif
                         @endif    

@@ -66,14 +66,4 @@ class AttributeGroupRepository extends BaseRepository implements AttributeGroupR
         $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);   
     }
-
-    public function updateEntity(array $attributes = array())
-    {
-        if (count($attributes) > 0) {
-            $this->model->fill($attributes);
-            $this->model->save();
-        }
-
-        return $this->model;
-    }
 }

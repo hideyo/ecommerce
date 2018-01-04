@@ -20,7 +20,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($product, array('method' => 'put', 'route' => array('product.update', $product->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($product, array('method' => 'put', 'route' => array('product.update', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">     
         {!! Form::hidden('price', 1) !!}                      
             
@@ -35,7 +35,7 @@
             <div class="form-group">
                 {!! Form::label('price', 'Price without tax', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('price', null, array('class' => 'price form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                    {!! Form::text('price', null, array('class' => 'price form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     {!! Form::label('commercial_price', 'Commercial price', array('class' => 'col-sm-3 control-label')) !!}
                     <div class="col-sm-5">
-                        {!! Form::text('commercial_price', null, array('class' => 'price form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                        {!! Form::text('commercial_price', null, array('class' => 'price form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                     </div>
                 </div>
             @endif

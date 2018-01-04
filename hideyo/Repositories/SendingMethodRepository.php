@@ -26,8 +26,11 @@ class SendingMethodRepository extends BaseRepository implements SendingMethodRep
     private function rules($sendingMethodId = false)
     {
         $rules = array(
+            'active' => 'required|integer',
             'title' => 'required|between:4,65|unique_with:'.$this->model->getTable().', shop_id',
-            'price'  => 'numeric|required'
+            'price'  => 'numeric|required',
+            'minimal_weight'  => 'numeric|nullable',
+            'maximal_weight'  => 'numeric|nullable'
         );
         
         if($sendingMethodId) {
@@ -95,11 +98,5 @@ class SendingMethodRepository extends BaseRepository implements SendingMethodRep
             return false;
         }
         return $result->first();
-    }
-    
-    public function find($sendingMethodId)
-    {
-        return $this->model->find($sendingMethodId);
-    }
-
+    } 
 }

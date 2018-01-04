@@ -19,7 +19,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($paymentMethod, array('method' => 'put', 'route' => array('payment-method.update', $paymentMethod->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($paymentMethod, array('method' => 'put', 'route' => array('payment-method.update', $paymentMethod->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
         <div class="form-group">
             {!! Form::label('active', 'Active', array('class' => 'col-sm-3 control-label')) !!}
@@ -32,7 +32,7 @@
             {!! Form::label('title', 'Title', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('title', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 
@@ -46,14 +46,14 @@
         <div class="form-group">
             {!! Form::label('price', 'Price', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
-                {!! Form::text('price', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('price', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 
         <div class="form-group">
             {!! Form::label('no_price_from', 'No Price from', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
-                {!! Form::text('no_price_from', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('no_price_from', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 
@@ -81,7 +81,7 @@
         <div class="form-group">
             {!! Form::label('mollie_api_key', 'Mollie API key', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
-                {!! Form::text('mollie_api_key', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('mollie_api_key', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
         

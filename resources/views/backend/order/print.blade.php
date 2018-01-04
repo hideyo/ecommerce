@@ -51,7 +51,7 @@
 
          {!! Form::close() !!}
 
-     	{!! Form::open(array('route' => array('order.download.print'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+     	{!! Form::open(array('route' => array('order.download.print'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
         <div class="form-group">   
             {!! Form::label('type', 'Print type', array('class' => 'col-sm-3 control-label')) !!}

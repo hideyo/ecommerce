@@ -36,7 +36,7 @@ class ProductAmountSeriesRepository extends BaseRepository implements ProductAmo
     public function create(array $attributes, $productId)
     {
         $product = $this->product->find($productId);
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
               $attributes['product_id'] = $product->id;
         $validator = \Validator::make($attributes, $this->rules());
 
@@ -44,7 +44,7 @@ class ProductAmountSeriesRepository extends BaseRepository implements ProductAmo
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             
         $this->model->fill($attributes);
         $this->model->save();
@@ -56,35 +56,13 @@ class ProductAmountSeriesRepository extends BaseRepository implements ProductAmo
     {
         $this->model = $this->find($id);
                 $attributes['product_id'] = $productId;
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules($id));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
-    }
-
-    function selectOneById($id)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', \auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $id)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
-    }
-
-    function selectOneByShopIdAndId($shopId, $id)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
-            $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $id)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
     }
 }

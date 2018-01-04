@@ -99,14 +99,14 @@
             <div class="form-group">
                 {!! Form::label('short_description', 'Short description', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::textarea('short_description', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::textarea('short_description', null, array('class' => 'form-control', 'required' => 'required')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('description', 'Description', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::textarea('description', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required')) !!}
+                    {!! Form::textarea('description', null, array('class' => 'form-control ckeditor', 'required' => 'required')) !!}
                 </div>
             </div>
 
@@ -122,14 +122,14 @@
             <div class="form-group">
                 {!! Form::label('weight', 'Weight', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('weight', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                    {!! Form::text('weight', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('weight_title', 'Weight title', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('weight_title', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-sign' => '&euro;')) !!}
+                    {!! Form::text('weight_title', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                 </div>
             </div>
 

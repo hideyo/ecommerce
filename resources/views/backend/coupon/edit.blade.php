@@ -20,7 +20,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($coupon, array('method' => 'put', 'route' => array('coupon.update', $coupon->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($coupon, array('method' => 'put', 'route' => array('coupon.update', $coupon->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <div class="form-group">
                 {!! Form::label('coupon_group_id', 'Group', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
@@ -47,7 +47,7 @@
             {!! Form::label('title', 'Title', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('title', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 
@@ -55,14 +55,14 @@
             {!! Form::label('code', 'Code', array('class' => 'col-sm-3 control-label')) !!}
 
             <div class="col-sm-5">
-                {!! Form::text('code', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('code', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 
         <div class="form-group">
             {!! Form::label('value', 'Value', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
-                {!! Form::text('value', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                {!! Form::text('value', null, array('class' => 'form-control', 'required' => 'required')) !!}
             </div>
         </div>
 

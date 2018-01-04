@@ -38,14 +38,14 @@ class ProductTagGroupRepository extends BaseRepository implements ProductTagGrou
   
     public function create(array $attributes)
     {
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules());
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
             
         $this->model->fill($attributes);
         $this->model->save();
@@ -60,13 +60,13 @@ class ProductTagGroupRepository extends BaseRepository implements ProductTagGrou
     public function updateById(array $attributes, $tagGroupId)
     {
         $this->model = $this->find($tagGroupId);
-        $attributes['shop_id'] = \auth('hideyobackend')->user()->selected_shop_id;
+        $attributes['shop_id'] = auth('hideyobackend')->user()->selected_shop_id;
         $validator = \Validator::make($attributes, $this->rules($tagGroupId));
 
         if ($validator->fails()) {
             return $validator;
         }
-        $attributes['modified_by_user_id'] = \auth('hideyobackend')->user()->id;
+        $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         return $this->updateEntity($attributes);
     }
 

@@ -19,7 +19,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::open(array('route' => array('product-tag-group.store'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::open(array('route' => array('product-tag-group.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <input type="hidden" name="_token" value="{!! Session::token() !!}">
      
             <div class="form-group">
@@ -33,7 +33,7 @@
                 {!! Form::label('tag', 'Tag', array('class' => 'col-sm-3 control-label')) !!}
 
                 <div class="col-sm-5">
-                    {!! Form::text('tag', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                    {!! Form::text('tag', null, array('class' => 'form-control', 'required' => 'required')) !!}
                 </div>
             </div>
 

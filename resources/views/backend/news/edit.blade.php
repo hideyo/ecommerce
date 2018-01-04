@@ -20,7 +20,7 @@
         {!! Notification::showAll() !!}
 
 
-        {!! Form::model($news, array('method' => 'put', 'route' => array('news.update', $news->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($news, array('method' => 'put', 'route' => array('news.update', $news->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
             <div class="form-group">
@@ -33,14 +33,14 @@
             <div class="form-group">
                 {!! Form::label('title', 'Title', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('title', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('short_description', 'Short description', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
-                    {!! Form::text('short_description', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::text('short_description', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
             <div class="form-group">
                 {!! Form::label('news', 'Content', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-9">
-                    {!! Form::textarea('content', null, array('class' => 'form-control ckeditor', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                    {!! Form::textarea('content', null, array('class' => 'form-control ckeditor', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
 

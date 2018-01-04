@@ -289,7 +289,7 @@ $(document).ready(function(){
                  <hr/>
             <h3>Order details</h3>
        
-            {!! Form::open(array('route' => array('order.store'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+            {!! Form::open(array('route' => array('order.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
 
             <div class="form-group">

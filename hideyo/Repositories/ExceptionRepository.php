@@ -75,11 +75,5 @@ class ExceptionRepository extends BaseRepository  implements ExceptionRepository
             return false;
         }
         return $result->first();
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-    
+    }  
 }

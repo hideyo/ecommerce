@@ -2,7 +2,7 @@
 namespace Hideyo\Repositories;
  
 use Hideyo\Models\OrderAddress;
-use Auth;
+use File;
  
 class OrderAddressRepository extends BaseRepository  implements OrderAddressRepositoryInterface
 {
@@ -35,18 +35,6 @@ class OrderAddressRepository extends BaseRepository  implements OrderAddressRepo
         $attributes['modified_by_user_id'] = auth('hideyobackend')->user()->id;
         $this->model = $this->find($id);
         return $this->updateEntity($attributes);
-    }
-
-    public function destroy($id)
-    {
-        $this->model = $this->find($id);
-        $filename = $this->model->path;
-
-        if (\File::exists($filename)) {
-            \File::delete($filename);
-        }
-
-        return $this->model->delete();
     }
     
     function selectAllByOrderId($orderId)

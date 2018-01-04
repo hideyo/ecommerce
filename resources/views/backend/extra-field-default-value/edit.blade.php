@@ -21,14 +21,14 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        {!! Form::model($extraFieldDefaultValue, array('method' => 'put', 'route' => array('extra-field.values.update', $extraFieldDefaultValue->extra_field_id, $extraFieldDefaultValue->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+        {!! Form::model($extraFieldDefaultValue, array('method' => 'put', 'route' => array('extra-field.values.update', $extraFieldDefaultValue->extra_field_id, $extraFieldDefaultValue->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
 
                 <div class="form-group">   
                     {!! Form::label('value', 'Value', array('class' => 'col-sm-3 control-label')) !!}
 
                     <div class="col-sm-5">
-                        {!! Form::text('value', null, array('class' => 'form-control', 'data-validate' => 'required')) !!}
+                        {!! Form::text('value', null, array('class' => 'form-control', 'required' => 'required')) !!}
                     </div>
                 </div>
 

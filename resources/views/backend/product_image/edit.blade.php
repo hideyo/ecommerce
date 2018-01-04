@@ -29,7 +29,7 @@
             <div class="panel-body">    
 
                     <div class="col-md-12">
-						{!! Form::model($productImage, array('method' => 'put', 'route' => array('product.images.update', $product->id, $productImage->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate')) !!}
+						{!! Form::model($productImage, array('method' => 'put', 'route' => array('product.images.update', $product->id, $productImage->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 
 
 					 <input type="hidden" name="_token" value="{!! Session::token() !!}">
@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 {!! Form::label('tag', 'Tag', array('class' => 'col-sm-3 control-label')) !!}
                                 <div class="col-sm-5">
-                                    {!! Form::text('tag', null, array('class' => 'form-control', 'data-validate' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
+                                    {!! Form::text('tag', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                                 </div>
                             </div>
 

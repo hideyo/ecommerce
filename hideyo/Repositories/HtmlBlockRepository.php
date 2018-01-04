@@ -253,36 +253,9 @@ class HtmlBlockRepository extends BaseRepository implements HtmlBlockRepositoryI
         return $this->model->delete();
     }
 
-    public function selectAll()
-    {
-        return $this->model->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->get();
-    }
-
-    function selectOneById($htmlBlockId)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('active', '=', 1)->where('id', '=', $htmlBlockId)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
-    }
-
     function selectAllActiveByShopId($shopId)
     {
          return $this->model->where('shop_id', '=', $shopId)->get();
-    }
-
-    function selectOneByShopIdAndId($shopId, $htmlBlockId)
-    {
-        $result = $this->model->with(array('relatedPaymentMethods' => function ($query) {
-            $query->where('active', '=', 1);
-        }))->where('shop_id', '=', $shopId)->where('active', '=', 1)->where('id', '=', $htmlBlockId)->get();
-        
-        if ($result->isEmpty()) {
-            return false;
-        }
-        return $result->first();
     }
 
     function selectOneByShopIdAndSlug($shopId, $slug)
@@ -303,9 +276,5 @@ class HtmlBlockRepository extends BaseRepository implements HtmlBlockRepositoryI
             return false;
         }
         return $result->first();
-    }
-    
-
-
-
+    } 
 }
