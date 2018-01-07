@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Hideyo\Models\Shop as Shop;
-use Hideyo\Models\HtmlBlock as HtmlBlock;
+use Hideyo\Ecommerce\Framework\Models\Shop as Shop;
+use Hideyo\Ecommerce\Framework\Models\HtmlBlock as HtmlBlock;
 
 class HtmlBlockTableSeeder extends Seeder
 {

@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Hideyo\Models\Shop as Shop;
-use Hideyo\Models\News as News;
-use Hideyo\Models\NewsGroup as NewsGroup;
+use Hideyo\Ecommerce\Framework\Models\Shop as Shop;
+use Hideyo\Ecommerce\Framework\Models\News as News;
+use Hideyo\Ecommerce\Framework\Models\NewsGroup as NewsGroup;
 
 class NewsTableSeeder extends Seeder
 {

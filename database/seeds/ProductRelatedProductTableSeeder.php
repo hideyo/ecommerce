@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Hideyo\Models\Shop as Shop;
-use Hideyo\Models\ProductRelatedProduct as ProductRelatedProduct;
+use Hideyo\Ecommerce\Framework\Models\Shop as Shop;
+use Hideyo\Ecommerce\Framework\Models\ProductRelatedProduct as ProductRelatedProduct;
 
 class ProductRelatedProductTableSeeder extends Seeder
 {
