@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Models\ProductCategory;
+use Hideyo\Ecommerce\Framework\Models\ProductCategory;
 
 class ProductCategoryController extends Controller
 {
