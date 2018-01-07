@@ -9,7 +9,7 @@
  */
 
 
-use Hideyo\Repositories\LanguageRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\LanguageRepositoryInterface;
 
 class LanguageController extends BaseController
 {

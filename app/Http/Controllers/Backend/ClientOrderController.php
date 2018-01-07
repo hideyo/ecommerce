@@ -10,9 +10,9 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Repositories\ClientRepositoryInterface;
-use Hideyo\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
 use Illuminate\Http\Request;
 use Form;
 use Datatables;

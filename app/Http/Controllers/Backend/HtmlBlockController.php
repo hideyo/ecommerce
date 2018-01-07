@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\HtmlBlockRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\HtmlBlockRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

@@ -9,9 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\InvoiceRepositoryInterface;
-use Hideyo\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\InvoiceRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
 
 use \Request;
 use \Notification;

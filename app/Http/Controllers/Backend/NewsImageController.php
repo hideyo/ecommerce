@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

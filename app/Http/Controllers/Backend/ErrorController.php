@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Repositories\ExceptionRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ExceptionRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\RedirectRepositoryInterface;
-use Hideyo\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\RedirectRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
 
 use Session;
 use Apiclient;

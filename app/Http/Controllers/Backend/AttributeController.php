@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\AttributeRepositoryInterface;
-use Hideyo\Repositories\AttributeGroupRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\AttributeRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

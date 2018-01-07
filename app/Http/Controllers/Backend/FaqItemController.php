@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\FaqItemRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\FaqItemRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

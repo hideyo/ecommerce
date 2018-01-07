@@ -61,13 +61,13 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \Hideyo\Middleware\Authenticate::class,
-        'auth.hideyo.backend' => \Hideyo\Middleware\AuthenticateAdmin::class,
+        'auth' => \Hideyo\Ecommerce\Framework\Middleware\Authenticate::class,
+        'auth.hideyo.backend' => \Hideyo\Ecommerce\Framework\Middleware\AuthenticateAdmin::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'detect.shop' => \Hideyo\Middleware\DetectDomain::class
+        'detect.shop' => \Hideyo\Ecommerce\Framework\Middleware\DetectDomain::class
     ];
 }

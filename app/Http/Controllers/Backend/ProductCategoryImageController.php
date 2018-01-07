@@ -10,7 +10,7 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

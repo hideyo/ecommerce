@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Hideyo\Models\ProductAttributeCombination;
 use Hideyo\Models\ProductAttribute;
-use Hideyo\Repositories\ProductRepositoryInterface;
-use Hideyo\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use BrowserDetect;
 

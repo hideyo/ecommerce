@@ -8,9 +8,9 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepositoryInterface;
 
 
 use Illuminate\Http\Request;

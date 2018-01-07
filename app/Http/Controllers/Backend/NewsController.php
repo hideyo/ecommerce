@@ -9,10 +9,10 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\NewsRepositoryInterface;
-use Hideyo\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Repositories\NewsGroupRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsGroupRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

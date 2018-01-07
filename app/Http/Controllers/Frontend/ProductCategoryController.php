@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Repositories\ProductRepositoryInterface;
-use Hideyo\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Repositories\ProductExtraFieldValueRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepositoryInterface;
 
 use Illuminate\Http\Request;
 

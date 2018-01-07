@@ -10,8 +10,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\ProductTagGroupRepositoryInterface;
-use Hideyo\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductTagGroupRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
 
 use Request;
 use Notification;

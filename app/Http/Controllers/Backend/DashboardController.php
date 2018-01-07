@@ -3,9 +3,9 @@
 use App\Http\Controllers\Controller;
 use Dutchbridge\Datatable\OrderDatatable;
 use Dutchbridge\Datatable\OrderWholesaleDatatable;
-use Hideyo\Repositories\OrderRepositoryInterface;
-use Hideyo\Repositories\ShopRepositoryInterface;
-use Hideyo\Repositories\UserRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\UserRepositoryInterface;
 
 use Request;
 use Auth;

@@ -2,13 +2,13 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Repositories\ClientRepositoryInterface;
-use Hideyo\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Repositories\ShopRepositoryInterface;
-use Hideyo\Repositories\OrderRepositoryInterface;
-use Hideyo\Repositories\ProductRepositoryInterface;
-use Hideyo\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
-use Hideyo\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
 use Validator;
 use Mail;
 use Notification;

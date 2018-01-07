@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\CouponRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\CouponRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Form;

@@ -11,11 +11,11 @@ use App\Http\Controllers\Controller;
  */
 
 
-use Hideyo\Repositories\CouponRepositoryInterface;
-use Hideyo\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Repositories\ProductRepositoryInterface;
-use Hideyo\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\CouponRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Notification;

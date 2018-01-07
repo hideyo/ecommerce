@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\OrderStatusRepositoryInterface;
-use Hideyo\Repositories\OrderStatusEmailTemplateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusEmailTemplateRepositoryInterface;
 
 use Illuminate\Http\Request;
 use Auth;

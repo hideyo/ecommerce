@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Repositories\ShopRepositoryInterface;
-use Hideyo\Repositories\CartRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\CartRepositoryInterface;
 
 use BrowserDetect;
 

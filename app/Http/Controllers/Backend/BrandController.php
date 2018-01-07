@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\BrandRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\BrandRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Form;

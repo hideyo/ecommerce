@@ -188,11 +188,11 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        Hideyo\Providers\RouteServiceProvider::class,
-        Hideyo\Providers\CartServiceProvider::class,
-        Hideyo\Providers\RepositoryServiceProvider::class,
-        Hideyo\Providers\ComposerServiceProvider::class,
-        Hideyo\Providers\HtmlServiceProvider::class
+        Hideyo\Ecommerce\Framework\Providers\RouteServiceProvider::class,
+        Hideyo\Ecommerce\Framework\Providers\CartServiceProvider::class,
+        Hideyo\Ecommerce\Framework\Providers\RepositoryServiceProvider::class,
+        Hideyo\Ecommerce\Framework\Providers\ComposerServiceProvider::class,
+        Hideyo\Ecommerce\Framework\Providers\HtmlServiceProvider::class
     ],
 
     /*
@@ -246,9 +246,9 @@ return [
         'Notification' => Krucas\Notification\Facades\Notification::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'BrowserDetect' => 'hisorange\BrowserDetect\Facade\Parser',
-        'Cart' => Hideyo\Facades\CartFacade::class,
-        'ProductHelper'     => Hideyo\Helpers\ProductHelper::class,
-        'HtmlBlockHelper'   => Hideyo\Helpers\HtmlBlockHelper::class,
+        'Cart' => Hideyo\Ecommerce\Framework\Facades\CartFacade::class,
+        'ProductHelper'     => Hideyo\Ecommerce\Framework\Helpers\ProductHelper::class,
+        'HtmlBlockHelper'   => Hideyo\Ecommerce\Framework\Helpers\HtmlBlockHelper::class,
         'DbView'          => 'Flynsarmy\DbBladeCompiler\Facades\DbView'
 
 

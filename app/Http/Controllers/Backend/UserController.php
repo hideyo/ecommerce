@@ -12,10 +12,10 @@ use App\Http\Controllers\Controller;
 
 use Dutchbridge\Validators\UserValidator;
 use Dutchbridge\Datatable\UserNumberDatatable;
-use Hideyo\Repositories\UserRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\UserRepositoryInterface;
 
-use Hideyo\Repositories\UserLogRepositoryInterface;
-use Hideyo\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\UserLogRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
 use Auth;
 use Notification;
 use Redirect;

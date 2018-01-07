@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
