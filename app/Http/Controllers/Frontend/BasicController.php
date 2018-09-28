@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Repositories\ContentRepositoryInterface;
 use Hideyo\Ecommerce\Framework\Repositories\ProductTagGroupRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
 use Validator;
 use Notification;
 use Mail;
@@ -21,12 +20,10 @@ class BasicController extends Controller
     public function __construct(
         Request $request,
         ProductTagGroupRepositoryInterface $productTagGroup, 
-        ShopRepositoryInterface $shop, 
         ContentRepositoryInterface $content)
     {
         $this->request = $request;
         $this->content = $content;
-        $this->shop = $shop;
         $this->productTagGroup = $productTagGroup;
     }
 

@@ -186,7 +186,7 @@ class CheckoutController extends Controller
 
             if ($register) {
                 $data = $register;
-                $data['shop'] = $this->shop->find(config()->get('app.shop_id'));
+                $data['shop'] = app('shopFrontend');
         
                 Mail::send('frontend.email.register-mail', array('password' => $userdata['password'], 'user' => $data->toArray(), 'billAddress' => $data->clientBillAddress->toArray()), function ($message) use ($data) {
             

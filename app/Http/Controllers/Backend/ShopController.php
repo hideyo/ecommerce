@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
+use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
 class ShopController extends Controller
 {
@@ -29,7 +30,7 @@ class ShopController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->shop->getModel()
+            $query = ShopService::getModel()
             ->select(['id', 'title', 'logo_file_name']);
             $datatables = Datatables::of($query)
 
@@ -48,7 +49,7 @@ class ShopController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.shop.index')->with('shop', $this->shop->selectAll());
+        return view('backend.shop.index')->with('shop', ShopService::selectAll());
     }
 
     public function create()
@@ -58,7 +59,7 @@ class ShopController extends Controller
 
     public function store()
     {
-        $result  = $this->shop->create($this->request->all());
+        $result  = ShopService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The shop was inserted.');
@@ -74,12 +75,12 @@ class ShopController extends Controller
 
     public function edit($shopId)
     {
-        return view('backend.shop.edit')->with(array('shop' => $this->shop->find($shopId)));
+        return view('backend.shop.edit')->with(array('shop' => ShopService::find($shopId)));
     }
 
     public function update($shopId)
     {
-        $result  = $this->shop->updateById($this->request->all(), $shopId);
+        $result  = ShopService::updateById($this->request->all(), $shopId);
 
         if (isset($result->id)) {
             Notification::success('The shop was updated.');
@@ -95,7 +96,7 @@ class ShopController extends Controller
 
     public function destroy($shopId)
     {
-        $result  = $this->shop->destroy($shopId);
+        $result  = ShopService::destroy($shopId);
 
         if ($result) {
             Notification::success('The shop was deleted.');
