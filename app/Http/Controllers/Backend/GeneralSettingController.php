@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\GeneralSettingRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\GeneralSettingRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -11,7 +11,7 @@ use Form;
 class GeneralSettingController extends Controller
 {
 
-    public function __construct(Request $request, GeneralSettingRepositoryInterface $generalSetting)
+    public function __construct(Request $request, GeneralSettingRepository $generalSetting)
     {
         $this->request = $request;
         $this->generalSetting = $generalSetting;

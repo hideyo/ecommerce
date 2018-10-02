@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\FaqItemRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
+use Hideyo\Ecommerce\Framework\Repositories\FaqItemRepository;
 
 class ContentController extends Controller
 {
@@ -12,8 +12,8 @@ class ContentController extends Controller
      * @return void
      */
     public function __construct(
-        ContentRepositoryInterface $content,
-        FaqItemRepositoryInterface $faqItem
+        ContentRepository $content,
+        FaqItemRepository $faqItem
     ) { 
         $this->content = $content;
         $this->faqItem = $faqItem;

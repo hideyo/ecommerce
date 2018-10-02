@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
 use Validator;
 use Mail;
 use Notification;
@@ -16,12 +15,17 @@ use Notification;
 class AccountController extends Controller
 {
     
-    public function __construct(SendingMethodRepositoryInterface $sendingMethod, ProductRepositoryInterface $product, SendingPaymentMethodRelatedRepositoryInterface $sendingPaymentMethodRelated, OrderRepositoryInterface $order, ClientRepositoryInterface $client, ClientAddressRepositoryInterface $clientAddress, ShopRepositoryInterface $shop)
+    public function __construct(
+        SendingMethodRepository $sendingMethod, 
+        ProductRepository $product, 
+        SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated, 
+        OrderRepository $order, 
+        ClientRepository $client, 
+        ClientAddressRepository $clientAddress)
     {
         $this->auth = auth('web');
         $this->client = $client;
         $this->clientAddress = $clientAddress;
-        $this->shop = $shop;
         $this->order = $order;
         $this->product = $product;
         $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
@@ -96,7 +100,7 @@ class AccountController extends Controller
 
     public function getEditAddress($type)
     {
-        $shop = $this->shop->find(config()->get('app.shop_id'));
+        $shop = app('shop');
         return view('frontend.account.edit-account-address-'.$type)->with(array('sendingMethods' => $shop->sendingMethods, 'user' => $this->auth->user()));
     }
 
@@ -190,7 +194,7 @@ class AccountController extends Controller
 
     public function getLogin()
     {
-        $shop = $this->shop->find(config()->get('app.shop_id'));
+        $shop = app('shop');
 
         if ($shop->wholesale) {
             return view('frontend.account.login-wholesale')->with(array());
@@ -201,7 +205,7 @@ class AccountController extends Controller
 
     public function getRegister()
     {
-        $shop = $this->shop->find(config()->get('app.shop_id'));
+        $shop = app('shop');
 
         if ($shop->wholesale) {
             return view('frontend.account.register-wholesale')->with(array('sendingMethods' => $shop->sendingMethods));
@@ -387,7 +391,7 @@ class AccountController extends Controller
     public function postRegister(Request $request)
     {
         $userdata = $request->all();
-        $shop = $this->shop->find(config()->get('app.shop_id'));
+        $shop = app('shop');
 
         // create the validation rules ------------------------
         $rules = array(

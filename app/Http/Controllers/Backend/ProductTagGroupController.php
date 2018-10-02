@@ -10,8 +10,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductTagGroupRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductTagGroupRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Request;
 use Notification;
@@ -19,8 +19,8 @@ use Notification;
 class ProductTagGroupController extends Controller
 {
     public function __construct(
-        ProductTagGroupRepositoryInterface $productTagGroup,
-        ProductRepositoryInterface $product
+        ProductTagGroupRepository $productTagGroup,
+        ProductRepository $product
     ) {
         $this->product = $product;
         $this->productTagGroup = $productTagGroup;

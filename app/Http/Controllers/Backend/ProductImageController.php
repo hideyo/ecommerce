@@ -10,14 +10,14 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Illuminate\Http\Request;
 use Notification;
 
 class ProductImageController extends Controller
 {
-    public function __construct(Request $request, ProductRepositoryInterface $product)
+    public function __construct(Request $request, ProductRepository $product)
     {
         $this->product = $product;
         $this->request = $request;

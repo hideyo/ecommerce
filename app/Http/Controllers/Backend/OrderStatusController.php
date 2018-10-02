@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusEmailTemplateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepository;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusEmailTemplateRepository;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -20,8 +20,8 @@ class OrderStatusController extends Controller
 {
     public function __construct(
         Request $request,
-        OrderStatusRepositoryInterface $orderStatus,
-        OrderStatusEmailTemplateRepositoryInterface $orderStatusEmailTemplate
+        OrderStatusRepository $orderStatus,
+        OrderStatusEmailTemplateRepository $orderStatusEmailTemplate
     ) {
         $this->request = $request;
         $this->orderStatus = $orderStatus;

@@ -12,10 +12,10 @@ use App\Http\Controllers\Controller;
 
 use Dutchbridge\Validators\UserValidator;
 use Dutchbridge\Datatable\UserNumberDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\UserRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\UserRepository;
 
-use Hideyo\Ecommerce\Framework\Repositories\UserLogRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\UserLogRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepository;
 use Auth;
 use Notification;
 use Redirect;
@@ -24,8 +24,8 @@ use Request;
 class UserController extends Controller
 {
     public function __construct(
-        UserRepositoryInterface $user,
-        ShopRepositoryInterface $shop
+        UserRepository $user,
+        ShopRepository $shop
     ) {
         $this->user         = $user;
         $this->shop         = $shop;

@@ -11,8 +11,8 @@
 use App\Http\Controllers\Controller;
 
 use Dutchbridge\Datatable\ProductCategoryDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -22,7 +22,7 @@ use Form;
 
 class ProductCategoryController extends Controller
 {
-    public function __construct(ProductRepositoryInterface $product, ProductCategoryRepositoryInterface $productCategory)
+    public function __construct(ProductRepository $product, ProductCategoryRepository $productCategory)
     {
         $this->productCategory = $productCategory;
         $this->product = $product;

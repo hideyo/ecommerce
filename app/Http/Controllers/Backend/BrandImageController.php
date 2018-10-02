@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\BrandRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\BrandRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
@@ -16,7 +16,7 @@ use Form;
 
 class BrandImageController extends Controller
 {
-    public function __construct(Request $request, BrandRepositoryInterface $brand)
+    public function __construct(Request $request, BrandRepository $brand)
     {
         $this->brand = $brand;
         $this->request = $request;

@@ -9,11 +9,11 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductAmountSeriesRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductAmountSeriesRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -24,10 +24,10 @@ use Form;
 class ProductAmountSeriesController extends Controller
 {
     public function __construct(
-        ProductAmountSeriesRepositoryInterface $productAmountSeries,
-        ProductRepositoryInterface $product,
-        AttributeGroupRepositoryInterface $attributeGroup,
-        TaxRateRepositoryInterface $taxRate
+        ProductAmountSeriesRepository $productAmountSeries,
+        ProductRepository $product,
+        AttributeGroupRepository $attributeGroup,
+        TaxRateRepository $taxRate
     ) {
         $this->productAmountSeries = $productAmountSeries;
         $this->product = $product;

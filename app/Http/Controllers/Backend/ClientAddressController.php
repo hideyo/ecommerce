@@ -10,8 +10,8 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -22,8 +22,8 @@ class ClientAddressController extends Controller
 {
     public function __construct(
         Request $request, 
-        ClientAddressRepositoryInterface $clientAddress, 
-        ClientRepositoryInterface $client)
+        ClientAddressRepository $clientAddress, 
+        ClientRepository $client)
     {
         $this->clientAddress    = $clientAddress;
         $this->client           = $client;

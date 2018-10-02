@@ -10,8 +10,8 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
 
 use Request;
 use Notification;
@@ -21,8 +21,8 @@ use Form;
 class ExtraFieldController extends Controller
 {
     public function __construct(
-        ExtraFieldRepositoryInterface $extraField,
-        ProductCategoryRepositoryInterface $productCategory
+        ExtraFieldRepository $extraField,
+        ProductCategoryRepository $productCategory
     ) {
         $this->extraField = $extraField;
         $this->productCategory = $productCategory;

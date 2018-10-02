@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -20,7 +20,7 @@ class ContentGroupController extends Controller
 {
     public function __construct(
         Request $request,
-        ContentRepositoryInterface $content
+        ContentRepository $content
     ) {
         $this->request = $request;
         $this->content = $content;

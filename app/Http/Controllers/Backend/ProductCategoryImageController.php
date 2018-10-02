@@ -10,7 +10,7 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -19,7 +19,7 @@ use Form;
 
 class ProductCategoryImageController extends Controller
 {
-    public function __construct(ProductCategoryRepositoryInterface $productCategory)
+    public function __construct(ProductCategoryRepository $productCategory)
     {
         $this->productCategory = $productCategory;
     }

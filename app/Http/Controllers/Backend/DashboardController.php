@@ -3,9 +3,9 @@
 use App\Http\Controllers\Controller;
 use Dutchbridge\Datatable\OrderDatatable;
 use Dutchbridge\Datatable\OrderWholesaleDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\UserRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ShopRepository;
+use Hideyo\Ecommerce\Framework\Repositories\UserRepository;
 
 use Request;
 use Auth;
@@ -18,9 +18,9 @@ class DashboardController extends Controller
 
 
     public function __construct(
-        OrderRepositoryInterface $order,
-        ShopRepositoryInterface $shop,
-        UserRepositoryInterface $user
+        OrderRepository $order,
+        ShopRepository $shop,
+        UserRepository $user
     ) {
         $this->order = $order;
         $this->shop = $shop;

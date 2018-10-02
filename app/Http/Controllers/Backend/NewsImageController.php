@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
@@ -16,7 +16,7 @@ use Form;
 
 class NewsImageController extends Controller
 {
-    public function __construct(Request $request, NewsRepositoryInterface $news)
+    public function __construct(Request $request, NewsRepository $news)
     {
         $this->news = $news;
         $this->request = $request;

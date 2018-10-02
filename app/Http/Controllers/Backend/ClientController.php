@@ -12,8 +12,8 @@ use App\Http\Controllers\Controller;
  */
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -26,8 +26,8 @@ use Datatables;
 class ClientController extends Controller
 {
     public function __construct(
-        Request $request, ClientRepositoryInterface $client, 
-        ClientAddressRepositoryInterface $clientAddress)
+        Request $request, ClientRepository $client, 
+        ClientAddressRepository $clientAddress)
     {
         $this->client           = $client;
         $this->clientAddress    = $clientAddress;

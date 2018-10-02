@@ -9,10 +9,10 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\NewsGroupRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\NewsGroupRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -22,7 +22,7 @@ use Auth;
 
 class NewsController extends Controller
 {
-    public function __construct(Request $request, NewsRepositoryInterface $news)
+    public function __construct(Request $request, NewsRepository $news)
     {
         $this->request = $request;
         $this->news = $news;

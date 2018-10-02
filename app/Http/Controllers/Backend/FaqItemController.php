@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\FaqItemRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\FaqItemRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -20,7 +20,7 @@ class FaqItemController extends Controller
 {
     public function __construct(
         Request $request, 
-        FaqItemRepositoryInterface $faq
+        FaqItemRepository $faq
     ) {
         $this->request = $request;
         $this->faq = $faq;

@@ -10,9 +10,9 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Form;
 use Datatables;
@@ -21,9 +21,9 @@ class ClientOrderController extends Controller
 {
     public function __construct(
         Request $request, 
-        ClientAddressRepositoryInterface $clientAddress, 
-        ClientRepositoryInterface $client, 
-        OrderRepositoryInterface $order)
+        ClientAddressRepository $clientAddress, 
+        ClientRepository $client, 
+        OrderRepository $order)
     {
         $this->clientAddress = $clientAddress;
         $this->client = $client;

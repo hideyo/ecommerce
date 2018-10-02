@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -18,7 +18,7 @@ use Form;
 
 class ContentImageController extends Controller
 {
-    public function __construct(Request $request, ContentRepositoryInterface $content)
+    public function __construct(Request $request, ContentRepository $content)
     {
         $this->request = $request;
         $this->content = $content;

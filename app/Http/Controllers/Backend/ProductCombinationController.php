@@ -11,11 +11,11 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
 
 use \Request;
 use \Notification;
@@ -25,10 +25,10 @@ use \Response;
 class ProductCombinationController extends Controller
 {
     public function __construct(
-        ProductCombinationRepositoryInterface $productCombination,
-        ProductRepositoryInterface $product,
-        AttributeGroupRepositoryInterface $attributeGroup,
-        TaxRateRepositoryInterface $taxRate
+        ProductCombinationRepository $productCombination,
+        ProductRepository $product,
+        AttributeGroupRepository $attributeGroup,
+        TaxRateRepository $taxRate
     ) {
         $this->productCombination = $productCombination;
         $this->product = $product;

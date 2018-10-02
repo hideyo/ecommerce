@@ -3,24 +3,22 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
-    public function __construct(ProductCombinationRepositoryInterface $productAttribute, ProductCategoryRepositoryInterface $productCategory, ProductRepositoryInterface $product, ProductExtraFieldValueRepositoryInterface $productExtraFieldValue)
+    public function __construct(ProductCombinationRepository $productAttribute, ProductCategoryRepository $productCategory, ProductExtraFieldValueRepository $productExtraFieldValue)
     {
         $this->productCategory = $productCategory;
-        $this->product = $product;
         $this->productAttribute = $productAttribute;
         $this->productExtraFieldValue = $productExtraFieldValue; 
     }
-
-
+    
     //to-do transfer logic to repo
     public function getItem(Request $request, $slug)
     {
@@ -38,7 +36,7 @@ class ProductCategoryController extends Controller
 
             $products = "";
             if ($category->products()->count()) {
-                $products = $this->product->selectAllByShopIdAndProductCategoryId(config()->get('app.shop_id'), $category['id']);
+                $products = ProductService::selectAllByShopIdAndProductCategoryId(config()->get('app.shop_id'), $category['id']);
             }
 
             if ($category->isLeaf()) {

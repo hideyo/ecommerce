@@ -2,24 +2,21 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\CartRepositoryInterface;
-
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\CartRepository;
+use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use BrowserDetect;
 
 class CartController extends Controller
 {
     public function __construct(
         Request $request,
-        SendingMethodRepositoryInterface $sendingMethod,
-        PaymentMethodRepositoryInterface $paymentMethod,        
-        ShopRepositoryInterface $shop,
-        CartRepositoryInterface $cart)
+        SendingMethodRepository $sendingMethod,
+        PaymentMethodRepository $paymentMethod,        
+        CartRepository $cart)
     {
         $this->request = $request;
-        $this->shop = $shop;
         $this->sendingMethod = $sendingMethod;        
         $this->paymentMethod = $paymentMethod;
         $this->cart = $cart;
@@ -47,7 +44,7 @@ class CartController extends Controller
             app('cart')->clearCartConditions();           
         }  
 
-        $shop = $this->shop->find(config()->get('app.shop_id'));
+        $shop = ShopService::find(config()->get('app.shop_id'));
         $template = "frontend.cart.index";
 
         if (BrowserDetect::isMobile()) {

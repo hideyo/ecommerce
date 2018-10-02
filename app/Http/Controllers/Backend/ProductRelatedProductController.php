@@ -12,15 +12,15 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductRelatedProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductRelatedProductRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Illuminate\Http\Request;
 use Notification;
 
 class ProductRelatedProductController extends Controller
 {
-    public function __construct(Request $request, ProductRelatedProductRepositoryInterface $productRelatedProduct, ProductRepositoryInterface $product)
+    public function __construct(Request $request, ProductRelatedProductRepository $productRelatedProduct, ProductRepository $product)
     {
         $this->productRelatedProduct    = $productRelatedProduct;
         $this->product                  = $product;

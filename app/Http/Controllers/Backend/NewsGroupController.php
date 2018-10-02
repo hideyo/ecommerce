@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
 
 use Request;
 use Notification;
@@ -17,7 +17,7 @@ use Notification;
 class NewsGroupController extends Controller
 {
     public function __construct(
-        NewsRepositoryInterface $news
+        NewsRepository $news
     ) {
         $this->news = $news;
     }

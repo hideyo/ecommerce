@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Repositories\ExceptionRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ExceptionRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -10,7 +10,7 @@ use Notification;
 class ErrorController extends Controller
 {
 
-    public function __construct(Request $request, ExceptionRepositoryInterface $error)
+    public function __construct(Request $request, ExceptionRepository $error)
     {
         $this->request = $request;
         $this->error = $error;

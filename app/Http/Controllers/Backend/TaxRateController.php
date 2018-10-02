@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -13,7 +13,7 @@ class TaxRateController extends Controller
 {
     public function __construct(
         Request $request, 
-        TaxRateRepositoryInterface $taxRate)
+        TaxRateRepository $taxRate)
     {
         $this->taxRate = $taxRate;
         $this->request = $request;

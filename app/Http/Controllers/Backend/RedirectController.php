@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\RedirectRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\RedirectRepository;
+use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService
 
 use Session;
 use Apiclient;
@@ -23,10 +23,9 @@ use Excel;
 
 class RedirectController extends Controller
 {
-    public function __construct(RedirectRepositoryInterface $redirect, ShopRepositoryInterface $shop)
+    public function __construct(RedirectRepository $redirect)
     {
         $this->redirect = $redirect;
-        $this->shop = $shop;
     }
 
     public function index()
@@ -56,7 +55,7 @@ class RedirectController extends Controller
 
     public function create()
     {
-        $shops = $this->shop->selectAll()->pluck('title', 'id')->toArray();
+        $shops = ShopService::selectAll()->pluck('title', 'id')->toArray();
         return view('backend.redirect.create')->with(array('shops' => $shops));
     }
 
@@ -79,7 +78,7 @@ class RedirectController extends Controller
 
     public function edit($redirectId)
     {
-                $shops = $this->shop->selectAll()->pluck('title', 'id');
+                $shops = ShopService::selectAll()->pluck('title', 'id');
         return view('backend.redirect.edit')->with(array(
             'redirect' => $this->redirect->find($redirectId),
             'shops' => $shops

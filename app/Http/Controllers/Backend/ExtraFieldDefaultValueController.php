@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
 
 use Request;
 use Notification;
@@ -17,7 +17,7 @@ use Form;
 
 class ExtraFieldDefaultValueController extends Controller
 {
-    public function __construct(ExtraFieldRepositoryInterface $extraField)
+    public function __construct(ExtraFieldRepository $extraField)
     {
         $this->extraField = $extraField;
     }

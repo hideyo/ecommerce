@@ -9,7 +9,6 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
@@ -19,10 +18,8 @@ use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 class ShopController extends Controller
 {
     public function __construct(
-        Request $request, 
-        ShopRepositoryInterface $shop)
+        Request $request)
     {
-        $this->shop = $shop;
         $this->request = $request;
     }
 

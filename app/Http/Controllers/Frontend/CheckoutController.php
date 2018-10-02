@@ -2,11 +2,10 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
 use Cart;
 use Validator;
 use Notification;
@@ -21,14 +20,12 @@ class CheckoutController extends Controller
      */
     public function __construct(
         Request $request,
-        ShopRepositoryInterface $shop,
-        ClientRepositoryInterface $client,
-        SendingMethodRepositoryInterface $sendingMethod,
-        PaymentMethodRepositoryInterface $paymentMethod,
-        OrderRepositoryInterface $order)
+        ClientRepository $client,
+        SendingMethodRepository $sendingMethod,
+        PaymentMethodRepository $paymentMethod,
+        OrderRepository $order)
     {
         $this->request = $request;
-        $this->shop = $shop;
         $this->client = $client;
         $this->sendingMethod = $sendingMethod;
         $this->paymentMethod = $paymentMethod;
@@ -186,7 +183,7 @@ class CheckoutController extends Controller
 
             if ($register) {
                 $data = $register;
-                $data['shop'] = app('shopFrontend');
+                $data['shop'] = app('shop');
         
                 Mail::send('frontend.email.register-mail', array('password' => $userdata['password'], 'user' => $data->toArray(), 'billAddress' => $data->clientBillAddress->toArray()), function ($message) use ($data) {
             

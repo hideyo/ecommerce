@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -22,7 +22,7 @@ class ContentController extends Controller
 {
     public function __construct(
         Request $request,
-        ContentRepositoryInterface $content
+        ContentRepository $content
     ) {
         $this->content = $content;
         $this->request = $request;

@@ -11,14 +11,14 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductWeightTypeRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\BrandRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductWeightTypeRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Repositories\BrandRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -29,11 +29,11 @@ class ProductController extends Controller
 {
     public function __construct(
         Request $request,
-        ProductRepositoryInterface $product,
-        ProductCategoryRepositoryInterface $productCategory,
-        TaxRateRepositoryInterface $taxRate,
-        ProductCombinationRepositoryInterface $productCombination,
-        BrandRepositoryInterface $brand
+        ProductRepository $product,
+        ProductCategoryRepository $productCategory,
+        TaxRateRepository $taxRate,
+        ProductCombinationRepository $productCombination,
+        BrandRepository $brand
     ) {
         $this->request = $request;
         $this->product = $product;

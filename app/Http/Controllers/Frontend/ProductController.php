@@ -5,24 +5,23 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Hideyo\Models\ProductAttributeCombination;
 use Hideyo\Models\ProductAttribute;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
 use Illuminate\Http\Request;
 use BrowserDetect;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 
 class ProductController extends Controller
 {
-    public function __construct(ProductRepositoryInterface $product, ProductCombinationRepositoryInterface $productCombination, ProductCategoryRepositoryInterface $productCategory)
+    public function __construct(ProductCombinationRepository $productCombination, ProductCategoryRepository $productCategory)
     {
-        $this->product = $product;
         $this->productCategory = $productCategory;
         $this->productCombination = $productCombination;
     }
 
     public function getIndex(Request $request, $categorySlug, $productId, $productSlug, $productAttributeId = false)
     {     
-        $product = $this->product->selectOneByShopIdAndId(config()->get('app.shop_id'), $productId, $request->get('combination_id'));
+        $product = ProductService::selectOneByShopIdAndId(config()->get('app.shop_id'), $productId, $request->get('combination_id'));
         
         if ($product) {
 
@@ -48,7 +47,7 @@ class ProductController extends Controller
                 $newPullDowns = $pullDowns['newPullDowns'];   
 
                 $productAttribute = $pullDowns['productAttribute']; 
-                $productImages = $this->product->ajaxProductImages($product, $productAttribute->combinations->pluck('attribute_id')->toArray(), $productAttribute->id);       
+                $productImages = ProductService::ajaxProductImages($product, $productAttribute->combinations->pluck('attribute_id')->toArray(), $productAttribute->id);       
                                 
                 $template = 'frontend.product.combinations';
 
@@ -96,7 +95,7 @@ class ProductController extends Controller
 
     public function getSelectLeadingPulldown($productId, $leadingAttributeId, $secondAttributeId = false)
     {
-        $product = $this->product->selectOneByIdAndAttributeId($productId, $leadingAttributeId);
+        $product = ProductService::selectOneByShopIdAndId(config()->get('app.shop_id'), $productId, $leadingAttributeId);
      
         if ($product) {
             if ($product->attributes->count()) {      
@@ -104,7 +103,7 @@ class ProductController extends Controller
                 $pullDowns = $this->productCombination->generatePulldowns($product, $leadingAttributeId, $product->attributeGroup, $secondAttributeId);
                 $newPullDowns = $pullDowns['newPullDowns'];
                 $productAttribute = $pullDowns['productAttribute'];                
-                $productImages = $this->product->ajaxProductImages($product, $productAttribute->combinations->pluck('attribute_id')->toArray(), $productAttribute->id);
+                $productImages = ProductService::ajaxProductImages($product, $productAttribute->combinations->pluck('attribute_id')->toArray(), $productAttribute->id);
                 
                 $typeTemplate = "";
 

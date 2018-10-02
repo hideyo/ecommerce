@@ -9,14 +9,14 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepository;
 use Dutchbridge\Services\AssembleOrder;
 
 use Carbon\Carbon;
@@ -33,14 +33,14 @@ use PDF;
 class OrderController extends Controller
 {
     public function __construct(
-        OrderRepositoryInterface $order,
-        ProductRepositoryInterface $product,
-        PaymentMethodRepositoryInterface $paymentMethod,
-        SendingMethodRepositoryInterface $sendingMethod,
-        SendingPaymentMethodRelatedRepositoryInterface $sendingPaymentMethodRelated,
-        ClientAddressRepositoryInterface $clientAddress,
-        OrderStatusRepositoryInterface $orderStatus,
-        ClientRepositoryInterface $client
+        OrderRepository $order,
+        ProductRepository $product,
+        PaymentMethodRepository $paymentMethod,
+        SendingMethodRepository $sendingMethod,
+        SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated,
+        ClientAddressRepository $clientAddress,
+        OrderStatusRepository $orderStatus,
+        ClientRepository $client
     ) {
         $this->order = $order;
         $this->product = $product;

@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepository;
 use Illuminate\Http\Request;
 use Notification;
 use DB;
@@ -20,7 +20,7 @@ use Form;
 class AttributeGroupController extends Controller
 {
     public function __construct(
-        AttributeGroupRepositoryInterface $attributeGroup)
+        AttributeGroupRepository $attributeGroup)
     {
         $this->attributeGroup = $attributeGroup;
     }

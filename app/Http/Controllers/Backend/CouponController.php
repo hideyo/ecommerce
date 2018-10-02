@@ -11,11 +11,11 @@ use App\Http\Controllers\Controller;
  */
 
 
-use Hideyo\Ecommerce\Framework\Repositories\CouponRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\CouponRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -24,7 +24,7 @@ use Form;
 
 class CouponController extends Controller
 {
-    public function __construct(Request $request, SendingMethodRepositoryInterface $sendingMethod, PaymentMethodRepositoryInterface $paymentMethod, CouponRepositoryInterface $coupon, ProductCategoryRepositoryInterface $productCategory, ProductRepositoryInterface $product)
+    public function __construct(Request $request, SendingMethodRepository $sendingMethod, PaymentMethodRepository $paymentMethod, CouponRepository $coupon, ProductCategoryRepository $productCategory, ProductRepository $product)
     {
         $this->request = $request;
         $this->coupon = $coupon;

@@ -9,9 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -23,9 +23,9 @@ class SendingMethodController extends Controller
 {
     public function __construct(
         Request $request, 
-        SendingMethodRepositoryInterface $sendingMethod,
-        TaxRateRepositoryInterface $taxRate,
-        PaymentMethodRepositoryInterface $paymentMethod
+        SendingMethodRepository $sendingMethod,
+        TaxRateRepository $taxRate,
+        PaymentMethodRepository $paymentMethod
     ) {
         $this->request = $request;
         $this->taxRate = $taxRate;

@@ -8,9 +8,9 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
 use DB;
 use Request;
 use Datatables;
@@ -18,7 +18,7 @@ use Notification;
 
 class SendingPaymentMethodRelatedController extends Controller
 {
-    public function __construct(SendingPaymentMethodRelatedRepositoryInterface $sendingPaymentMethodRelated)
+    public function __construct(SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated)
     {
         $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
     }

@@ -12,9 +12,9 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ProductRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -22,9 +22,9 @@ use Notification;
 class ProductExtraFieldValueController extends Controller
 {
     public function __construct(
-        ProductExtraFieldValueRepositoryInterface $productExtraFieldValue,
-        ProductRepositoryInterface $product,
-        ExtraFieldRepositoryInterface $extraField
+        ProductExtraFieldValueRepository $productExtraFieldValue,
+        ProductRepository $product,
+        ExtraFieldRepository $extraField
     ) {
         $this->productExtraFieldValue = $productExtraFieldValue;
         $this->product = $product;

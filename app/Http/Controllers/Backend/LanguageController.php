@@ -9,12 +9,12 @@
  */
 
 
-use Hideyo\Ecommerce\Framework\Repositories\LanguageRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\LanguageRepository;
 
 class LanguageController extends BaseController
 {
     
-    public function __construct(LanguageRepositoryInterface $language)
+    public function __construct(LanguageRepository $language)
     {
         $this->language = $language;
     }

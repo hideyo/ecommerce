@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusEmailTemplateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusEmailTemplateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -21,12 +21,12 @@ class OrderStatusEmailTemplateController extends Controller
 {
     public function __construct(
         Request $request,
-        OrderStatusEmailTemplateRepositoryInterface $orderHtmlTemplate,
-        SendingPaymentMethodRelatedRepositoryInterface $sendingPaymentMethodRelatedInterface
+        OrderStatusEmailTemplateRepository $orderHtmlTemplate,
+        SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated
     ) {
         $this->request = $request;
         $this->orderHtmlTemplate = $orderHtmlTemplate;
-        $this->sendingPaymentMethodRelatedInterface = $sendingPaymentMethodRelatedInterface;
+        $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
     }
 
     public function index()

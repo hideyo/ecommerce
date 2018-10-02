@@ -9,9 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\InvoiceRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\InvoiceRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
 
 use \Request;
 use \Notification;
@@ -20,9 +20,9 @@ use \Redirect;
 class InvoiceController extends Controller
 {
     public function __construct(
-        InvoiceRepositoryInterface $invoice,
-        TaxRateRepositoryInterface $taxRate,
-        PaymentMethodRepositoryInterface $paymentMethod
+        InvoiceRepository $invoice,
+        TaxRateRepository $taxRate,
+        PaymentMethodRepository $paymentMethod
     ) {
         $this->taxRate = $taxRate;
         $this->invoice = $invoice;

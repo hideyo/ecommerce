@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\HtmlBlockRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\HtmlBlockRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -20,7 +20,7 @@ class HtmlBlockController extends Controller
 {
     public function __construct(
         Request $request,
-        HtmlBlockRepositoryInterface $htmlBlock
+        HtmlBlockRepository $htmlBlock
     ) {
         $this->htmlBlock = $htmlBlock;
         $this->request = $request;

@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\CouponRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\CouponRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
@@ -18,7 +18,7 @@ class CouponGroupController extends Controller
 {
     public function __construct(
         Request $request,
-        CouponRepositoryInterface $coupon
+        CouponRepository $coupon
     ) {
         $this->coupon = $coupon;
         $this->request = $request;

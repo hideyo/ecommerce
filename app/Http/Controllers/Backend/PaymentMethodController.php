@@ -8,9 +8,9 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepositoryInterface;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepository;
 
 
 use Illuminate\Http\Request;
@@ -23,9 +23,9 @@ class PaymentMethodController extends Controller
 {
     public function __construct(
         Request $request, 
-        PaymentMethodRepositoryInterface $paymentMethod,
-        TaxRateRepositoryInterface $taxRate,
-        OrderStatusRepositoryInterface $orderStatus
+        PaymentMethodRepository $paymentMethod,
+        TaxRateRepository $taxRate,
+        OrderStatusRepository $orderStatus
     ) {
         $this->request = $request;
         $this->taxRate = $taxRate;

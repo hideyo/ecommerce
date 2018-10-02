@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepositoryInterface;
+use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -12,7 +12,7 @@ class NewsController extends Controller
      * @return void
      */
     public function __construct(
-        NewsRepositoryInterface $news
+        NewsRepository $news
     ) {
         $this->news = $news;
 
