@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepository;
+use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeGroupRepository;
 use Illuminate\Http\Request;
 use Notification;
 use DB;

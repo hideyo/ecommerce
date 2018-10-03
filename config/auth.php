@@ -72,12 +72,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Hideyo\Ecommerce\Framework\Models\Client::class,
+            'model' => Hideyo\Ecommerce\Framework\Services\Client\Entity\Client::class,
         ],
 
         'husers' => [
             'driver' => 'eloquent',
-            'model' => Hideyo\Ecommerce\Framework\Models\User::class,
+            'model' => Hideyo\Ecommerce\Framework\Services\User\Entity\User::class,
         ]
         
 

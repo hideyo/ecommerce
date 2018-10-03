@@ -1,11 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Dutchbridge\Datatable\OrderDatatable;
-use Dutchbridge\Datatable\OrderWholesaleDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepository;
-use Hideyo\Ecommerce\Framework\Repositories\UserRepository;
+
 
 use Request;
 use Auth;
@@ -16,16 +12,6 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
 
-
-    public function __construct(
-        OrderRepository $order,
-        ShopRepository $shop,
-        UserRepository $user
-    ) {
-        $this->order = $order;
-        $this->shop = $shop;
-        $this->user = $user;
-    }
 
     /*
     |--------------------------------------------------------------------------

@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\RedirectRepository;
-use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService
+use Hideyo\Ecommerce\Framework\Services\Redirect\Entity\RedirectRepository;
+use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
 use Session;
 use Apiclient;

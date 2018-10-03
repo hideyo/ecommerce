@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 
 use Dutchbridge\Datatable\ProductCategoryDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Illuminate\Http\Request;

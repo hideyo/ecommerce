@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -12,17 +12,16 @@ use Auth;
 class TaxRateController extends Controller
 {
     public function __construct(
-        Request $request, 
-        TaxRateRepository $taxRate)
+        Request $request)
     {
-        $this->taxRate = $taxRate;
+
         $this->request = $request;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
-            $query = $this->taxRate->getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = TaxRateService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('tax-rate.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $query->title);
                 $links = '<a href="'.url()->route('tax-rate.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
@@ -32,7 +31,7 @@ class TaxRateController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.tax_rate.index')->with('taxRate', $this->taxRate->selectAll());
+        return view('backend.tax_rate.index')->with('taxRate', TaxRateService::selectAll());
     }
 
     public function create()
@@ -42,7 +41,7 @@ class TaxRateController extends Controller
 
     public function store()
     {
-        $result  = $this->taxRate->create($this->request->all());
+        $result  = TaxRateService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The tax rate was inserted.');
@@ -57,12 +56,12 @@ class TaxRateController extends Controller
 
     public function edit($taxRateId)
     {
-        return view('backend.tax_rate.edit')->with(array('taxRate' => $this->taxRate->find($taxRateId)));
+        return view('backend.tax_rate.edit')->with(array('taxRate' => TaxRateService::find($taxRateId)));
     }
 
     public function update($taxRateId)
     {
-        $result  = $this->taxRate->updateById($this->request->all(), $taxRateId);
+        $result  = TaxRateService::updateById($this->request->all(), $taxRateId);
 
         if (isset($result->id)) {
             Notification::success('The tax rate was updated.');
@@ -77,7 +76,7 @@ class TaxRateController extends Controller
 
     public function destroy($taxRateId)
     {
-        $result  = $this->taxRate->destroy($taxRateId);
+        $result  = TaxRateService::destroy($taxRateId);
         if ($result) {
             Notification::error('The tax_rate was deleted.');
             return redirect()->route('tax-rate.index');

@@ -8,9 +8,9 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepository;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
+use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusRepository;
 
 
 use Illuminate\Http\Request;
@@ -23,13 +23,9 @@ class PaymentMethodController extends Controller
 {
     public function __construct(
         Request $request, 
-        PaymentMethodRepository $paymentMethod,
-        TaxRateRepository $taxRate,
         OrderStatusRepository $orderStatus
     ) {
         $this->request = $request;
-        $this->taxRate = $taxRate;
-        $this->paymentMethod = $paymentMethod;
         $this->orderStatus = $orderStatus;
     }
 
@@ -37,7 +33,7 @@ class PaymentMethodController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->paymentMethod->getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
+            $query = PaymentMethodService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
             ->with(array('orderConfirmedOrderStatus', 'orderPaymentCompletedOrderStatus', 'orderPaymentFailedOrderStatus'));
             
             $datatables = Datatables::of($query)
@@ -67,14 +63,14 @@ class PaymentMethodController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.payment_method.index')->with('paymentMethod', $this->paymentMethod->selectAll());
+        return view('backend.payment_method.index')->with('paymentMethod', PaymentMethodService::selectAll());
     }
 
     public function create()
     {
         return view('backend.payment_method.create')->with(
             array(
-                'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'),
+                'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
                 'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')                
             )
         );
@@ -82,7 +78,7 @@ class PaymentMethodController extends Controller
 
     public function store()
     {
-        $result  = $this->paymentMethod->create($this->request->all());
+        $result  = PaymentMethodService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The payment method was inserted.');
@@ -100,8 +96,8 @@ class PaymentMethodController extends Controller
     {
         return view('backend.payment_method.edit')->with(
             array(
-                'paymentMethod' => $this->paymentMethod->find($paymentMethodId),
-                'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'),
+                'paymentMethod' => PaymentMethodService::find($paymentMethodId),
+                'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
                 'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')
             )
         );
@@ -109,7 +105,7 @@ class PaymentMethodController extends Controller
 
     public function update($paymentMethodId)
     {
-        $result  = $this->paymentMethod->updateById($this->request->all(), $paymentMethodId);
+        $result  = PaymentMethodService::updateById($this->request->all(), $paymentMethodId);
 
         if (isset($result->id)) {
             Notification::success('The payment method was updated.');
@@ -125,7 +121,7 @@ class PaymentMethodController extends Controller
 
     public function destroy($paymentMethodId)
     {
-        $result  = $this->paymentMethod->destroy($paymentMethodId);
+        $result  = PaymentMethodService::destroy($paymentMethodId);
 
         if ($result) {
             Notification::success('The payment method was deleted.');

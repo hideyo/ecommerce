@@ -9,34 +9,27 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
 
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
 use Datatables;
-use Auth;
 
 class SendingMethodController extends Controller
 {
     public function __construct(
-        Request $request, 
-        SendingMethodRepository $sendingMethod,
-        TaxRateRepository $taxRate,
-        PaymentMethodRepository $paymentMethod
+        Request $request
     ) {
         $this->request = $request;
-        $this->taxRate = $taxRate;
-        $this->sendingMethod = $sendingMethod;
-        $this->paymentMethod = $paymentMethod;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
-            $query = $this->sendingMethod->getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = SendingMethodService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('sending-method.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $query->title);
@@ -47,20 +40,20 @@ class SendingMethodController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.sending_method.index')->with('sendingMethod', $this->sendingMethod->selectAll());
+        return view('backend.sending_method.index')->with('sendingMethod', SendingMethodService::selectAll());
     }
 
     public function create()
     {
         return view('backend.sending_method.create')->with(array(
-            'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'),
-            'paymentMethods' => $this->paymentMethod->selectAll()->pluck('title', 'id')
+            'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
+            'paymentMethods' => PaymentMethodService::selectAll()->pluck('title', 'id')
         ));
     }
 
     public function store()
     {
-        $result  = $this->sendingMethod->create($this->request->all());
+        $result  = SendingMethodService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The sending method was inserted.');
@@ -78,16 +71,16 @@ class SendingMethodController extends Controller
     {    
         return view('backend.sending_method.edit')->with(
             array(
-                'taxRates'          => $this->taxRate->selectAll()->pluck('title', 'id'),
-                'sendingMethod'     => $this->sendingMethod->find($sendingMethodId),
-                'paymentMethods'    => $this->paymentMethod->selectAll()->pluck('title', 'id'),
+                'taxRates'          => TaxRateService::selectAll()->pluck('title', 'id'),
+                'sendingMethod'     => SendingMethodService::find($sendingMethodId),
+                'paymentMethods'    => PaymentMethodService::selectAll()->pluck('title', 'id'),
             )
         );
     }
 
     public function update($sendingMethodId)
     {
-        $result  = $this->sendingMethod->updateById($this->request->all(), $sendingMethodId);
+        $result  = SendingMethodService::updateById($this->request->all(), $sendingMethodId);
 
         if (isset($result->id)) {
             Notification::success('The sending method was updated.');
@@ -103,7 +96,7 @@ class SendingMethodController extends Controller
 
     public function destroy($sendingMethodId)
     {
-        $result  = $this->sendingMethod->destroy($sendingMethodId);
+        $result  = SendingMethodService::destroy($sendingMethodId);
 
         if ($result) {
             Notification::success('The sending method was deleted.');

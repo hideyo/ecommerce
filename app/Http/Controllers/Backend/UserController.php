@@ -12,10 +12,10 @@ use App\Http\Controllers\Controller;
 
 use Dutchbridge\Validators\UserValidator;
 use Dutchbridge\Datatable\UserNumberDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\UserRepository;
+use Hideyo\Ecommerce\Framework\Services\User\Entity\UserRepository;
 
 use Hideyo\Ecommerce\Framework\Repositories\UserLogRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ShopRepository;
+use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use Auth;
 use Notification;
 use Redirect;
@@ -24,11 +24,9 @@ use Request;
 class UserController extends Controller
 {
     public function __construct(
-        UserRepository $user,
-        ShopRepository $shop
+        UserRepository $user
     ) {
         $this->user         = $user;
-        $this->shop         = $shop;
     }
 
     public function index()
@@ -66,7 +64,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $shops = $this->shop->selectAll()->pluck('title', 'id');
+        $shops = ShopService::selectAll()->pluck('title', 'id');
         return view('backend.user.create', array('shops' => $shops));
     }
 
@@ -109,7 +107,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $shops = $this->shop->selectAll()->pluck('title', 'id');
+        $shops = ShopService::selectAll()->pluck('title', 'id');
         return view('backend.user.edit')->with(array('user' => $this->user->find($id), 'shops' => $shops));
     }
 
@@ -119,7 +117,7 @@ class UserController extends Controller
             $id = Auth::id();
         }
 
-        $shops = $this->shop->selectAll()->pluck('title', 'id');
+        $shops = ShopService::selectAll()->pluck('title', 'id');
         $languages = $this->language->getModel()->pluck('language', 'id');
         return view('backend.user.profile')->with(array('user' => User::find($id), 'languages' => $languages, 'shops' => $shops));
     }
@@ -130,7 +128,7 @@ class UserController extends Controller
             $id = auth('hideyobackend')->id();
         }
 
-        $shop = $this->shop->find($shopId);
+        $shop = ShopService::find($shopId);
         $result  = $this->user->updateShopProfileById($shop, $id);
         Notification::success('The shop changed.');
         return Redirect::route('shop.index');

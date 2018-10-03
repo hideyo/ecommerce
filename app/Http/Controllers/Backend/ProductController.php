@@ -12,13 +12,13 @@ use App\Http\Controllers\Controller;
 
 
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
 use Hideyo\Ecommerce\Framework\Repositories\ProductWeightTypeRepository;
 use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
 use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
-use Hideyo\Ecommerce\Framework\Repositories\BrandRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Services\Brand\Entity\BrandRepository;
 
 use Illuminate\Http\Request;
 use Notification;

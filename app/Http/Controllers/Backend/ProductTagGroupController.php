@@ -10,7 +10,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductTagGroupRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductTagGroupRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Request;

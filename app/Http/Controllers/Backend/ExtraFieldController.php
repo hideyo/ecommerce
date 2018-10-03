@@ -10,8 +10,8 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
 
 use Request;
 use Notification;

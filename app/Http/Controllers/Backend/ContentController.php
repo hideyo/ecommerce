@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
+use Hideyo\Ecommerce\Framework\Services\Content\Entity\ContentRepository;
 
 use Illuminate\Http\Request;
 use Notification;

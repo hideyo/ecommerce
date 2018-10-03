@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\GeneralSettingRepository;
+use Hideyo\Ecommerce\Framework\Services\GeneralSetting\Entity\GeneralSettingRepository;
 
 use Illuminate\Http\Request;
 use Notification;
