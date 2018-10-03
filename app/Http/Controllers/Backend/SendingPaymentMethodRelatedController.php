@@ -8,9 +8,9 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\Entity\PaymentMethodRepository;
 use DB;
 use Request;
 use Datatables;
