@@ -6,16 +6,15 @@ use App\Http\Controllers\Controller;
 use Hideyo\Models\ProductAttributeCombination;
 use Hideyo\Models\ProductAttribute;
 use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
 use Illuminate\Http\Request;
 use BrowserDetect;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 
 class ProductController extends Controller
 {
-    public function __construct(ProductCombinationRepository $productCombination, ProductCategoryRepository $productCategory)
+    public function __construct(ProductCombinationRepository $productCombination)
     {
-        $this->productCategory = $productCategory;
         $this->productCombination = $productCombination;
     }
 
@@ -30,9 +29,9 @@ class ProductController extends Controller
             }
 
             if ($product->ProductCategory and $product->ProductCategory->parent()->count()) {
-                $productCategories = $this->productCategory->selectCategoriesByParentId(config()->get('app.shop_id'), $product->ProductCategory->parent()->first()->id, 'widescreen');
+                $productCategories = ProductCategoryService::selectCategoriesByParentId(config()->get('app.shop_id'), $product->ProductCategory->parent()->first()->id, 'widescreen');
             } else {
-                $productCategories = $this->productCategory->selectRootCategories(false, array('from_stock'));
+                $productCategories = ProductCategoryService::selectRootCategories(false, array('from_stock'));
             }
 
             if ($product->attributes->count() AND $product->attributeGroup AND $product->attributes->first()->combinations->count()) {

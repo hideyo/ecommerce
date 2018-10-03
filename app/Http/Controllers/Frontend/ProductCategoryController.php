@@ -3,18 +3,16 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
 use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
 use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
-
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
-    public function __construct(ProductCombinationRepository $productAttribute, ProductCategoryRepository $productCategory, ProductExtraFieldValueRepository $productExtraFieldValue)
+    public function __construct(ProductCombinationRepository $productAttribute, ProductExtraFieldValueRepository $productExtraFieldValue)
     {
-        $this->productCategory = $productCategory;
         $this->productAttribute = $productAttribute;
         $this->productExtraFieldValue = $productExtraFieldValue; 
     }
@@ -22,7 +20,7 @@ class ProductCategoryController extends Controller
     //to-do transfer logic to repo
     public function getItem(Request $request, $slug)
     {
-        $category = $this->productCategory->selectOneByShopIdAndSlug(config()->get('app.shop_id'), $slug);
+        $category = ProductCategoryService::selectOneByShopIdAndSlug(config()->get('app.shop_id'), $slug);
 
         if ($category) {
 
@@ -42,9 +40,9 @@ class ProductCategoryController extends Controller
             if ($category->isLeaf()) {
 
                 if ($category->isChild()) {
-                    $childrenProductCategories = $this->productCategory->selectCategoriesByParentId(config()->get('app.shop_id'), $category->parent_id);
+                    $childrenProductCategories = ProductCategoryService::selectCategoriesByParentId(config()->get('app.shop_id'), $category->parent_id);
                 } else {
-                    $childrenProductCategories = $this->productCategory->selectAllByShopIdAndRoot(config()->get('app.shop_id'));
+                    $childrenProductCategories = ProductCategoryService::selectAllByShopIdAndRoot(config()->get('app.shop_id'));
                 }
 
                 $attributes = $this->productAttribute->selectAllByProductCategoryId($category->id, config()->get('app.shop_id'));
@@ -89,7 +87,7 @@ class ProductCategoryController extends Controller
                 );
             }
 
-            $childrenProductCategories = $this->productCategory->selectCategoriesByParentId(config()->get('app.shop_id'), $category->id);
+            $childrenProductCategories = ProductCategoryService::selectCategoriesByParentId(config()->get('app.shop_id'), $category->id);
             
             return view('frontend.product_category.categories')->with(
                 array(
