@@ -7,7 +7,7 @@ use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
 use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
+use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Validator;
 use Mail;
 use Notification;
@@ -16,7 +16,6 @@ class AccountController extends Controller
 {
     
     public function __construct(
-        SendingMethodRepository $sendingMethod, 
         ProductRepository $product, 
         SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated, 
         OrderRepository $order, 
@@ -29,7 +28,6 @@ class AccountController extends Controller
         $this->order = $order;
         $this->product = $product;
         $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
-        $this->sendingMethod = $sendingMethod;
         session()->forget('category_id');
     }
 

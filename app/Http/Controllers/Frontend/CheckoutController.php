@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
 use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
 use Cart;
@@ -21,21 +21,17 @@ class CheckoutController extends Controller
     public function __construct(
         Request $request,
         ClientRepository $client,
-        SendingMethodRepository $sendingMethod,
-        PaymentMethodRepository $paymentMethod,
         OrderRepository $order)
     {
         $this->request = $request;
         $this->client = $client;
-        $this->sendingMethod = $sendingMethod;
-        $this->paymentMethod = $paymentMethod;
         $this->order = $order;
         $this->shopId = config()->get('app.shop_id');
     }
 
     public function checkout()
     {
-        $sendingMethodsList = $this->sendingMethod->selectAllActiveByShopId(config()->get('app.shop_id'));
+        $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
 
         if (Cart::getContent()->count()) {
 

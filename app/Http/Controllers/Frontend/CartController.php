@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Repositories\CartRepository;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use BrowserDetect;
@@ -11,21 +11,17 @@ use BrowserDetect;
 class CartController extends Controller
 {
     public function __construct(
-        Request $request,
-        SendingMethodRepository $sendingMethod,
-        PaymentMethodRepository $paymentMethod,        
+        Request $request,    
         CartRepository $cart)
     {
         $this->request = $request;
-        $this->sendingMethod = $sendingMethod;        
-        $this->paymentMethod = $paymentMethod;
         $this->cart = $cart;
         $this->shopId = config()->get('app.shop_id');
     }
 
     public function getIndex()
     {
-        $sendingMethodsList = $this->sendingMethod->selectAllActiveByShopId(config()->get('app.shop_id'));
+        $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
         $paymentMethodsList = $this->getPaymentMethodsList($sendingMethodsList);
   
         if (app('cart')->getContent()->count()) {
@@ -64,7 +60,7 @@ class CartController extends Controller
             return $paymentMethodsList = $sendingMethodsList->first()->relatedPaymentMethods;
         }
         
-        return $paymentMethodsList = $this->paymentMethod->selectAllActiveByShopId(config()->get('app.shop_id'));       
+        return $paymentMethodsList = PaymentMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));       
     }
 
     public function postProduct(Request $request, $productId, $productCombinationId = false)
@@ -135,7 +131,7 @@ class CartController extends Controller
 
     public function getTotalReload()
     {
-        $sendingMethodsList = $this->sendingMethod->selectAllActiveByShopId(config()->get('app.shop_id'));
+        $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
         $paymentMethodsList = $this->getPaymentMethodsList($sendingMethodsList);
         
         $template = "frontend.cart._totals";
