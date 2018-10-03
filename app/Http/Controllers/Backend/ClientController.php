@@ -12,8 +12,8 @@ use App\Http\Controllers\Controller;
  */
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
 
 use Illuminate\Http\Request;
 use Notification;

@@ -9,8 +9,8 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusEmailTemplateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusEmailTemplateRepository;
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingPaymentMethodRelatedRepository;
 
 use Illuminate\Http\Request;
 use Notification;
