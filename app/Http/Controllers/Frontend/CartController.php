@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-use Hideyo\Ecommerce\Framework\Repositories\CartRepository;
+use Hideyo\Ecommerce\Framework\Services\Cart\Entity\CartRepository;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use BrowserDetect;
 

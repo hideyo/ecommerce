@@ -3,8 +3,8 @@
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductTagGroupRepository;
+use Hideyo\Ecommerce\Framework\Services\Content\Entity\ContentRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductTagGroupRepository;
 use Validator;
 use Notification;
 use Mail;

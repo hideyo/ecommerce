@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingPaymentMethodRelatedRepository;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Validator;
 use Mail;

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductExtraFieldValueRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 use Illuminate\Http\Request;

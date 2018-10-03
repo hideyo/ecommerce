@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Hideyo\Models\ProductAttributeCombination;
 use Hideyo\Models\ProductAttribute;
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
 use Illuminate\Http\Request;
 use BrowserDetect;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;

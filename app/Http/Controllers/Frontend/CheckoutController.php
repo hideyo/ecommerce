@@ -4,8 +4,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
 use Cart;
 use Validator;
 use Notification;
@@ -20,12 +20,10 @@ class CheckoutController extends Controller
      */
     public function __construct(
         Request $request,
-        ClientRepository $client,
-        OrderRepository $order)
+        ClientRepository $client)
     {
         $this->request = $request;
         $this->client = $client;
-        $this->order = $order;
         $this->shopId = config()->get('app.shop_id');
     }
 
@@ -259,11 +257,11 @@ class CheckoutController extends Controller
             $data['payment_method'] = Cart::getConditionsByType('payment_method');
         }
 
-        $orderInsertAttempt = $this->order->createByUserAndShopId($data, config()->get('app.shop_id'), $noAccountUser);
+        $orderInsertAttempt = OrderService::createByUserAndShopId($data, config()->get('app.shop_id'), $noAccountUser);
 
         if ($orderInsertAttempt AND $orderInsertAttempt->count()) {
             if ($orderInsertAttempt->OrderPaymentMethod and $orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id) {
-                $orderStatus = $this->order->updateStatus($orderInsertAttempt->id, $orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id);
+                $orderStatus = OrderService::updateStatus($orderInsertAttempt->id, $orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id);
                 if ($orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id) {
                     Event::fire(new OrderChangeStatus($orderStatus));
                 }
@@ -286,6 +284,7 @@ class CheckoutController extends Controller
             app('cart')->clear();
             app('cart')->clearCartConditions();  
             session()->flush('noAccountUser');
+            $body = "";
             return view('frontend.checkout.complete')->with(array('body' => $body));            
         }
 
