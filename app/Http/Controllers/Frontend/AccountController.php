@@ -8,6 +8,7 @@ use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingPaymentMethodRelatedRepository;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
+use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
 use Validator;
 use Mail;
 use Notification;
@@ -19,11 +20,9 @@ class AccountController extends Controller
         ProductRepository $product, 
         SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated, 
         OrderRepository $order, 
-        ClientRepository $client, 
         ClientAddressRepository $clientAddress)
     {
         $this->auth = auth('web');
-        $this->client = $client;
         $this->clientAddress = $clientAddress;
         $this->order = $order;
         $this->product = $product;
@@ -84,7 +83,7 @@ class AccountController extends Controller
 
     public function getResetAccount($code, $email)
     {
-        $result = $this->client->resetAccount($code, $email, config()->get('app.shop_id'));
+        $result = ClientService::resetAccount($code, $email, config()->get('app.shop_id'));
 
         if ($result) {
             Notification::success('Je account gegevens zijn gewijzigd en je dient opnieuw in te loggen met de nieuwe gegevens.');
@@ -137,18 +136,18 @@ class AccountController extends Controller
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
                     $clientAddress = $this->clientAddress->createByClient($userdata, $user->id);
-                    $this->client->setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
-                    $clientAddress = $this->client->editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
+                    $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
                 }
             } elseif ($type == 'delivery') {
                 $id = $user->clientDeliveryAddress->id;
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
                     $clientAddress = $this->clientAddress->createByClient($userdata, $user->id);
-                    $this->client->setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
-                    $clientAddress = $this->client->editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
+                    $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
                 }
             }
 
@@ -161,7 +160,7 @@ class AccountController extends Controller
     {
 
         if ($this->auth->check()) {
-            $result = $this->client->setAccountChange($this->auth->user(), $request->all(), config()->get('app.shop_id'));
+            $result = ClientService::setAccountChange($this->auth->user(), $request->all(), config()->get('app.shop_id'));
 
             if ($result) {
                 $firstname = false;
@@ -219,7 +218,7 @@ class AccountController extends Controller
 
     public function getResetPassword($confirmationCode, $email)
     {
-        $result = $this->client->validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, config()->get('app.shop_id'));
+        $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, config()->get('app.shop_id'));
 
         if ($result) {
             return view('frontend.account.reset-password')->with(array('confirmationCode' => $confirmationCode, 'email' => $email));
@@ -247,10 +246,10 @@ class AccountController extends Controller
                 ->withErrors($validator, 'reset')->withInput();
         }
 
-        $result = $this->client->validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, config()->get('app.shop_id'));
+        $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, config()->get('app.shop_id'));
 
         if ($result) {
-            $result = $this->client->resetPasswordByConfirmationCodeAndEmail(array('confirmation_code' => $confirmationCode, 'email' => $email, 'password' => $request->get('password')), config()->get('app.shop_id'));
+            $result = ClientService::resetPasswordByConfirmationCodeAndEmail(array('confirmation_code' => $confirmationCode, 'email' => $email, 'password' => $request->get('password')), config()->get('app.shop_id'));
             Notification::success('Je wachtwoord is veranderd en je kan nu inloggen.');
             return redirect()->to('account/login');
         }
@@ -259,13 +258,13 @@ class AccountController extends Controller
     public function postSubscriberNewsletter(Request $request)
     {
         $userData = $request->all();
-        $result = $this->client->subscribeNewsletter($userData['email'], config()->get('app.shop_id'));
+        $result = ClientService::subscribeNewsletter($userData['email'], config()->get('app.shop_id'));
         $result = array(
             "result" => true,
             "html" => view('frontend.newsletter.completed')->render()
         );
 
-        $this->client->registerMailChimp($userData['email']);
+        ClientService::registerMailChimp($userData['email']);
         return response()->json($result);
     }
 
@@ -290,7 +289,7 @@ class AccountController extends Controller
 
         $userdata = $request->all();
 
-        $forgotPassword = $this->client->getConfirmationCodeByEmail($userdata['email'], config()->get('app.shop_id'));
+        $forgotPassword = ClientService::getConfirmationCodeByEmail($userdata['email'], config()->get('app.shop_id'));
 
         if ($forgotPassword) {
             $firstname = false;
@@ -324,10 +323,10 @@ class AccountController extends Controller
 
     public function getConfirm($code, $email)
     {
-        $result = $this->client->validateConfirmationCodeByConfirmationCodeAndEmail($code, $email, config()->get('app.shop_id'));
+        $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($code, $email, config()->get('app.shop_id'));
 
         if ($result->count()) {
-            $this->client->confirm($code, $email, config()->get('app.shop_id'));
+            ClientService::confirm($code, $email, config()->get('app.shop_id'));
             Notification::success('Uw account is geactiveerd.');
             return redirect()->to('account/login');
         }
@@ -418,18 +417,18 @@ class AccountController extends Controller
             return redirect()->back()->withInput();
         }
             
-        $registerAttempt = $this->client->validateRegister($userdata, config()->get('app.shop_id'));
+        $registerAttempt = ClientService::validateRegister($userdata, config()->get('app.shop_id'));
 
         if ($registerAttempt) {
-            $register = $this->client->register($userdata, config()->get('app.shop_id'));
+            $register = ClientService::register($userdata, config()->get('app.shop_id'));
         } else {
-             $client = $this->client->findByEmail($userdata['email'], config()->get('app.shop_id'));
+             $client = ClientService::findByEmail($userdata['email'], config()->get('app.shop_id'));
             
             if ($client->account_created) {
                 Notification::error('Email already exists.');
                 return redirect()->back()->withInput();
             } else {
-                $register = $this->client->register($userdata, config()->get('app.shop_id'));
+                $register = ClientService::register($userdata, config()->get('app.shop_id'));
             }
         }
 

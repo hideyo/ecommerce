@@ -2,27 +2,15 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Services\News\Entity\NewsRepository;
+use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        NewsRepository $news
-    ) {
-        $this->news = $news;
-
-    }
-
     public function getItem(Request $request, $newsGroupSlug, $slug)
     {
-        $news = $this->news->selectOneBySlug(config()->get('app.shop_id'), $slug);
-        $newsGroups =  $this->news->selectAllActiveGroupsByShopId(config()->get('app.shop_id'));     
+        $news = NewsService::selectOneBySlug(config()->get('app.shop_id'), $slug);
+        $newsGroups =  NewsService::selectAllActiveGroupsByShopId(config()->get('app.shop_id'));     
 
         if ($news) {
             if ($news->slug != $slug or $news->newsGroup->slug != $newsGroupSlug) {
@@ -38,10 +26,10 @@ class NewsController extends Controller
     public function getByGroup(Request $request, $newsGroupSlug)
     {
         $page = $request->get('page', 1);
-        $news = $this->news->selectByGroupAndByShopIdAndPaginate(config()->get('app.shop_id'), $newsGroupSlug, 25);
+        $news = NewsService::selectByGroupAndByShopIdAndPaginate(config()->get('app.shop_id'), $newsGroupSlug, 25);
 
-        $newsGroup = $this->news->selectOneGroupByShopIdAndSlug(config()->get('app.shop_id'), $newsGroupSlug);
-        $newsGroups =  $this->news->selectAllActiveGroupsByShopId(config()->get('app.shop_id'));
+        $newsGroup = NewsService::selectOneGroupByShopIdAndSlug(config()->get('app.shop_id'), $newsGroupSlug);
+        $newsGroups =  NewsService::selectAllActiveGroupsByShopId(config()->get('app.shop_id'));
         
         if ($newsGroup) {
             return view('frontend.news.group')->with(array('selectedPage' => $page, 'news' => $news, 'newsGroups' => $newsGroups, 'newsGroup' => $newsGroup));
@@ -53,8 +41,8 @@ class NewsController extends Controller
     public function getIndex(Request $request)
     {
         $page = $request->get('page', 1);
-        $news = $this->news->selectAllByShopIdAndPaginate(config()->get('app.shop_id'), 25);
-        $newsGroups =  $this->news->selectAllActiveGroupsByShopId(config()->get('app.shop_id'));
+        $news = NewsService::selectAllByShopIdAndPaginate(config()->get('app.shop_id'), 25);
+        $newsGroups =  NewsService::selectAllActiveGroupsByShopId(config()->get('app.shop_id'));
         if ($news) {
             return view('frontend.news.index')->with(array('selectedPage' => $page, 'news' => $news, 'newsGroups' => $newsGroups));
         }

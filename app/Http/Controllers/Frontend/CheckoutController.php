@@ -4,7 +4,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
 use Cart;
 use Validator;
@@ -19,11 +18,9 @@ class CheckoutController extends Controller
      * @return void
      */
     public function __construct(
-        Request $request,
-        ClientRepository $client)
+        Request $request)
     {
         $this->request = $request;
-        $this->client = $client;
         $this->shopId = config()->get('app.shop_id');
     }
 
@@ -73,7 +70,7 @@ class CheckoutController extends Controller
         self::checkCountryPrice($user->clientDeliveryAddress->country);
 
         if (!$user->clientDeliveryAddress()->count()) {
-            $this->client->setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $user->clientBillAddress->id, 'delivery');
+            ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $user->clientBillAddress->id, 'delivery');
             return redirect()->to('cart/checkout');
         }
 
@@ -160,18 +157,18 @@ class CheckoutController extends Controller
         }
 
         if ($userdata['password']) {
-            $registerAttempt = $this->client->validateRegister($userdata, config()->get('app.shop_id'));
+            $registerAttempt = ClientService::validateRegister($userdata, config()->get('app.shop_id'));
 
             if ($registerAttempt) {
-                $register = $this->client->register($userdata, config()->get('app.shop_id'), true);
+                $register = ClientService::register($userdata, config()->get('app.shop_id'), true);
             } else {
-                $client = $this->client->findByEmail($userdata['email'], config()->get('app.shop_id'));
+                $client = ClientService::findByEmail($userdata['email'], config()->get('app.shop_id'));
 
                 if ($client->account_created) {
                     Notification::error('Je hebt al een account. Login aan de linkerkant of vraag een nieuw wachtwoord aan.');
                     return redirect()->to('cart/checkout')->withInput()->withErrors('Dit emailadres is al in gebruik. Je kan links inloggen.', 'register');
                 } else {
-                    $register = $this->client->createAccount($userdata, config()->get('app.shop_id'));
+                    $register = ClientService::createAccount($userdata, config()->get('app.shop_id'));
                 }
             }
 
@@ -201,13 +198,13 @@ class CheckoutController extends Controller
         }
         
         unset($userdata['password']);
-        $registerAttempt = $this->client->validateRegisterNoAccount($userdata, config()->get('app.shop_id'));
+        $registerAttempt = ClientService::validateRegisterNoAccount($userdata, config()->get('app.shop_id'));
 
         if ($registerAttempt) {
-            $register = $this->client->register($userdata, config()->get('app.shop_id'));   
+            $register = ClientService::register($userdata, config()->get('app.shop_id'));   
             $userdata['client_id'] = $register->id;
         } else {
-            $client = $this->client->findByEmail($userdata['email'], config()->get('app.shop_id'));
+            $client = ClientService::findByEmail($userdata['email'], config()->get('app.shop_id'));
             if ($client) {
                 $userdata['client_id'] = $client->id;
             }
@@ -371,18 +368,18 @@ class CheckoutController extends Controller
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
                     $clientAddress = $this->clientAddress->createByClient($userdata, $user->id);
-                    $this->client->setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
-                    $clientAddress = $this->client->editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
+                    $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
                 }
             } elseif ($type == 'delivery') {
                 $id = $user->clientDeliveryAddress->id;
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
                     $clientAddress = $this->clientAddress->createByClient($userdata, $user->id);
-                    $this->client->setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
-                    $clientAddress = $this->client->editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
+                    $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
                 }
             }
         }
