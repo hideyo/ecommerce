@@ -1,27 +1,25 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\GeneralSetting\Entity\GeneralSettingRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\GeneralSetting\GeneralSettingFacade as GeneralSettingService;
+
 class GeneralSettingController extends Controller
 {
-
-    public function __construct(Request $request, GeneralSettingRepository $generalSetting)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->generalSetting = $generalSetting;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->generalSetting->getModel()->select(
+            $query = GeneralSettingService::getModel()->select(
                 [
                 
                 'id',
@@ -37,7 +35,7 @@ class GeneralSettingController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.general-setting.index')->with('generalSetting', $this->generalSetting->selectAll());
+        return view('backend.general-setting.index')->with('generalSetting', GeneralSettingService::selectAll());
     }
 
     public function create()
@@ -47,7 +45,7 @@ class GeneralSettingController extends Controller
 
     public function store()
     {
-        $result  = $this->generalSetting->create($this->request->all());
+        $result  = GeneralSettingService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The general setting was inserted.');
@@ -62,12 +60,12 @@ class GeneralSettingController extends Controller
 
     public function edit($generalSettingId)
     {
-        return view('backend.general-setting.edit')->with(array('generalSetting' => $this->generalSetting->find($generalSettingId)));
+        return view('backend.general-setting.edit')->with(array('generalSetting' => GeneralSettingService::find($generalSettingId)));
     }
 
     public function update($generalSettingId)
     {
-        $result  = $this->generalSetting->updateById($this->request->all(), $generalSettingId);
+        $result  = GeneralSettingService::updateById($this->request->all(), $generalSettingId);
 
         if (isset($result->id)) {
             Notification::success('The general setting was updated.');
@@ -82,7 +80,7 @@ class GeneralSettingController extends Controller
 
     public function destroy($generalSettingId)
     {
-        $result  = $this->generalSetting->destroy($generalSettingId);
+        $result  = GeneralSettingService::destroy($generalSettingId);
         if ($result) {
             Notification::error('The general setting was deleted.');
             return redirect()->route('general-setting.index');

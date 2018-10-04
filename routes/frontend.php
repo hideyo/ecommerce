@@ -7,10 +7,10 @@ Route::get('/text-overview/{slug}', 'ContentController@getOverview');
 Route::get('/contact', array('as' => 'contact', 'uses' => 'BasicController@getContact'));
 Route::put('/contact', array('as' => 'contact', 'uses' => 'BasicController@postContact'));
 
-Route::get('/nieuws/{newsGroupSlug}/{slug}', array('as' => 'news.item', 'uses' => 'NewsController@getItem'));
+Route::get('/nieuws/{newsGroupSlug}/{slug}', array('as' => 'newsfrontend.item', 'uses' => 'NewsController@getItem'));
 Route::get('/nieuws/{newsGroupSlug}', array('as' => 'news.group', 'uses' => 'NewsController@getByGroup'));
 
-Route::get('/nieuws', array('as' => 'news.index', 'uses' => 'NewsController@getIndex'));
+Route::get('/nieuws', array('as' => 'newsfrontend.index', 'uses' => 'NewsController@getIndex'));
 
 
 Route::group(['prefix' => 'account'], function () {

@@ -12,9 +12,7 @@ use App\Http\Controllers\Controller;
 
 use Dutchbridge\Validators\UserValidator;
 use Dutchbridge\Datatable\UserNumberDatatable;
-use Hideyo\Ecommerce\Framework\Services\User\Entity\UserRepository;
-
-use Hideyo\Ecommerce\Framework\Repositories\UserLogRepository;
+use Hideyo\Ecommerce\Framework\Services\User\UserFacade as UserService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use Auth;
 use Notification;
@@ -23,18 +21,12 @@ use Request;
 
 class UserController extends Controller
 {
-    public function __construct(
-        UserRepository $user
-    ) {
-        $this->user         = $user;
-    }
-
     public function index()
     {
 
         if (Request::wantsJson()) {
 
-            $query = $this->user->getModel()->select(
+            $query = UserService::getModel()->select(
                 [
                 
                 'id',
@@ -52,12 +44,12 @@ class UserController extends Controller
 
         }
         
-        return view('backend.user.index')->with('users', $this->user->selectAll());
+        return view('backend.user.index');
     }
 
     public function show($id)
     {
-        $user = $this->user->find($id);
+        $user = UserService::find($id);
         $userProfileData = $user->getUserProfileData()->get();
         return view('backend.user.show')->with(array('user' => $user, 'user_profile_data' => $userProfileData));
     }
@@ -72,7 +64,7 @@ class UserController extends Controller
     {
         $numbers = $this->number->selectNewNumbers();
 
-        return view('backend.user.select_number', array('numbers' => $numbers, 'user' => $this->user->find($id)));
+        return view('backend.user.select_number', array('numbers' => $numbers, 'user' => UserService::find($id)));
     }
 
     public function storeNumber($user_id)
@@ -90,7 +82,7 @@ class UserController extends Controller
 
     public function store()
     {
-        $result  = $this->user->signup(Request::all());
+        $result  = UserService::signup(Request::all());
  
 
         if (isset($result->id)) {
@@ -108,7 +100,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $shops = ShopService::selectAll()->pluck('title', 'id');
-        return view('backend.user.edit')->with(array('user' => $this->user->find($id), 'shops' => $shops));
+        return view('backend.user.edit')->with(array('user' => UserService::find($id), 'shops' => $shops));
     }
 
     public function editProfile()
@@ -129,7 +121,7 @@ class UserController extends Controller
         }
 
         $shop = ShopService::find($shopId);
-        $result  = $this->user->updateShopProfileById($shop, $id);
+        $result  = UserService::updateShopProfileById($shop, $id);
         Notification::success('The shop changed.');
         return Redirect::route('shop.index');
     }
@@ -140,7 +132,7 @@ class UserController extends Controller
             $id = Auth::id();
         }
 
-        $result  = $this->user->updateProfileById(Request::all(), Request::file('avatar'), $id);
+        $result  = UserService::updateProfileById(Request::all(), Request::file('avatar'), $id);
 
         if ($result->errors) {
             return Redirect::back()->withInput()->withErrors($result->errors);
@@ -169,7 +161,7 @@ class UserController extends Controller
 
     public function update($id)
     {
-        $result  = $this->user->updateById(Request::all(), Request::file('avatar'), $id);
+        $result  = UserService::updateById(Request::all(), Request::file('avatar'), $id);
     
         if ($result->errors) {
             return Redirect::back()->withInput()->withErrors($result->errors);
@@ -182,7 +174,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $result  = $this->user->destroy($id);
+        $result  = UserService::destroy($id);
 
         if ($result) {
             Notification::success('The user was deleted.');

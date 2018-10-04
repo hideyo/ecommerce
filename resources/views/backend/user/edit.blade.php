@@ -62,12 +62,6 @@
                     </div>
 
 
-                    <div class="form-group">
-                        {!! Form::label('avatar', 'Avatar (250x250)', array('class' => 'col-sm-3 control-label')) !!}
-                        <div class="col-sm-5">
-                       {!! Form::file('avatar', '', array('class' => 'form-control')) !!}
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         {!! Form::label('selected_shop_id', 'Selected shop', array('class' => 'col-sm-3 control-label')) !!}
