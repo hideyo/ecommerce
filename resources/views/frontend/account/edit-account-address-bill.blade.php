@@ -45,7 +45,9 @@
                 <div class="small-15 medium-10 large-7 columns">
                     <div class="address-block">
                         <h3>Factuuradres</h3>
-                        @notification('foundation')
+
+
+                        @notification()
                         {!! Form::model($user->clientBillAddress, array('method' => 'post', 'url' => array('/account/edit-address/bill'), 'files' => true, 'class' => 'box login')) !!}
 
                         @include('frontend.account._default_account_fields')       

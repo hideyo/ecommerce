@@ -34,6 +34,8 @@ Route::group(['prefix' => 'account'], function () {
 	Route::get('/forgot-password', array('as' => 'account.forgot.password', 'uses' => 'AccountController@getForgotPassword'));
 	Route::post('/forgot-password', array('as' => 'account.forgot.password', 'uses' => 'AccountController@postForgotPassword'));
 
+	Route::get('/reset-account-settings/{code}/{email}', 'AccountController@getResetAccount');
+
 	Route::group(['middleware' => 'auth'], function () {
 	    Route::get('/', 'AccountController@getIndex');
 	    Route::get('/edit-account', 'AccountController@getEditAccount');

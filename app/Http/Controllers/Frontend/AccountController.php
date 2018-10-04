@@ -71,9 +71,9 @@ class AccountController extends Controller
         return view('frontend.account.edit-account')->with(array('user' => $this->auth->user()));
     }
 
-    public function getResetAccount($code, $email)
+    public function getResetAccount($confirmationCode, $email)
     {
-        $result = ClientService::resetAccount($code, $email, config()->get('app.shop_id'));
+        $result = ClientService::changeAccountDetails($confirmationCode, $email, config()->get('app.shop_id'));
 
         if ($result) {
             Notification::success('Je account gegevens zijn gewijzigd en je dient opnieuw in te loggen met de nieuwe gegevens.');
@@ -116,7 +116,7 @@ class AccountController extends Controller
             }
 
             // redirect our user back to the form with the errors from the validator
-            return redirect()->to(null, 'account/edit-address/'.$type)
+            return redirect()->to('account/edit-address/'.$type)
                 ->with(array('type' => $type))->withInput();
         } else {
                 $user = $this->auth->user();
@@ -145,34 +145,32 @@ class AccountController extends Controller
         }
     }
 
-
     public function postEditAccount(Request $request)
     {
-
         if ($this->auth->check()) {
-            $result = ClientService::setAccountChange($this->auth->user(), $request->all(), config()->get('app.shop_id'));
+            $requestChange = ClientService::requestChangeAccountDetails($request->all(), config()->get('app.shop_id'));
 
-            if ($result) {
+            if ($requestChange) {
                 $firstname = false;
 
-                if ($result->clientBillAddress->count()) {
-                    $firstname = $result->clientBillAddress->firstname;
+                if ($requestChange->clientBillAddress->count()) {
+                    $firstname = $requestChange->clientBillAddress->firstname;
                 }
 
                 $data = array(
-                    'email' => $result->new_email,
+                    'email' => $requestChange->new_email,
                     'firstname' => $firstname,
-                    'confirmation_code' => $result->confirmation_code
+                    'confirmation_code' => $requestChange->confirmation_code
                 );
 
                 Mail::send('frontend.email.reset-account-settings-mail', $data, function ($message) use ($data) {
                 
-                    $message->to($data['email'])->from('info@philandphae.com', 'Phil & Phae')->subject('Bevestig het wijzigen van jouw accountgegevens');
+                    $message->to($data['email'])->from('info@hideyo.io', 'Hideyo')->subject('confirm changing account details');
                 });
 
-                Notification::success('Er is een e-mail gestuurd. Deze dient goedgekeurd te worden voor de wijzigingen.');
+                Notification::success('E-mail sent');
             } else {
-                Notification::error('Wij kunnen het niet veranderen. Een ander account maakt er gebruik van.');
+                Notification::error('error');
             }
         }
 
@@ -203,7 +201,7 @@ class AccountController extends Controller
 
     public function getResetPassword($confirmationCode, $email)
     {
-        $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, config()->get('app.shop_id'));
+        $result = ClientService::validateConfirmationCode($confirmationCode, $email, config()->get('app.shop_id'));
 
         if ($result) {
             return view('frontend.account.reset-password')->with(array('confirmationCode' => $confirmationCode, 'email' => $email));
@@ -231,10 +229,10 @@ class AccountController extends Controller
                 ->withErrors($validator, 'reset')->withInput();
         }
 
-        $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($confirmationCode, $email, config()->get('app.shop_id'));
+        $result = ClientService::validateConfirmationCode($confirmationCode, $email, config()->get('app.shop_id'));
 
         if ($result) {
-            $result = ClientService::resetPasswordByConfirmationCodeAndEmail(array('confirmation_code' => $confirmationCode, 'email' => $email, 'password' => $request->get('password')), config()->get('app.shop_id'));
+            $result = ClientService::changePassword(array('confirmation_code' => $confirmationCode, 'email' => $email, 'password' => $request->get('password')), config()->get('app.shop_id'));
             Notification::success('Je wachtwoord is veranderd en je kan nu inloggen.');
             return redirect()->to('account/login');
         }
@@ -308,7 +306,7 @@ class AccountController extends Controller
 
     public function getConfirm($code, $email)
     {
-        $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($code, $email, config()->get('app.shop_id'));
+        $result = ClientService::validateConfirmationCode($code, $email, config()->get('app.shop_id'));
 
         if ($result->count()) {
             ClientService::confirmClient($code, $email, config()->get('app.shop_id'));

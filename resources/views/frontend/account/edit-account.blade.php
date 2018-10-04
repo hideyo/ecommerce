@@ -21,28 +21,17 @@
                 {!! Form::model($user, array('method' => 'post', 'url' => array('/account/edit-account'), 'class' => 'form', 'data-abide' => '', 'novalidate' => '')) !!}
 
 
-                <div class="row">
+<div class="form-group">
+	<label for="middle-label">{!! trans('form.email') !!}</label>
+	{!! Form::email('email', null, array('required' => '', 'class' => "form-control")) !!}
+</div>
 
-                    <div class="small-15 medium-15 large-15 columns">
-                        <label for="middle-label">{!! trans('form.email') !!}</label>
-                        {!! Form::email('email', null, array('required' => '', 'pattern' => 'email')) !!}
-                        <span class="form-error">
-                            {!! trans('form.validation.required') !!}
-                        </span>
 
-                    </div>
+<div class="form-group">
+	<label for="middle-label">{!! trans('form.password') !!}</label>
+	{!! Form::password('password', array('required' => '', 'class' => "form-control")) !!}
+</div>
 
-                </div>
-
-                <div class="row">
-                    <div class="small-15 medium-15 large-15 columns">
-                        <label for="middle-label">{!! trans('form.password') !!}</label>
-                        {!! Form::password('password', array('required' => '')) !!}
-                      <span class="form-error">
-                            {!! trans('form.validation.required') !!}
-                        </span>                
-                    </div>
-                </div>
 
 
                 <div class="row">

@@ -1,0 +1,1 @@
+reset-account-settings-mail.blade.php

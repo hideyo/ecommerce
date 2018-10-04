@@ -73,7 +73,7 @@
                     <div class="address-block">
                         <h3>Afleveradres</h3>
           
-                        @notification('foundation')
+                        @notification()
                         {!! Form::model($user->clientDeliveryAddress, array('method' => 'post', 'url' => array('/account/edit-address/delivery'), 'files' => true, 'class' => 'box login')) !!}
 
                         @include('frontend.account._default_account_fields')       
