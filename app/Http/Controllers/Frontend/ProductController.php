@@ -3,21 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Hideyo\Models\ProductAttributeCombination;
-use Hideyo\Models\ProductAttribute;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
 use Illuminate\Http\Request;
-use BrowserDetect;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductCombinationFacade as ProductCombinationService;
 
 class ProductController extends Controller
 {
-    public function __construct(ProductCombinationRepository $productCombination)
-    {
-        $this->productCombination = $productCombination;
-    }
-
     public function getIndex(Request $request, $categorySlug, $productId, $productSlug, $productAttributeId = false)
     {     
         $product = ProductService::selectOneByShopIdAndId(config()->get('app.shop_id'), $productId, $request->get('combination_id'));
@@ -42,7 +34,7 @@ class ProductController extends Controller
                     $attributeLeadingGroup = $product->attributes->first()->combinations->first()->attribute->attributeGroup;
                 }
 
-                $pullDowns = $this->productCombination->generatePulldowns($product, $productAttributeId, $attributeLeadingGroup);        
+                $pullDowns = ProductCombinationService::generatePulldowns($product, $productAttributeId, $attributeLeadingGroup);        
                 $newPullDowns = $pullDowns['newPullDowns'];   
 
                 $productAttribute = $pullDowns['productAttribute']; 
@@ -99,7 +91,7 @@ class ProductController extends Controller
         if ($product) {
             if ($product->attributes->count()) {      
 
-                $pullDowns = $this->productCombination->generatePulldowns($product, $leadingAttributeId, $product->attributeGroup, $secondAttributeId);
+                $pullDowns = ProductCombinationService::generatePulldowns($product, $leadingAttributeId, $product->attributeGroup, $secondAttributeId);
                 $newPullDowns = $pullDowns['newPullDowns'];
                 $productAttribute = $pullDowns['productAttribute'];                
                 $productImages = ProductService::ajaxProductImages($product, $productAttribute->combinations->pluck('attribute_id')->toArray(), $productAttribute->id);

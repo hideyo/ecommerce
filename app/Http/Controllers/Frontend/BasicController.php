@@ -2,34 +2,17 @@
 
 use App\Http\Controllers\Controller;
 
+use Hideyo\Ecommerce\Framework\Services\Product\ProductTagGroupFacade as ProductTagGroupService;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Services\Content\Entity\ContentRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductTagGroupRepository;
 use Validator;
 use Notification;
 use Mail;
-use BrowserDetect;
 
 class BasicController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        Request $request,
-        ProductTagGroupRepository $productTagGroup, 
-        ContentRepository $content)
-    {
-        $this->request = $request;
-        $this->content = $content;
-        $this->productTagGroup = $productTagGroup;
-    }
-
     public function index()
     {        
-        $populairProducts = $this->productTagGroup->selectAllByTagAndShopId(config()->get('app.shop_id'), 'home-populair');
+        $populairProducts = ProductTagGroupService::selectAllByTagAndShopId(config()->get('app.shop_id'), 'home-populair');
         return view('frontend.basic.index')->with(array('populairProducts' => $populairProducts));
     }
 

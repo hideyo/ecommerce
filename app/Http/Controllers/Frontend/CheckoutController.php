@@ -21,7 +21,6 @@ class CheckoutController extends Controller
         Request $request)
     {
         $this->request = $request;
-        $this->shopId = config()->get('app.shop_id');
     }
 
     public function checkout()

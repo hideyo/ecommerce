@@ -2,13 +2,10 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
-use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingPaymentMethodRelatedRepository;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
 use Validator;
 use Mail;
 use Notification;
@@ -16,17 +13,9 @@ use Notification;
 class AccountController extends Controller
 {
     
-    public function __construct(
-        ProductRepository $product, 
-        SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated, 
-        OrderRepository $order, 
-        ClientAddressRepository $clientAddress)
+    public function __construct()
     {
         $this->auth = auth('web');
-        $this->clientAddress = $clientAddress;
-        $this->order = $order;
-        $this->product = $product;
-        $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
         session()->forget('category_id');
     }
 
@@ -41,7 +30,8 @@ class AccountController extends Controller
         
         $pdfText = false;
         if ($order->orderSendingMethod and $order->orderPaymentMethod) {
-            $text = $this->sendingPaymentMethodRelated->selectOneByShopIdAndPaymentMethodIdAndSendingMethodId($order->shop->id, $order->orderSendingMethod->sending_method_id, $order->orderPaymentMethod->payment_method_id);
+            $text = "";
+            //$text = $this->sendingPaymentMethodRelated->selectOneByShopIdAndPaymentMethodIdAndSendingMethodId($order->shop->id, $order->orderSendingMethod->sending_method_id, $order->orderPaymentMethod->payment_method_id);
 
             if ($text) {
                 $pdfText = $this->replaceTags($text->pdf_text, $order);
@@ -135,7 +125,7 @@ class AccountController extends Controller
                 $id = $user->clientBillAddress->id;
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = $this->clientAddress->createByClient($userdata, $user->id);
+                    $clientAddress = Client::createAddressByClientId($userdata, $user->id);
                     ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
                     $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
@@ -144,7 +134,7 @@ class AccountController extends Controller
                 $id = $user->clientDeliveryAddress->id;
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = $this->clientAddress->createByClient($userdata, $user->id);
+                    $clientAddress = Client::createAddressByClientId($userdata, $user->id);
                     ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
                     $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
@@ -202,12 +192,7 @@ class AccountController extends Controller
 
     public function getRegister()
     {
-        $shop = app('shop');
-
-        if ($shop->wholesale) {
-            return view('frontend.account.register-wholesale')->with(array('sendingMethods' => $shop->sendingMethods));
-        }
-        
+        $shop = app('shop');        
         return view('frontend.account.register')->with(array('sendingMethods' => $shop->sendingMethods));
     }
 
@@ -326,7 +311,7 @@ class AccountController extends Controller
         $result = ClientService::validateConfirmationCodeByConfirmationCodeAndEmail($code, $email, config()->get('app.shop_id'));
 
         if ($result->count()) {
-            ClientService::confirm($code, $email, config()->get('app.shop_id'));
+            ClientService::confirmClient($code, $email, config()->get('app.shop_id'));
             Notification::success('Uw account is geactiveerd.');
             return redirect()->to('account/login');
         }
@@ -350,24 +335,17 @@ class AccountController extends Controller
 
     public function postLogin(Request $request)
     {
-        // create the validation rules ------------------------
-        $rules = array(
-            'email'            => 'required|email',     // required and must be unique in the ducks table
-            'password'         => 'required'
-        );
+        $validateLogin = ClientService::validateLogin($request->all());
 
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
+        if ($validateLogin->fails()) {
             // get the error messages from the validator
-            $messages = $validator->messages();
-
+            $messages = $validateLogin->messages();
             // redirect our user back to the form with the errors from the validator
-            Notification::error(implode('<br/>', $validator->errors()->all()));
+            Notification::error(implode('<br/>', $validateLogin->errors()->all()));
             return redirect()->back()->withInput();
         }
 
-        $userdata = array(
+        $loginData = array(
             'email' => $request->get('email'),
             'password' => $request->get('password'),
             'confirmed' => 1,
@@ -376,13 +354,13 @@ class AccountController extends Controller
         );
 
         /* Try to authenticate the credentials */
-        if ($this->auth->attempt($userdata)) {
-        // we are now logged in, go to admin
+        if ($this->auth->attempt($loginData)) {
+            // we are now logged in
             return redirect()->to('/');
-        } else {
-            Notification::error('Not correct.');
-            return redirect()->back()->withInput();
-        }  
+        }
+        
+        Notification::error('Not correct.');
+        return redirect()->back()->withInput(); 
     }
 
     public function postRegister(Request $request)
@@ -390,60 +368,28 @@ class AccountController extends Controller
         $userdata = $request->all();
         $shop = app('shop');
 
-        // create the validation rules ------------------------
-        $rules = array(
-            'email'         => 'required|email',     // required and must be unique in the ducks table
-            'password'      => 'required',
-            'firstname'     => 'required',
-            'lastname'      => 'required',
-            'zipcode'       => 'required',
-            'housenumber'   => 'required|numeric',
-            'houseletter'   => 'alpha',
-            'street'        => 'required',
-            'city'          => 'required',
-            'country'       => 'required'
-        );
+        $validateRegister = ClientService::validateRegister($userdata);
 
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
+        if($validateRegister->fails()) {
 
             foreach ($validator->errors()->all() as $error) {
-
                 Notification::error($error);
             }
 
-            // redirect our user back to the form with the errors from the validator
             return redirect()->back()->withInput();
         }
-            
-        $registerAttempt = ClientService::validateRegister($userdata, config()->get('app.shop_id'));
 
-        if ($registerAttempt) {
-            $register = ClientService::register($userdata, config()->get('app.shop_id'));
-        } else {
-             $client = ClientService::findByEmail($userdata['email'], config()->get('app.shop_id'));
-            
-            if ($client->account_created) {
-                Notification::error('Email already exists.');
-                return redirect()->back()->withInput();
-            } else {
-                $register = ClientService::register($userdata, config()->get('app.shop_id'));
-            }
-        }
+        $register = ClientService::register($userdata, config()->get('app.shop_id'));
 
         if ($register) {
-            $data = $register;
-            Mail::send('frontend.email.register-mail', array('user' => $data->toArray(), 'password' => $request->get('password'), 'billAddress' => $data->clientBillAddress->toArray()), function ($message) use ($data) {
-            
+            Mail::send('frontend.email.register-mail', array('user' => $register->toArray(), 'password' => $request->get('password'), 'billAddress' => $register->clientBillAddress->toArray()), function ($message) use ($data) {
                 $message->to($data['email'])->from('info@hidey.io', 'Hideyo')->subject(trans('register-completed-subject'));
             });
             Notification::success(trans('you-are-registered-consumer'));
-        
-       
             return redirect()->to('account/login');
         }
-        
-        return redirect()->back()->withErrors($register['errors'], 'register')->withInput();
+
+        Notification::error('Email already exists.');
+        return redirect()->back()->withInput();
     }
 }

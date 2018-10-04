@@ -12,6 +12,7 @@
     </div>
 </div>
 
+
          
 
 <div class="account">
@@ -19,7 +20,7 @@
         <div class="col-sm-12 col-md-12 col-lg-5">
             <div class="account-block">
                 <h5>Account</h5>
-                @notification('foundation')
+  
                 <table>
                     <tbody>
                         <tr>
@@ -44,30 +45,15 @@
                 <div class="small-15 medium-10 large-7 columns">
                     <div class="address-block">
                         <h3>Factuuradres</h3>
+                        @notification('foundation')
+                        {!! Form::model($user->clientBillAddress, array('method' => 'post', 'url' => array('/account/edit-address/bill'), 'files' => true, 'class' => 'box login')) !!}
 
-                        <ul>
-                            <li>{!! $user->clientBillAddress->firstname !!} {!! $user->clientBillAddress['lastname']  !!}</li>
+                        @include('frontend.account._default_account_fields')       
 
+                        <a href="/account" class="button button-grey">Annuleer</a>
+                        <button type="submit" class="button btn-default">Wijzig</button>
 
-                            <li>{!! $user->clientBillAddress['street']  !!} {!! $user->clientBillAddress['housenumber']  !!} {!! $user->clientBillAddress['housenumber_suffix']  !!}</li>
-                            <li>{!! $user->clientBillAddress['zipcode']  !!} {!! $user->clientBillAddress['city']  !!}</li>
-                            <li>
-
-                                @if($user->clientBillAddress->countryObject)
-                                @if($user->clientBillAddress->countryObject->iso_3166_2 == 'NL')
-                                Nederland
-                                @elseif($user->clientBillAddress->countryObject->iso_3166_2 == 'BE')
-                                Belgie
-                                @else
-                                {!! $user->clientBillAddress->countryObject->name !!}
-                                @endif
-                                @endif
-
-              
-                            </li>
-                            <li>{!! $user->clientBillAddress['phone']  !!}</li>
-                        </ul> 
-                        <a href="/account/edit-address/bill" class="button button-simple">Wijzig factuuradres</a>        
+                        {!! Form::close() !!}      
          
                     </div>
                 </div>
@@ -83,6 +69,7 @@
                             <li>{!! $user->clientDeliveryAddress['street']  !!} {!! $user->clientDeliveryAddress['housenumber']  !!} {!! $user->clientDeliveryAddress['housenumber_suffix']  !!}</li>
                             <li>{!! $user->clientDeliveryAddress['zipcode']  !!} {!! $user->clientDeliveryAddress['city']  !!}</li>
                             <li>
+
                                 @if($user->clientDeliveryAddress->countryObject)
                                 @if($user->clientDeliveryAddress->countryObject->iso_3166_2 == 'NL')
                                 Nederland
@@ -92,6 +79,8 @@
                                 {!! $user->clientDeliveryAddress->countryObject->name !!}
                                 @endif
                                 @endif
+
+
                             </li>
                             <li>{!! $user->clientDeliveryAddress['phone']  !!}</li>
                         </ul> 
@@ -100,7 +89,6 @@
                     </div>
                 </div>
             </div>
-
 
 
         </div>

@@ -19,7 +19,7 @@
         <div class="col-sm-12 col-md-12 col-lg-5">
             <div class="account-block">
                 <h5>Account</h5>
-                @notification('foundation')
+
                 <table>
                     <tbody>
                         <tr>
@@ -52,7 +52,6 @@
                             <li>{!! $user->clientBillAddress['street']  !!} {!! $user->clientBillAddress['housenumber']  !!} {!! $user->clientBillAddress['housenumber_suffix']  !!}</li>
                             <li>{!! $user->clientBillAddress['zipcode']  !!} {!! $user->clientBillAddress['city']  !!}</li>
                             <li>
-
                                 @if($user->clientBillAddress->countryObject)
                                 @if($user->clientBillAddress->countryObject->iso_3166_2 == 'NL')
                                 Nederland
@@ -62,8 +61,6 @@
                                 {!! $user->clientBillAddress->countryObject->name !!}
                                 @endif
                                 @endif
-
-              
                             </li>
                             <li>{!! $user->clientBillAddress['phone']  !!}</li>
                         </ul> 
@@ -76,31 +73,21 @@
                     <div class="address-block">
                         <h3>Afleveradres</h3>
           
-                        <ul>
-                            <li>{!! $user->clientDeliveryAddress->firstname !!} {!! $user->clientDeliveryAddress['lastname']  !!}</li>
+                        @notification('foundation')
+                        {!! Form::model($user->clientDeliveryAddress, array('method' => 'post', 'url' => array('/account/edit-address/delivery'), 'files' => true, 'class' => 'box login')) !!}
 
+                        @include('frontend.account._default_account_fields')       
 
-                            <li>{!! $user->clientDeliveryAddress['street']  !!} {!! $user->clientDeliveryAddress['housenumber']  !!} {!! $user->clientDeliveryAddress['housenumber_suffix']  !!}</li>
-                            <li>{!! $user->clientDeliveryAddress['zipcode']  !!} {!! $user->clientDeliveryAddress['city']  !!}</li>
-                            <li>
-                                @if($user->clientDeliveryAddress->countryObject)
-                                @if($user->clientDeliveryAddress->countryObject->iso_3166_2 == 'NL')
-                                Nederland
-                                @elseif($user->clientDeliveryAddress->countryObject->iso_3166_2 == 'BE')
-                                Belgie
-                                @else
-                                {!! $user->clientDeliveryAddress->countryObject->name !!}
-                                @endif
-                                @endif
-                            </li>
-                            <li>{!! $user->clientDeliveryAddress['phone']  !!}</li>
-                        </ul> 
-                        <a href="/account/edit-address/delivery" class="button button-simple">Wijzig afleveradres</a>        
+                        <a href="/account" class="button button-grey">Annuleer</a>
+                        <button type="submit" class="button btn-default">Wijzig</button>
+
+                        {!! Form::close() !!}             
             
                     </div>
                 </div>
             </div>
 
+            
 
 
         </div>
