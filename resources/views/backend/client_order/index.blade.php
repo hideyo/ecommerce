@@ -14,14 +14,14 @@
             </li>
 
             <li>
-                <a href="{!! URL::route('client-address.index', $client->id) !!}">
+                <a href="{!! URL::route('client.addresses.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
                     <span class="hidden-xs">Adressess</span>
                 </a>
             </li>
 
             <li class="active">
-                <a href="{!! URL::route('client-order.index', $client->id) !!}">
+                <a href="{!! URL::route('client.order.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
                     <span class="hidden-xs">Orders</span>
                 </a>
@@ -35,7 +35,7 @@
             <li><a href="/admin"><i class="entypo-folder"></i>Dashboard</a></li>
             <li><a href="{{ URL::route('client.index') }}">Client</a></li>
             <li><a href="{{ URL::route('client.edit', $client->id) }}">{!! $client->email !!}</a></li>
-            <li class="active"><a href="{{ URL::route('client-address.index', $client->id) }}">orders</a></li>
+            <li class="active"><a href="{{ URL::route('client.addresses.index', $client->id) }}">orders</a></li>
 
         </ol>
           <h2>Client <small>orders</small></h2>
@@ -68,7 +68,7 @@
                 oTable = $('#datatable').DataTable({
                     "processing": true,
                     "serverSide": true,
-                     "ajax": "{{ URL::route('client-order.index', $client->id) }}",
+                     "ajax": "{{ URL::route('client.order.index', $client->id) }}",
 
 
                     columns: [

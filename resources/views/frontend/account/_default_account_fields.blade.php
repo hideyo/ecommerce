@@ -40,4 +40,10 @@
 	<label for="middle-label">{!! trans('form.company') !!}</label>
 	{!! Form::text('company', null, array('class' => 'form-control')) !!}
 </div>
+
+<div class="form-group">
+    <label for="middle-label">{!! trans('form.country') !!}</label>
+    {!! Form::select('country', array('nl' => 'Netherlands', 'en'), null, array('class' => 'form-control')) !!}
+</div>
+
  

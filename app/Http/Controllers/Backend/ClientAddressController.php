@@ -10,8 +10,8 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -67,8 +67,8 @@ class ClientAddressController extends Controller
                 return '<span class="glyphicon glyphicon-remove icon-red"></span>';
             })
             ->addColumn('action', function ($addresses) use ($clientId) {
-                $deleteLink = Form::deleteajax(url()->route('client-address.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
-                $links = '<a href="'.url()->route('client-address.edit', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+                $deleteLink = Form::deleteajax(url()->route('client.addresses.destroy', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $links = '<a href="'.url()->route('client.addresses.edit', array('clientId' => $clientId, 'clientAddressId' => $addresses->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $links;
             });
@@ -91,7 +91,7 @@ class ClientAddressController extends Controller
  
         if ($result->id) {
             Notification::success('The client address is inserted.');
-            return redirect()->route('client-address.index', $clientId);
+            return redirect()->route('client.addresses.index', $clientId);
         }
         
         Notification::error('field are required');
@@ -113,7 +113,7 @@ class ClientAddressController extends Controller
         }
     
         Notification::success('The client address is updated.');    
-        return redirect()->route('client-address.index', $clientId); 
+        return redirect()->route('client.addresses.index', $clientId); 
     }
 
     public function destroy($clientId, $id)
@@ -122,7 +122,7 @@ class ClientAddressController extends Controller
 
         if ($result) {
             Notification::success('The client address is deleted.');
-            return redirect()->route('client-address.index', $clientId);
+            return redirect()->route('client.addresses.index', $clientId);
         }
     }
 }

@@ -39,14 +39,14 @@
     @endif
 
     <li>
-        <a href="{!! URL::route('client-address.index', $client->id) !!}">
+        <a href="{!! URL::route('client.addresses.index', $client->id) !!}">
             <span class="visible-xs"><i class="entypo-gauge"></i></span>
             <span class="hidden-xs">Adressess</span>
         </a>
     </li>
 
     <li>
-        <a href="{!! URL::route('client-order.index', $client->id) !!}">
+        <a href="{!! URL::route('client.order.index', $client->id) !!}">
             <span class="visible-xs"><i class="entypo-gauge"></i></span>
             <span class="hidden-xs">Orders ({!! $client->Orders()->count() !!})</span>
         </a>

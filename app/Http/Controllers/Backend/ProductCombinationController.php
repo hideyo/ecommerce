@@ -11,11 +11,11 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductCombinationRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeGroupRepository;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
 
 use \Request;
 use \Notification;

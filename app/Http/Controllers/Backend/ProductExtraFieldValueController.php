@@ -12,9 +12,9 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductExtraFieldValueRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
 
 use Illuminate\Http\Request;
 use Notification;

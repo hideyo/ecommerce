@@ -125,7 +125,7 @@ class AccountController extends Controller
                 $id = $user->clientBillAddress->id;
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = Client::createAddressByClientId($userdata, $user->id);
+                    $clientAddress = ClientService::createAddress($userdata, $user->id);
                     ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
                     $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);
@@ -134,7 +134,7 @@ class AccountController extends Controller
                 $id = $user->clientDeliveryAddress->id;
 
                 if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = Client::createAddressByClientId($userdata, $user->id);
+                    $clientAddress = ClientService::createAddress($userdata, $user->id);
                     ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
                 } else {
                     $clientAddress = ClientService::editAddress(config()->get('app.shop_id'), $user->id, $id, $userdata);

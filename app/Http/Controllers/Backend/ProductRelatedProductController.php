@@ -12,7 +12,7 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Repositories\ProductRelatedProductRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRelatedProductRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
 use Illuminate\Http\Request;

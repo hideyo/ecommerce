@@ -14,14 +14,14 @@
             </li>
 
             <li class="active">
-                <a href="{!! URL::route('client-address.index', $client->id) !!}">
+                <a href="{!! URL::route('client.addresses.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
                     <span class="hidden-xs">Adressess</span>
                 </a>
             </li>
 
             <li>
-                <a href="{!! URL::route('client-order.index', $client->id) !!}">
+                <a href="{!! URL::route('client.order.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
                     <span class="hidden-xs">Orders</span>
                 </a>
@@ -35,11 +35,11 @@
             <li><a href="/admin"><i class="entypo-folder"></i>Dashboard</a></li>
             <li><a href="{{ URL::route('client.index') }}">Client</a></li>
             <li><a href="{{ URL::route('client.edit', $client->id) }}">{!! $client->email !!}</a></li>
-            <li class="active"><a href="{{ URL::route('client-address.index', $client->id) }}">addresses</a></li>
+            <li class="active"><a href="{{ URL::route('client.addresses.index', $client->id) }}">addresses</a></li>
 
         </ol>
 
-        <a href="{{ URL::route('client-address.create', $client->id) }}" class="btn btn-success pull-right" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
+        <a href="{{ URL::route('client.addresses.create', $client->id) }}" class="btn btn-success pull-right" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create</a>
 
 
           <h2>Client <small>addresses</small></h2>
@@ -70,7 +70,7 @@
                 oTable = $('#datatable').DataTable({
                     "processing": true,
                     "serverSide": true,
-                   "ajax": "{{ URL::route('client-address.index', $client->id) }}",
+                   "ajax": "{{ URL::route('client.addresses.index', $client->id) }}",
 
                  columns: [
                         {data: 'firstname', name: 'firstname'},

@@ -22,9 +22,9 @@
     Route::get('client/{clientId}/de-activate', array('as' => 'client.deactivate', 'uses' => 'ClientController@getDeActivate'));
     Route::post('client/{clientId}/de-activate', array('as' => 'client.de-activate', 'uses' => 'ClientController@postDeActivate'));
 
-    Route::resource('client/{clientId}/order', 'ClientOrderController');
+    Route::resource('client/{clientId}/order', 'ClientOrderController', array('as' => 'client'));
 
-    Route::resource('client/{clientId}/addresses', 'ClientAddressController');
+    Route::resource('client/{clientId}/addresses', 'ClientAddressController', array('as' => 'client'));
 
     Route::resource('client', 'ClientController');
 

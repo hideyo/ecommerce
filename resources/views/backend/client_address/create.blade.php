@@ -13,14 +13,14 @@
             </li>
 
             <li class="active">
-                <a href="{!! URL::route('client-address.index', $client->id) !!}">
+                <a href="{!! URL::route('client.addresses.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
                     <span class="hidden-xs">Adressess</span>
                 </a>
             </li>
 
             <li>
-                <a href="{!! URL::route('client-order.index', $client->id) !!}">
+                <a href="{!! URL::route('client.order.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
                     <span class="hidden-xs">Orders</span>
                 </a>
@@ -34,7 +34,7 @@
             <li><a href="/admin"><i class="entypo-folder"></i>Dashboard</a></li>
             <li><a href="{{ URL::route('client.index') }}">Client</a></li>
             <li><a href="{{ URL::route('client.edit', $client->id) }}">{!! $client->email !!}</a></li>
-            <li class="active"><a href="{{ URL::route('client-address.index', $client->id) }}">addresses</a></li>
+            <li class="active"><a href="{{ URL::route('client.addresses.index', $client->id) }}">addresses</a></li>
                 <li class="active">edit</li>
 
         </ol>
@@ -45,7 +45,7 @@
     <div class="col-md-12">
 
 
-					    {{ Form::open(array('route' => array('client-address.store', $client->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) }}
+					    {{ Form::open(array('route' => array('client.addresses.store', $client->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) }}
 						    <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
                             <div class="form-group">
@@ -137,7 +137,7 @@
 					        <div class="form-group">
 					            <div class="col-sm-offset-3 col-sm-5">
 					                {{ Form::submit('Save', array('class' => 'btn btn-default')) }}
-					                <a href="{{ URL::route('client-address.store', $client->id) }}" class="btn btn-large">Cancel</a>
+					                <a href="{{ URL::route('client.addresses.store', $client->id) }}" class="btn btn-large">Cancel</a>
 					            </div>
 					        </div>
 
