@@ -10,27 +10,19 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductTagGroupRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductTagGroupFacade as ProductTagGroupService;
 
 use Request;
 use Notification;
 
 class ProductTagGroupController extends Controller
 {
-    public function __construct(
-        ProductTagGroupRepository $productTagGroup,
-        ProductRepository $product
-    ) {
-        $this->product = $product;
-        $this->productTagGroup = $productTagGroup;
-    }
-
     public function index()
     {
         if (Request::wantsJson()) {
 
-            $query = $this->productTagGroup->getModel()
+            $query = ProductTagGroupService::getModel()
             ->select(['id','tag'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -44,19 +36,19 @@ class ProductTagGroupController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.product_tag_group.index')->with('productTagGroup', $this->productTagGroup->selectAll());
+        return view('backend.product_tag_group.index')->with('productTagGroup', ProductTagGroupService::selectAll());
     }
 
     public function create()
     {
         return view('backend.product_tag_group.create')->with(array(
-            'products' => $this->product->selectAll()->pluck('title', 'id')
+            'products' => ProductService::selectAll()->pluck('title', 'id')
         ));
     }
 
     public function store()
     {
-        $result  = $this->productTagGroup->create(\Request::all());
+        $result  = ProductTagGroupService::create(\Request::all());
 
         if (isset($result->id)) {
             Notification::success('The product group tag was inserted.');
@@ -74,15 +66,15 @@ class ProductTagGroupController extends Controller
     {
         return view('backend.product_tag_group.edit')->with(
             array(
-                'products' => $this->product->selectAll()->pluck('title', 'id'),
-                'productTagGroup' => $this->productTagGroup->find($productTagGroupId)
+                'products' => ProductService::selectAll()->pluck('title', 'id'),
+                'productTagGroup' => ProductTagGroupService::find($productTagGroupId)
             )
         );
     }
 
     public function update($productTagGroupId)
     {
-        $result  = $this->productTagGroup->updateById(\Request::all(), $productTagGroupId);
+        $result  = ProductTagGroupService::updateById(\Request::all(), $productTagGroupId);
 
         if (isset($result->id)) {
             Notification::success('The product group tag was updated.');
@@ -98,7 +90,7 @@ class ProductTagGroupController extends Controller
 
     public function destroy($productTagGroupId)
     {
-        $result  = $this->productTagGroup->destroy($productTagGroupId);
+        $result  = ProductTagGroupService::destroy($productTagGroupId);
 
         if ($result) {
             Notification::success('The product group tag was deleted.');
