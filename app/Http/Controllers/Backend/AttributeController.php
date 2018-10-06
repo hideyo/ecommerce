@@ -9,23 +9,15 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeRepository;
-use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeGroupRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeService;
+
 class AttributeController extends Controller
 {
-    public function __construct(
-        AttributeRepository $attribute, 
-        AttributeGroupRepository $attributeGroup)
-    {
-        $this->attributeGroup = $attributeGroup;
-        $this->attribute = $attribute;
-    }
-
     /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
@@ -37,7 +29,7 @@ class AttributeController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = $this->attribute->getModel()
+            $query = AttributeService::getModel()
             ->select(['id','value'])
             ->where('attribute_group_id', '=', $attributeGroupId);
             
@@ -54,7 +46,7 @@ class AttributeController extends Controller
         }
         
         return view('backend.attribute.index')
-            ->with('attributeGroup', $this->attributeGroup->find($attributeGroupId));
+            ->with('attributeGroup', AttributeService::findGroup($attributeGroupId));
     }
 
     /**
@@ -64,7 +56,7 @@ class AttributeController extends Controller
      */
     public function create($attributeGroupId)
     {
-        return view('backend.attribute.create')->with(array('attributeGroup' =>  $this->attributeGroup->find($attributeGroupId)));
+        return view('backend.attribute.create')->with(array('attributeGroup' =>  AttributeService::findGroup($attributeGroupId)));
     }
 
     /**
@@ -75,7 +67,7 @@ class AttributeController extends Controller
      */
     public function store(Request $request, $attributeGroupId)
     {
-        $result  = $this->attribute->create($request->all(), $attributeGroupId);
+        $result  = AttributeService::create($request->all(), $attributeGroupId);
 
         if (isset($result->id)) {
             Notification::success('The extra field was inserted.');
@@ -97,7 +89,7 @@ class AttributeController extends Controller
     public function edit($attributeGroupId, $attributeId)
     {
         return view('backend.attribute.edit')->with(
-            array('attributeGroupId' => $attributeGroupId, 'attribute' => $this->attribute->find($attributeId))
+            array('attributeGroupId' => $attributeGroupId, 'attribute' => AttributeService::find($attributeId))
         );
     }
 
@@ -110,7 +102,7 @@ class AttributeController extends Controller
      */
     public function update(Request $request, $attributeGroupId, $attributeId)
     {
-        $result  = $this->attribute->updateById($request->all(), $attributeGroupId, $attributeId);
+        $result  = AttributeService::updateById($request->all(), $attributeGroupId, $attributeId);
 
         if (isset($result->id)) {
             Notification::success('Attribute was updated.');
@@ -132,7 +124,7 @@ class AttributeController extends Controller
      */
     public function destroy($attributeGroupId, $attributeId)
     {
-        $result  = $this->attribute->destroy($attributeId);
+        $result  = Attribute::destroy($attributeId);
 
         if ($result) {
             Notification::success('Atrribute was deleted.');

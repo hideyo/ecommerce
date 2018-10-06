@@ -9,7 +9,6 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeGroupRepository;
 use Illuminate\Http\Request;
 use Notification;
 use DB;
@@ -17,14 +16,10 @@ use Auth;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeService;
+
 class AttributeGroupController extends Controller
 {
-    public function __construct(
-        AttributeGroupRepository $attributeGroup)
-    {
-        $this->attributeGroup = $attributeGroup;
-    }
-
     /**
      * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
@@ -36,7 +31,7 @@ class AttributeGroupController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = $this->attributeGroup->getModel()
+            $query = AttributeService::getGroupModel()
             ->select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id','title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -71,7 +66,7 @@ class AttributeGroupController extends Controller
      */
     public function store(Request $request)
     {
-        $result  = $this->attributeGroup->create($request->all());
+        $result  = AttributeService::createGroup($request->all());
 
         if (isset($result->id)) {
             Notification::success('The extra field was inserted.');
@@ -95,7 +90,7 @@ class AttributeGroupController extends Controller
         return view('backend.attribute-group.edit')
         ->with(
             array(
-                'attributeGroup' => $this->attributeGroup->find($attributeGroupId)
+                'attributeGroup' => AttributeService::findGroup($attributeGroupId)
             )
         );
     }
@@ -108,7 +103,7 @@ class AttributeGroupController extends Controller
      */
     public function update(Request $request, $attributeGroupId)
     {
-        $result  = $this->attributeGroup->updateById($request->all(), $attributeGroupId);
+        $result  = AttributeService::updateGroupById($request->all(), $attributeGroupId);
 
         if (isset($result->id)) {
             Notification::success('Attribute group was updated.');
@@ -129,7 +124,7 @@ class AttributeGroupController extends Controller
      */
     public function destroy($attributeGroupId)
     {
-        $result  = $this->attributeGroup->destroy($attributeGroupId);
+        $result  = AttributeService::destroyGroup($attributeGroupId);
 
         if ($result) {
             Notification::success('Attribute group was deleted.');
