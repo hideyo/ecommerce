@@ -10,8 +10,8 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 
 use Request;
 use Notification;
@@ -20,19 +20,11 @@ use Form;
 
 class ExtraFieldController extends Controller
 {
-    public function __construct(
-        ExtraFieldRepository $extraField,
-        ProductCategoryRepository $productCategory
-    ) {
-        $this->extraField = $extraField;
-        $this->productCategory = $productCategory;
-    }
-
     public function index()
     {
         if (Request::wantsJson()) {
 
-            $query = $this->extraField->getModel()
+            $query = ExtraFieldService::getModel()
             ->select(['id', 'all_products','title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -63,17 +55,17 @@ class ExtraFieldController extends Controller
 
         }
         
-        return view('backend.extra-field.index')->with('extraField', $this->extraField->selectAll());
+        return view('backend.extra-field.index')->with('extraField', ExtraFieldService::selectAll());
     }
 
     public function create()
     {
-        return view('backend.extra-field.create')->with(array('productCategories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('backend.extra-field.create')->with(array('productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function store()
     {
-        $result  = $this->extraField->create(Request::all());
+        $result  = ExtraFieldService::create(Request::all());
 
         if (isset($result->id)) {
             Notification::success('The extra field was inserted.');
@@ -89,12 +81,12 @@ class ExtraFieldController extends Controller
 
     public function edit($id)
     {
-        return view('backend.extra-field.edit')->with(array('extraField' => $this->extraField->find($id), 'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('backend.extra-field.edit')->with(array('extraField' => ExtraFieldService::find($id), 'productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function update($id)
     {
-        $result  = $this->extraField->updateById(Request::all(), $id);
+        $result  = ExtraFieldService::updateById(Request::all(), $id);
 
         if (isset($result->id)) {
             Notification::success('The extra field was updated.');
@@ -110,7 +102,7 @@ class ExtraFieldController extends Controller
 
     public function destroy($id)
     {
-        $result  = $this->extraField->destroy($id);
+        $result  = ExtraFieldService::destroy($id);
 
         if ($result) {
             Notification::success('Extra field was deleted.');

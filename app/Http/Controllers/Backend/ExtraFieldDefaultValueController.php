@@ -8,7 +8,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
 
 use Request;
 use Notification;
@@ -17,16 +17,13 @@ use Form;
 
 class ExtraFieldDefaultValueController extends Controller
 {
-    public function __construct(ExtraFieldRepository $extraField)
-    {
-        $this->extraField = $extraField;
-    }
+
 
     public function index($extraFieldId)
     {
         if (Request::wantsJson()) {
 
-            $query = $this->extraField->getValueModel()->select(
+            $query = ExtraFieldService::getValueModel()->select(
                 [
                 
                 'id',
@@ -45,17 +42,17 @@ class ExtraFieldDefaultValueController extends Controller
 
         }
         
-        return view('backend.extra-field-default-value.index')->with('extraField', $this->extraField->find($extraFieldId));
+        return view('backend.extra-field-default-value.index')->with('extraField', ExtraFieldService::find($extraFieldId));
     }
 
     public function create($extraFieldId)
     {
-        return view('backend.extra-field-default-value.create')->with(array('extraField' =>  $this->extraField->find($extraFieldId)));
+        return view('backend.extra-field-default-value.create')->with(array('extraField' =>  ExtraFieldService::find($extraFieldId)));
     }
 
     public function store($extraFieldId)
     {
-        $result  = $this->extraField->createValue(Request::all(), $extraFieldId);
+        $result  = ExtraFieldService::createValue(Request::all(), $extraFieldId);
 
         if (isset($result->id)) {
             Notification::success('The extra field was inserted.');
@@ -71,12 +68,12 @@ class ExtraFieldDefaultValueController extends Controller
 
     public function edit($extraFieldId, $id)
     {
-        return view('backend.extra-field-default-value.edit')->with(array('extraFieldDefaultValue' => $this->extraField->findValue($id)));
+        return view('backend.extra-field-default-value.edit')->with(array('extraFieldDefaultValue' => ExtraFieldService::findValue($id)));
     }
 
     public function update($extraFieldId, $id)
     {
-        $result  = $this->extraField->updateValueById(Request::all(), $extraFieldId, $id);
+        $result  = ExtraFieldService::updateValueById(Request::all(), $extraFieldId, $id);
 
         if (isset($result->id)) {
             Notification::success('The extra field was updated.');
@@ -92,7 +89,7 @@ class ExtraFieldDefaultValueController extends Controller
 
     public function destroy($extraFieldId, $id)
     {
-        $result  = $this->extraField->destroyValue($id);
+        $result  = ExtraFieldService::destroyValue($id);
 
         if ($result) {
             Notification::success('Extra field was deleted.');
