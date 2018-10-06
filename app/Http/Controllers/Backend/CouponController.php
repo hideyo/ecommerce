@@ -11,11 +11,14 @@ use App\Http\Controllers\Controller;
  */
 
 
-use Hideyo\Ecommerce\Framework\Services\Coupon\Entity\CouponRepository;
-use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingMethodRepository;
-use Hideyo\Ecommerce\Framework\Services\PaymentMethod\Entity\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Services\Coupon\CouponFacade as CouponService;
+
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
+
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
+
 
 use Illuminate\Http\Request;
 use Notification;
@@ -24,40 +27,24 @@ use Form;
 
 class CouponController extends Controller
 {
-    public function __construct(Request $request, SendingMethodRepository $sendingMethod, PaymentMethodRepository $paymentMethod, CouponRepository $coupon, ProductCategoryRepository $productCategory, ProductRepository $product)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->coupon = $coupon;
-        $this->product = $product;
-        $this->productCategory = $productCategory;
-        $this->sendingMethod = $sendingMethod;
-        $this->paymentMethod = $paymentMethod;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
-            $query = $this->coupon->getModel()->select(
-                [
-                
-                $this->coupon->getGroupModel()->getTable().'.title as coupontitle']
-            )->where($this->coupon->getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
+            $query = CouponService::getModel()->select(['active','id', 'title', 'code'])
+            ->where(CouponService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
 
 
-            ->with(array('couponGroup'))        ->leftJoin($this->coupon->getGroupModel()->getTable(), $this->coupon->getGroupModel()->getTable().'.id', '=', $this->coupon->getModel()->getTable().'.coupon_group_id');
-            
+            ->with(array('couponGroup'));
             
             $datatables = Datatables::of($query)
 
             ->filterColumn('title', function ($query, $keyword) {
                 $query->whereRaw("coupon.title like ?", ["%{$keyword}%"]);
-            })
-
-            ->filterColumn('grouptitle', function ($query, $keyword) {
-                $query->whereRaw("coupon_group.title like ?", ["%{$keyword}%"]);
-            })
-            ->addColumn('grouptitle', function ($query) {
-                return $query->coupontitle;
             })
 
             ->addColumn('action', function ($query) {
@@ -70,23 +57,23 @@ class CouponController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.coupon.index')->with('coupon', $this->coupon->selectAll());
+        return view('backend.coupon.index')->with('coupon', CouponService::selectAll());
     }
 
     public function create()
     {
         return view('backend.coupon.create')->with(array(
-            'products'          => $this->product->selectAll()->pluck('title', 'id'),
-            'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id'),
-            'groups'            => $this->coupon->selectAllGroups()->pluck('title', 'id')->toArray(),
-            'sendingMethods'    => $this->sendingMethod->selectAll()->pluck('title', 'id'),
-            'paymentMethods'    => $this->paymentMethod->selectAll()->pluck('title', 'id')
+            'products'          => ProductService::selectAll()->pluck('title', 'id'),
+            'productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id'),
+            'groups'            => CouponService::selectAllGroups()->pluck('title', 'id')->toArray(),
+            'sendingMethods'    => SendingMethodService::selectAll()->pluck('title', 'id'),
+            'paymentMethods'    => PaymentMethodService::selectAll()->pluck('title', 'id')
         ));
     }
 
     public function store()
     {
-        $result  = $this->coupon->create($this->request->all());
+        $result  = CouponService::create($this->request->all());
  
         if (isset($result->id)) {
             Notification::success('The coupon was inserted.');
@@ -103,19 +90,19 @@ class CouponController extends Controller
     {
         return view('backend.coupon.edit')->with(
             array(
-            'coupon' => $this->coupon->find($couponId),
-            'products' => $this->product->selectAll()->pluck('title', 'id'),
-            'groups' => $this->coupon->selectAllGroups()->pluck('title', 'id')->toArray(),
-            'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id'),
-            'sendingMethods' => $this->sendingMethod->selectAll()->pluck('title', 'id'),
-            'paymentMethods' => $this->paymentMethod->selectAll()->pluck('title', 'id'),
+            'coupon' => CouponService::find($couponId),
+            'products' => ProductService::selectAll()->pluck('title', 'id'),
+            'groups' => CouponService::selectAllGroups()->pluck('title', 'id')->toArray(),
+            'productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id'),
+            'sendingMethods' => SendingMethodService::selectAll()->pluck('title', 'id'),
+            'paymentMethods' => PaymentMethodService::selectAll()->pluck('title', 'id'),
             )
         );
     }
 
     public function update($couponId)
     {
-        $result  = $this->coupon->updateById($this->request->all(), $couponId);
+        $result  = CouponService::updateById($this->request->all(), $couponId);
 
         if (isset($result->id)) {
             Notification::success('The coupon method was updated.');
@@ -130,7 +117,7 @@ class CouponController extends Controller
 
     public function destroy($couponId)
     {
-        $result  = $this->coupon->destroy($couponId);
+        $result  = CouponService::destroy($couponId);
 
         if ($result) {
             Notification::success('The coupon was deleted.');

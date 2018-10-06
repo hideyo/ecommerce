@@ -26,7 +26,6 @@
             <thead>
                 <tr>
                     <th class="col-md-2">{{{ trans('table.active') }}}</th>
-                    <th class="col-md-2">{{{ trans('table.group') }}}</th>
                     <th class="col-md-3">{{{ trans('table.title') }}}</th>
                     <th class="col-md-3">{{{ trans('table.code') }}}</th>
                     <th class="col-md-3">{{{ trans('table.actions') }}}</th>
@@ -44,7 +43,7 @@
 
                  columns: [
                         {data: 'active', name: 'active', bVisible: true, bSearchable: false},
-                        {data: 'grouptitle'},
+          
                         {data: 'title', name: 'title'},
                         {data: 'code', name: 'code'},
                         {data: 'action', name: 'action', orderable: false, searchable: false}

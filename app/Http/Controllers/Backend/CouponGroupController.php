@@ -9,18 +9,17 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Coupon\Entity\CouponRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Coupon\CouponFacade as CouponService;
+
 class CouponGroupController extends Controller
 {
     public function __construct(
-        Request $request,
-        CouponRepository $coupon
+        Request $request
     ) {
-        $this->coupon = $coupon;
         $this->request = $request;
     }
 
@@ -28,7 +27,7 @@ class CouponGroupController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->coupon->getGroupModel()->select(['id', 'title'])
+            $query = CouponService::getGroupModel()->select(['id', 'title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = \Datatables::of($query)
@@ -41,7 +40,7 @@ class CouponGroupController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.coupon-group.index')->with('couponGroup', $this->coupon->selectAll());
+        return view('backend.coupon-group.index')->with('couponGroup', CouponService::selectAll());
     }
 
     public function create()
@@ -51,7 +50,7 @@ class CouponGroupController extends Controller
 
     public function store()
     {
-        $result  = $this->coupon->createGroup($this->request->all());
+        $result  = CouponService::createGroup($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The coupon was inserted.');
@@ -67,13 +66,13 @@ class CouponGroupController extends Controller
 
     public function edit($couponGroupId)
     {
-        return view('backend.coupon-group.edit')->with(array('couponGroup' => $this->coupon->findGroup($couponGroupId)));
+        return view('backend.coupon-group.edit')->with(array('couponGroup' => CouponService::findGroup($couponGroupId)));
     }
 
     public function update($couponGroupId)
     {
 
-        $result  = $this->coupon->updateGroupById($this->request->all(), $couponGroupId);
+        $result  = CouponService::updateGroupById($this->request->all(), $couponGroupId);
 
         if (isset($result->id)) {
             if ($this->request->get('seo')) {
@@ -98,7 +97,7 @@ class CouponGroupController extends Controller
 
     public function destroy($couponGroupId)
     {
-        $result  = $this->coupon->destroyGroup($couponGroupId);
+        $result  = CouponService::destroyGroup($couponGroupId);
 
         if ($result) {
             Notification::success('The coupon was deleted.');
