@@ -64,7 +64,7 @@ class ContentController extends Controller
 
     public function create()
     {
-        return view('backend.content.create')->with(array('groups' => ContentService::selectGroupAll()->pluck('title', 'id')->toArray()));
+        return view('backend.content.create')->with(array('groups' => ContentService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
     public function store()
@@ -85,7 +85,7 @@ class ContentController extends Controller
 
     public function edit($contentId)
     {
-        return view('backend.content.edit')->with(array('content' => ContentService::find($contentId), 'groups' => ContentService::selectGroupAll()->pluck('title', 'id')->toArray()));
+        return view('backend.content.edit')->with(array('content' => ContentService::find($contentId), 'groups' => ContentService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
     public function editSeo($contentId)
