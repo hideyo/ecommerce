@@ -75,7 +75,6 @@
 						<li><a href="{{ URL::route('sending-method.index') }}">Sending methods</a></li>
 						<li><a href="{{ URL::route('payment-method.index') }}">Payment methods</a></li>
 						<li><a href="{{ URL::route('user.index') }}">Users</a></li>
-						<li><a href="{{ URL::route('sending-payment-method-related.index') }}">Order templates</a></li>
 						<li><a href="{{ URL::route('general-setting.index') }}">General settings</a></li>
 						<li><a href="{{ URL::route('redirect.index') }}">Redirects</a></li>
 					</ul>

@@ -87,11 +87,10 @@ class RedirectController extends Controller
 
     public function postImport()
     {
-
         $file = Request::file('file');
         Excel::load($file, function ($reader) {
 
-              $results = $reader->get();
+            $results = $reader->get();
 
             if ($results->count()) {
                 $result = RedirectService::importCsv($results, auth('hideyobackend')->user()->selected_shop_id);
@@ -108,7 +107,7 @@ class RedirectController extends Controller
 
     public function getExport()
     {
-        $result  =  RedirectService::selectAll()->get();
+        $result  =  RedirectService::selectAll();
 
         Excel::create('redirects', function ($excel) use ($result) {
 

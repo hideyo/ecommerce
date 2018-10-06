@@ -119,7 +119,6 @@ class ContentController extends Controller
         return redirect()->back()->withInput();
     }
 
-
     public function destroy($contentId)
     {
         $result  = ContentService::destroy($contentId);
