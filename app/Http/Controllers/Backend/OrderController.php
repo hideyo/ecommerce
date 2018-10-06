@@ -9,49 +9,24 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\OrderRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Repositories\SendingMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\SendingPaymentMethodRelatedRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ClientAddressRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ClientRepository;
-use Hideyo\Ecommerce\Framework\Repositories\OrderStatusRepository;
+
 use Dutchbridge\Services\AssembleOrder;
+use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 
 use Carbon\Carbon;
 use Request;
 use Notification;
-use App\ProductAttribute;
 use App\Events\OrderChangeStatus;
 use Event;
-use Response;
 use Excel;
-use Auth;
 use PDF;
 
 class OrderController extends Controller
 {
-    public function __construct(
-        OrderRepository $order,
-        ProductRepository $product,
-        PaymentMethodRepository $paymentMethod,
-        SendingMethodRepository $sendingMethod,
-        SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated,
-        ClientAddressRepository $clientAddress,
-        OrderStatusRepository $orderStatus,
-        ClientRepository $client
-    ) {
-        $this->order = $order;
-        $this->product = $product;
-
-        $this->sendingMethod = $sendingMethod;
-        $this->paymentMethod = $paymentMethod;
-        $this->clientAddress = $clientAddress;
-        $this->client = $client;
-        $this->orderStatus = $orderStatus;
-        $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
-    }
 
     public function index()
     {
@@ -62,7 +37,7 @@ class OrderController extends Controller
 
         if (Request::wantsJson()) {
 
-            $order = $this->order->getModel()
+            $order = OrderService::getModel()
                 ->from('order as order')
                 ->select(
                 [
@@ -154,7 +129,7 @@ class OrderController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.order.index')->with(array('revenueThisMonth' => $revenueThisMonth, 'order' => $this->order->selectAll())); 
+        return view('backend.order.index')->with(array('revenueThisMonth' => $revenueThisMonth, 'order' => OrderService::selectAll())); 
     }
 
     public function getPrintOrders()
@@ -181,7 +156,7 @@ class OrderController extends Controller
                 foreach ($data['order'] as $key => $val) {
                     $i++;
 
-                    $order = $this->order->find($val);
+                    $order = OrderService::find($val);
                     $text = $this->sendingPaymentMethodRelated->selectOneByPaymentMethodIdAndSendingMethodIdAdmin($order->orderSendingMethod->sending_method_id, $order->orderPaymentMethod->payment_method_id);
                     
                     $pdfText = "";
@@ -201,7 +176,7 @@ class OrderController extends Controller
 
                 return $pdf->download('order-'.$order->generated_custom_order_id.'.pdf');
             } elseif($data['type'] == 'product-list') {
-                $products = $this->order->productsByOrderIds($data['order']);
+                $products = OrderService::productsByOrderIds($data['order']);
 
                 if($products) {
 
@@ -235,20 +210,20 @@ class OrderController extends Controller
     {
         $data = Request::all();
 
-        $orders = $this->order->selectAllByShopIdAndStatusId($data['order_status_id'], $data['start_date'], $data['end_date']);
+        $orders = OrderService::selectAllByShopIdAndStatusId($data['order_status_id'], $data['start_date'], $data['end_date']);
 
         if ($orders) {
             Request::session()->put('print_orders', $orders->toArray());
-            return Response::json(array('orders' => $orders->toArray() ));
+            return response()->json(array('orders' => $orders->toArray() ));
         }
 
         Request::session()->destroy('print_orders');
-        return Response::json(false);
+        return response()->json(false);
     }
 
     public function show($orderId)
     {
-        $order = $this->order->find($orderId);
+        $order = OrderService::find($orderId);
         return view('backend.order.show')->with(array('order' => $order, 'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')));
     }
 
@@ -256,7 +231,7 @@ class OrderController extends Controller
     {
         $orderStatusId = Request::get('order_status_id');
         if ($orderStatusId) {
-            $result = $this->order->updateStatus($orderId, $orderStatusId);
+            $result = OrderService::updateStatus($orderId, $orderStatusId);
             Event::fire(new OrderChangeStatus($result));
             \Notification::success('The status was updated to '.$result->OrderStatus->title);
         }
@@ -266,7 +241,7 @@ class OrderController extends Controller
 
     public function download($orderId)
     {
-        $order = $this->order->find($orderId);
+        $order = OrderService::find($orderId);
         $text = $this->sendingPaymentMethodRelated->selectOneByPaymentMethodIdAndSendingMethodIdAdmin($order->orderSendingMethod->sending_method_id, $order->orderPaymentMethod->payment_method_id);
         
         $pdfText = "";
@@ -281,7 +256,7 @@ class OrderController extends Controller
 
     public function downloadLabel($orderId)
     {
-        $order = $this->order->find($orderId);
+        $order = OrderService::find($orderId);
         if($order->orderLabel()->count()) {
           header("Content-type: application/octet-stream");
           header("Content-disposition: attachment;filename=label.pdf");
@@ -322,12 +297,12 @@ class OrderController extends Controller
 
     public function edit($orderId)
     {
-        return view('backend.order.edit')->with(array('order' => $this->order->find($orderId)));
+        return view('backend.order.edit')->with(array('order' => OrderService::find($orderId)));
     }
 
     public function update($orderId)
     {
-        $result  = $this->order->updateById(Request::all(), $orderId);
+        $result  = OrderService::updateById(Request::all(), $orderId);
 
         if ($result->errors()->all()) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
