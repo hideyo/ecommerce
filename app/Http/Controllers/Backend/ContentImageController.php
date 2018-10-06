@@ -9,27 +9,26 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\ContentRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
+
 class ContentImageController extends Controller
 {
-    public function __construct(Request $request, ContentRepository $content)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->content = $content;
     }
 
     public function index($contentId)
     {
-        $content = $this->content->find($contentId);
+        $content = ContentService::find($contentId);
         if ($this->request->wantsJson()) {
 
-            $image = $this->content->getImageModel()->select(
+            $image = ContentService::getImageModel()->select(
                 [
                 
                 'id',
@@ -56,13 +55,13 @@ class ContentImageController extends Controller
 
     public function create($contentId)
     {
-        $content = $this->content->find($contentId);
+        $content = ContentService::find($contentId);
         return view('backend.content_image.create')->with(array('content' => $content));
     }
 
     public function store($contentId)
     {
-        $result  = $this->content->createImage($this->request->all(), $contentId);
+        $result  = ContentService::createImage($this->request->all(), $contentId);
  
         if (isset($result->id)) {
             Notification::success('The content image was inserted.');
@@ -77,13 +76,13 @@ class ContentImageController extends Controller
 
     public function edit($contentId, $contentImageId)
     {
-        $content = $this->content->find($contentId);
-        return view('backend.content_image.edit')->with(array('contentImage' => $this->content->findImage($contentImageId), 'content' => $content));
+        $content = ContentService::find($contentId);
+        return view('backend.content_image.edit')->with(array('contentImage' => ContentService::findImage($contentImageId), 'content' => $content));
     }
 
     public function update($contentId, $contentImageId)
     {
-        $result  = $this->content->updateImageById($this->request->all(), $contentId, $contentImageId);
+        $result  = ContentService::updateImageById($this->request->all(), $contentId, $contentImageId);
 
         if (isset($result->id)) {
             Notification::success('The content image was updated.');
@@ -98,7 +97,7 @@ class ContentImageController extends Controller
 
     public function destroy($contentId, $contentImageId)
     {
-        $result  = $this->content->destroyImage($contentImageId);
+        $result  = ContentService::destroyImage($contentImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

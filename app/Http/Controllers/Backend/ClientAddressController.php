@@ -10,8 +10,7 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -21,21 +20,17 @@ use Datatables;
 class ClientAddressController extends Controller
 {
     public function __construct(
-        Request $request, 
-        ClientAddressRepository $clientAddress, 
-        ClientRepository $client)
+        Request $request)
     {
-        $this->clientAddress    = $clientAddress;
-        $this->client           = $client;
         $this->request          = $request;
     }
 
     public function index($clientId)
     {
-        $client = $this->client->find($clientId);
+        $client = ClientService::find($clientId);
         if ($this->request->wantsJson()) {
 
-            $addresses = $this->clientAddress->getModel()->select(
+            $addresses = ClientService::getAddressModel()->select(
                 [
                 'id',
                 'firstname',
@@ -81,13 +76,13 @@ class ClientAddressController extends Controller
 
     public function create($clientId)
     {
-        $client = $this->client->find($clientId);
+        $client = ClientService::find($clientId);
         return view('backend.client_address.create')->with(array('client' => $client));
     }
 
     public function store($clientId)
     {
-        $result  = $this->clientAddress->create($this->request->all(), $clientId);
+        $result  = ClientService::createAddress($this->request->all(), $clientId);
  
         if ($result->id) {
             Notification::success('The client address is inserted.');
@@ -100,13 +95,13 @@ class ClientAddressController extends Controller
 
     public function edit($clientId, $id)
     {
-        $client = $this->client->find($clientId);
-        return view('backend.client_address.edit')->with(array('clientAddress' => $this->clientAddress->find($id), 'client' => $client));
+        $client = ClientService::find($clientId);
+        return view('backend.client_address.edit')->with(array('clientAddress' => ClientService::findAddress($id), 'client' => $client));
     }
 
     public function update($clientId, $id)
     {
-        $result  = $this->clientAddress->updateById($this->request->all(), $clientId, $id);
+        $result  = ClientService::editAddress($clientId, $id, $this->request->all());
 
         if (!$result->id) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
@@ -118,7 +113,7 @@ class ClientAddressController extends Controller
 
     public function destroy($clientId, $id)
     {
-        $result  = $this->clientAddress->destroy($id);
+        $result  = ClientService::destroyAddress($id);
 
         if ($result) {
             Notification::success('The client address is deleted.');

@@ -45,10 +45,7 @@ class SendingMethodTable extends Migration
             $table->integer('payment_method_id')->unsigned();
             $table->foreign('payment_method_id', 'spmr_payment_method_id_fk')->references('id')->on('payment_method')->onDelete('cascade');
             $table->integer('modified_by_user_id')->unsigned()->nullable();
-            $table->foreign('modified_by_user_id', 'spmr_modified_by_user_id_fk')->references('id')->on('user')->onDelete('set null');
-            $table->text('pdf_text')->nullable();
-            $table->text('payment_text')->nullable();
-            $table->text('payment_confirmed_text')->nullable();            
+            $table->foreign('modified_by_user_id', 'spmr_modified_by_user_id_fk')->references('id')->on('user')->onDelete('set null');         
             $table->timestamps();
 
             $table->unique(array('sending_method_id','payment_method_id'), 'unique_sending_payment_method_related');

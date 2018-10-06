@@ -8,26 +8,26 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\BrandRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
+
 class BrandImageController extends Controller
 {
-    public function __construct(Request $request, BrandRepository $brand)
+    public function __construct(Request $request)
     {
-        $this->brand = $brand;
         $this->request = $request;
     }
 
     public function index($brandId)
     {
-        $brand = $this->brand->find($brandId);
+        $brand = BrandService::find($brandId);
         if ($this->request->wantsJson()) {
 
-            $image = $this->brand->getModelImage()
+            $image = BrandService::getModelImage()
             ->select(['id','file', 'brand_id'])
             ->where('brand_id', '=', $brandId);
             
@@ -50,13 +50,13 @@ class BrandImageController extends Controller
 
     public function create($brandId)
     {
-        $brand = $this->brand->find($brandId);
+        $brand = BrandService::find($brandId);
         return view('backend.brand_image.create')->with(array('brand' => $brand));
     }
 
     public function store($brandId)
     {
-        $result  = $this->brand->createImage($this->request->all(), $brandId);
+        $result  = BrandService::createImage($this->request->all(), $brandId);
  
         if (isset($result->id)) {
             Notification::success('The brand image was inserted.');
@@ -71,13 +71,13 @@ class BrandImageController extends Controller
 
     public function edit($brandId, $brandImageId)
     {
-        $brand = $this->brand->find($brandId);
-        return view('backend.brand_image.edit')->with(array('brandImage' => $this->brand->findImage($brandImageId), 'brand' => $brand));
+        $brand = BrandService::find($brandId);
+        return view('backend.brand_image.edit')->with(array('brandImage' => BrandService::findImage($brandImageId), 'brand' => $brand));
     }
 
     public function update($brandId, $brandImageId)
     {
-        $result  = $this->brand->updateImageById($this->request->all(), $brandId, $brandImageId);
+        $result  = BrandService::updateImageById($this->request->all(), $brandId, $brandImageId);
 
         if (isset($result->id)) {
             Notification::success('The brand image was updated.');
@@ -92,7 +92,7 @@ class BrandImageController extends Controller
 
     public function destroy($brandId, $brandImageId)
     {
-        $result  = $this->brand->destroyImage($brandImageId);
+        $result  = BrandService::destroyImage($brandImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

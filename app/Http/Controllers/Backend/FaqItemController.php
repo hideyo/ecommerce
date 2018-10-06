@@ -9,28 +9,26 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Faq\Entity\FaqItemRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Faq\FaqFacade as FaqService;
+
 class FaqItemController extends Controller
 {
     public function __construct(
-        Request $request, 
-        FaqItemRepository $faq
+        Request $request
     ) {
         $this->request = $request;
-        $this->faq = $faq;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->faq->getModel()->select(
+            $query = FaqService::getModel()->select(
                 [
                 
                 'faq_item.id', 
@@ -58,18 +56,18 @@ class FaqItemController extends Controller
 
         }
         
-        return view('backend.faq-item.index')->with('faq', $this->faq->selectAll());
+        return view('backend.faq-item.index')->with('faq', FaqService::selectAll());
     }
 
     public function create()
     {
-        $groups = $this->faq->selectAllGroups()->pluck('title', 'id')->toArray();
+        $groups = FaqService::selectAllGroups()->pluck('title', 'id')->toArray();
         return view('backend.faq-item.create')->with(array('groups' => $groups));
     }
 
     public function store()
     {
-        $result  = $this->faq->create($this->request->all());
+        $result  = FaqService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The faq was inserted.');
@@ -86,18 +84,18 @@ class FaqItemController extends Controller
     public function edit($faqItemId)
     {
 
-        $groups = $this->faq->selectAllGroups()->pluck('title', 'id')->toArray();
-        return view('backend.faq-item.edit')->with(array('faq' => $this->faq->find($faqItemId), 'groups' => $groups));
+        $groups = FaqService::selectAllGroups()->pluck('title', 'id')->toArray();
+        return view('backend.faq-item.edit')->with(array('faq' => FaqService::find($faqItemId), 'groups' => $groups));
     }
 
     public function editSeo($faqItemId)
     {
-        return view('backend.faq-item.edit_seo')->with(array('faq' => $this->faq->find($faqItemId)));
+        return view('backend.faq-item.edit_seo')->with(array('faq' => FaqService::find($faqItemId)));
     }
 
     public function update($faqId)
     {
-        $result  = $this->faq->updateById($this->request->all(), $faqId);
+        $result  = FaqService::updateById($this->request->all(), $faqId);
 
         if (isset($result->id)) {
             if ($this->request->get('seo')) {
@@ -122,7 +120,7 @@ class FaqItemController extends Controller
 
     public function destroy($faqItemId)
     {
-        $result  = $this->faq->destroy($faqItemId);
+        $result  = FaqService::destroy($faqItemId);
 
         if ($result) {
             Notification::success('The faq was deleted.');

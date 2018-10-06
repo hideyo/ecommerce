@@ -11,9 +11,7 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientRepository;
-use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
+use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -26,11 +24,8 @@ use Datatables;
 class ClientController extends Controller
 {
     public function __construct(
-        Request $request, ClientRepository $client, 
-        ClientAddressRepository $clientAddress)
+        Request $request)
     {
-        $this->client           = $client;
-        $this->clientAddress    = $clientAddress;
         $this->request          = $request;
     }
 
@@ -40,7 +35,7 @@ class ClientController extends Controller
 
         if ($this->request->wantsJson()) {
             $shop  = auth('hideyobackend')->user()->shop();
-            $clients = $this->client->getModel()->select(
+            $clients = ClientService::getModel()->select(
                 [
                 
                 'id', 'confirmed', 'active',
@@ -70,7 +65,7 @@ class ClientController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.client.index')->with('client', $this->client->selectAll());    
+        return view('backend.client.index')->with('client', ClientService::selectAll());    
     }
 
     public function create()
@@ -80,18 +75,18 @@ class ClientController extends Controller
 
     public function getActivate($clientId)
     {
-        return view('backend.client.activate')->with(array('client' => $this->client->find($clientId), 'addresses' => $this->clientAddress->selectAllByClientId($clientId)->pluck('firstname', 'id')));
+        return view('backend.client.activate')->with(array('client' => ClientService::find($clientId)));
     }
 
     public function getDeActivate($clientId)
     {
-        return view('backend.client.de-activate')->with(array('client' => $this->client->find($clientId), 'addresses' => $this->clientAddress->selectAllByClientId($clientId)->pluck('firstname', 'id')));
+        return view('backend.client.de-activate')->with(array('client' => ClientService::find($clientId)));
     }
 
     public function postActivate($clientId)
     {
         $input = $this->request->all();
-        $result  = $this->client->activate($clientId);
+        $result  = ClientService::activate($clientId);
         $shop  = auth('hideyobackend')->user()->shop;
 
         if ($input['send_mail']) {
@@ -108,14 +103,14 @@ class ClientController extends Controller
 
     public function postDeActivate($clientId)
     {
-        $this->client->deactivate($clientId);
+        ClientService::deactivate($clientId);
         Notification::success('The client was deactivate.');
         return redirect()->route('client.index');
     }
 
     public function store()
     {
-        $result  = $this->client->create($this->request->all());
+        $result  = ClientService::create($this->request->all());
         
         if (isset($result->id)) {
             Notification::success('The client was inserted.');
@@ -130,7 +125,7 @@ class ClientController extends Controller
 
     public function edit($clientId)
     {
-        $addresses = $this->clientAddress->selectAllByClientId($clientId);
+        $addresses = ClientService::selectAddressesByClientId($clientId);
 
         $addressesList = array();
 
@@ -145,7 +140,7 @@ class ClientController extends Controller
             }
         }
 
-        return view('backend.client.edit')->with(array('client' => $this->client->find($clientId), 'addresses' => $addressesList));
+        return view('backend.client.edit')->with(array('client' => ClientService::find($clientId), 'addresses' => $addressesList));
     }
 
     public function getExport()
@@ -155,7 +150,7 @@ class ClientController extends Controller
 
     public function postExport()
     {
-        $result  =  $this->client->selectAllExport();
+        $result  =  ClientService::selectAllExport();
         Excel::create('export', function ($excel) use ($result) {
 
             $excel->sheet('Clients', function ($sheet) use ($result) {
@@ -196,7 +191,7 @@ class ClientController extends Controller
 
     public function update($clientId)
     {
-        $result  = $this->client->updateById($this->request->all(), $clientId);
+        $result  = ClientService::updateById($this->request->all(), $clientId);
         $input = $this->request->all();
         if (isset($result->id)) {
             if ($result->active) {
@@ -224,7 +219,7 @@ class ClientController extends Controller
 
     public function destroy($clientId)
     {
-        $result  = $this->client->destroy($clientId);
+        $result  = ClientService::destroy($clientId);
 
         if ($result) {
             Notification::success('The client was deleted.');

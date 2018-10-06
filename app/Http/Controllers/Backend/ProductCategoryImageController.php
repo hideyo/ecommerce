@@ -9,27 +9,22 @@
  */
 
 use App\Http\Controllers\Controller;
-
-use Hideyo\Ecommerce\Framework\Repositories\ProductCategoryRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
+
+
 class ProductCategoryImageController extends Controller
 {
-    public function __construct(ProductCategoryRepository $productCategory)
-    {
-        $this->productCategory = $productCategory;
-    }
-
     public function index(Request $request, $productCategoryId)
     {
-        $productCategory = $this->productCategory->find($productCategoryId);
+        $productCategory = ProductCategoryService::find($productCategoryId);
         if ($request->wantsJson()) {
 
-            $image = $this->productCategory->getImageModel()->select(
+            $image = ProductCategoryService::getImageModel()->select(
                 ['id','file', 'product_category_id']
             )->where('product_category_id', '=', $productCategoryId);
             
@@ -55,14 +50,14 @@ class ProductCategoryImageController extends Controller
 
     public function create($productCategoryId)
     {
-        $productCategory = $this->productCategory->find($productCategoryId);
+        $productCategory = ProductCategoryService::find($productCategoryId);
 
         return view('backend.product_category_image.create')->with(array('productCategory' => $productCategory));
     }
 
     public function store(Request $request, $productCategoryId)
     {
-        $result  = $this->productCategory->createImage($request->all(), $productCategoryId);
+        $result  = ProductCategoryService::createImage($request->all(), $productCategoryId);
  
         if (isset($result->id)) {
             Notification::success('The category image was inserted.');
@@ -77,13 +72,13 @@ class ProductCategoryImageController extends Controller
 
     public function edit(Request $request, $productCategoryId, $productCategoryImageId)
     {
-        $productCategory = $this->productCategory->find($productCategoryId);
-        return view('backend.product_category_image.edit')->with(array('productCategoryImage' => $this->productCategory->findImage($productCategoryImageId), 'productCategory' => $productCategory));
+        $productCategory = ProductCategoryService::find($productCategoryId);
+        return view('backend.product_category_image.edit')->with(array('productCategoryImage' => ProductCategoryService::findImage($productCategoryImageId), 'productCategory' => $productCategory));
     }
 
     public function update(Request $request, $productCategoryId, $productCategoryImageId)
     {
-        $result  = $this->productCategory->updateImageById($request->all(), $productCategoryId, $productCategoryImageId);
+        $result  = ProductCategoryService::updateImageById($request->all(), $productCategoryId, $productCategoryImageId);
 
         if (isset($result->id)) {
             Notification::success('The category image was updated.');
@@ -98,7 +93,7 @@ class ProductCategoryImageController extends Controller
 
     public function destroy($productCategoryId, $productCategoryImageId)
     {
-        $result  = $this->productCategory->destroyImage($productCategoryImageId);
+        $result  = ProductCategoryService::destroyImage($productCategoryImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

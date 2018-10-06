@@ -9,20 +9,19 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\HtmlBlock\Entity\HtmlBlockRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade as HtmlBlockService;
+
+
 class HtmlBlockController extends Controller
 {
     public function __construct(
-        Request $request,
-        HtmlBlockRepository $htmlBlock
+        Request $request
     ) {
-        $this->htmlBlock = $htmlBlock;
         $this->request = $request;
     }
 
@@ -30,7 +29,7 @@ class HtmlBlockController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->htmlBlock->getModel()->select(
+            $query = HtmlBlockService::getModel()->select(
                 ['id', 'active',
                 'title', 'image_file_name', 'position']
             )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
@@ -58,7 +57,7 @@ class HtmlBlockController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.html-block.index')->with('htmlBlock', $this->htmlBlock->selectAll());
+        return view('backend.html-block.index')->with('htmlBlock', HtmlBlockService::selectAll());
     }
 
     public function create()
@@ -68,7 +67,7 @@ class HtmlBlockController extends Controller
 
     public function copy($htmlBlockId)
     {
-        $htmlBlock = $this->htmlBlock->find($htmlBlockId);
+        $htmlBlock = HtmlBlockService::find($htmlBlockId);
 
         return view('backend.html-block.copy')->with(
             array(
@@ -79,11 +78,11 @@ class HtmlBlockController extends Controller
     
     public function storeCopy($htmlBlockId)
     {
-        $htmlBlock = $this->htmlBlock->find($htmlBlockId);
+        $htmlBlock = HtmlBlockService::find($htmlBlockId);
 
         if($htmlBlock) {
 
-            $result  = $this->htmlBlock->createCopy($this->request->all(), $htmlBlockId);
+            $result  = HtmlBlockService::createCopy($this->request->all(), $htmlBlockId);
 
             if (isset($result->id)) {
                 Notification::success('The htmlBlock copy is inserted.');
@@ -100,7 +99,7 @@ class HtmlBlockController extends Controller
 
     public function store()
     {
-        $result  = $this->htmlBlock->create($this->request->all());
+        $result  = HtmlBlockService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The html block was inserted.');
@@ -116,23 +115,23 @@ class HtmlBlockController extends Controller
 
     public function changeActive($htmlBlockId)
     {
-        $result = $this->htmlBlock->changeActive($htmlBlockId);
+        $result = HtmlBlockService::changeActive($htmlBlockId);
         return response()->json($result);
     }
 
     public function edit($htmlBlockId)
     {
-        return view('backend.html-block.edit')->with(array('htmlBlock' => $this->htmlBlock->find($htmlBlockId)));
+        return view('backend.html-block.edit')->with(array('htmlBlock' => HtmlBlockService::find($htmlBlockId)));
     }
 
     public function editSeo($htmlBlockId)
     {
-        return view('backend.html-block.edit_seo')->with(array('htmlBlock' => $this->htmlBlock->find($htmlBlockId)));
+        return view('backend.html-block.edit_seo')->with(array('htmlBlock' => HtmlBlockService::find($htmlBlockId)));
     }
 
     public function update($htmlBlockId)
     {
-        $result  = $this->htmlBlock->updateById($this->request->all(), $htmlBlockId);
+        $result  = HtmlBlockService::updateById($this->request->all(), $htmlBlockId);
 
         if (isset($result->id)) {
             if ($this->request->get('seo')) {
@@ -156,7 +155,7 @@ class HtmlBlockController extends Controller
 
     public function destroy($htmlBlockId)
     {
-        $result  = $this->htmlBlock->destroy($htmlBlockId);
+        $result  = HtmlBlockService::destroy($htmlBlockId);
 
         if ($result) {
             Notification::success('The html block was deleted.');

@@ -8,26 +8,25 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Brand\Entity\BrandRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
 use Datatables;
 
+use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
+
 class BrandController extends Controller
 {
     public function __construct(
-        Request $request, 
-        BrandRepository $brand)
+        Request $request)
     {
-        $this->brand = $brand;
         $this->request = $request;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
-            $brand = $this->brand->getModel()
+            $brand = BrandService::getModel()
             ->select(['id', 'rank','title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -41,7 +40,7 @@ class BrandController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.brand.index')->with('brand', $this->brand->selectAll());
+        return view('backend.brand.index')->with('brand', BrandService::selectAll());
     }
 
     public function create()
@@ -51,7 +50,7 @@ class BrandController extends Controller
 
     public function store()
     {
-        $result  = $this->brand->create($this->request->all());
+        $result  = BrandService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The brand was inserted.');
@@ -66,17 +65,17 @@ class BrandController extends Controller
 
     public function editSeo($brandId)
     {
-        return view('backend.brand.edit_seo')->with(array('brand' => $this->brand->find($brandId)));
+        return view('backend.brand.edit_seo')->with(array('brand' => BrandService::find($brandId)));
     }
 
     public function edit($brandId)
     {
-        return view('backend.brand.edit')->with(array('brand' => $this->brand->find($brandId)));
+        return view('backend.brand.edit')->with(array('brand' => BrandService::find($brandId)));
     }
 
     public function update($brandId)
     {
-        $result  = $this->brand->updateById($this->request->all(), $brandId);
+        $result  = BrandService::updateById($this->request->all(), $brandId);
 
         if (isset($result->id)) {
             if ($this->request->get('seo')) {
@@ -100,7 +99,7 @@ class BrandController extends Controller
 
     public function destroy($brandId)
     {
-        $result  = $this->brand->destroy($brandId);
+        $result  = BrandService::destroy($brandId);
         if ($result) {
             Notification::error('The brand was deleted.');
             return redirect()->route('brand.index');

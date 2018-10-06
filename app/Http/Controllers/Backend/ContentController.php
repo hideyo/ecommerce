@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
  * @version 0.1
  */
 
-use Hideyo\Ecommerce\Framework\Services\Content\Entity\ContentRepository;
+use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -21,10 +21,9 @@ use Datatables;
 class ContentController extends Controller
 {
     public function __construct(
-        Request $request,
-        ContentRepository $content
+        Request $request
     ) {
-        $this->content = $content;
+
         $this->request = $request;
     }
 
@@ -32,15 +31,15 @@ class ContentController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $content = $this->content->getModel()->select(
+            $content = ContentService::getModel()->select(
                 [
                 
-                $this->content->getModel()->getTable().'.id',
-                $this->content->getModel()->getTable().'.title', $this->content->getModel()->getTable().'.content_group_id', $this->content->getGroupModel()->getTable().'.title as contenttitle']
-            )->where($this->content->getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
+                ContentService::getModel()->getTable().'.id',
+                ContentService::getModel()->getTable().'.title', ContentService::getModel()->getTable().'.content_group_id', ContentService::getGroupModel()->getTable().'.title as contenttitle']
+            )->where(ContentService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
 
 
-            ->with(array('contentGroup'))        ->leftJoin($this->content->getGroupModel()->getTable(), $this->content->getGroupModel()->getTable().'.id', '=', $this->content->getModel()->getTable().'.content_group_id');
+            ->with(array('contentGroup'))        ->leftJoin(ContentService::getGroupModel()->getTable(), ContentService::getGroupModel()->getTable().'.id', '=', ContentService::getModel()->getTable().'.content_group_id');
             
             $datatables = Datatables::of($content)
 
@@ -60,17 +59,17 @@ class ContentController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.content.index')->with('content', $this->content->selectAll());
+        return view('backend.content.index')->with('content', ContentService::selectAll());
     }
 
     public function create()
     {
-        return view('backend.content.create')->with(array('groups' => $this->content->selectGroupAll()->pluck('title', 'id')->toArray()));
+        return view('backend.content.create')->with(array('groups' => ContentService::selectGroupAll()->pluck('title', 'id')->toArray()));
     }
 
     public function store()
     {
-        $result  = $this->content->create($this->request->all());
+        $result  = ContentService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The content was inserted.');
@@ -86,18 +85,18 @@ class ContentController extends Controller
 
     public function edit($contentId)
     {
-        return view('backend.content.edit')->with(array('content' => $this->content->find($contentId), 'groups' => $this->content->selectGroupAll()->pluck('title', 'id')->toArray()));
+        return view('backend.content.edit')->with(array('content' => ContentService::find($contentId), 'groups' => ContentService::selectGroupAll()->pluck('title', 'id')->toArray()));
     }
 
     public function editSeo($contentId)
     {
-        return view('backend.content.edit_seo')->with(array('content' => $this->content->find($contentId)));
+        return view('backend.content.edit_seo')->with(array('content' => ContentService::find($contentId)));
     }
 
     public function update($contentId)
     {
 
-        $result  = $this->content->updateById($this->request->all(), $contentId);
+        $result  = ContentService::updateById($this->request->all(), $contentId);
 
         if (isset($result->id)) {
             if ($this->request->get('seo')) {
@@ -123,7 +122,7 @@ class ContentController extends Controller
 
     public function destroy($contentId)
     {
-        $result  = $this->content->destroy($contentId);
+        $result  = ContentService::destroy($contentId);
 
         if ($result) {
             Notification::success('The content was deleted.');

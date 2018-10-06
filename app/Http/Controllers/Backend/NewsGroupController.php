@@ -9,10 +9,10 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
-
 use Request;
 use Notification;
+
+use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 
 class NewsGroupController extends Controller
 {
@@ -26,7 +26,7 @@ class NewsGroupController extends Controller
     {
         if (Request::wantsJson()) {
 
-            $query = $this->news->getGroupModel()->select(
+            $query = NewsService::getGroupModel()->select(
                 [
                 
                 'id',
@@ -45,7 +45,7 @@ class NewsGroupController extends Controller
 
         }
         
-        return view('backend.news_group.index')->with('newsGroup', $this->news->selectAll());
+        return view('backend.news_group.index')->with('newsGroup', NewsService::selectAll());
     }
 
     public function create()
@@ -55,7 +55,7 @@ class NewsGroupController extends Controller
 
     public function store()
     {
-        $result  = $this->news->createGroup(\Request::all());
+        $result  = NewsService::createGroup(\Request::all());
 
         if (isset($result->id)) {
             Notification::success('The news was inserted.');
@@ -71,12 +71,12 @@ class NewsGroupController extends Controller
 
     public function edit($newsGroupId)
     {
-        return view('backend.news_group.edit')->with(array('newsGroup' => $this->news->findGroup($newsGroupId)));
+        return view('backend.news_group.edit')->with(array('newsGroup' => NewsService::findGroup($newsGroupId)));
     }
 
     public function update($newsGroupId)
     {
-        $result  = $this->news->updateGroupById(Request::all(), $newsGroupId);
+        $result  = NewsService::updateGroupById(Request::all(), $newsGroupId);
 
         if (isset($result->id)) {
             if (Request::get('seo')) {
@@ -100,7 +100,7 @@ class NewsGroupController extends Controller
 
     public function destroy($newsGroupId)
     {
-        $result  = $this->news->destroyGroup($newsGroupId);
+        $result  = NewsService::destroyGroup($newsGroupId);
 
         if ($result) {
             Notification::success('The news group was deleted.');

@@ -9,7 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Redirect\Entity\RedirectRepository;
+use Hideyo\Ecommerce\Framework\Services\Redirect\RedirectFacade as RedirectService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
 use Session;
@@ -23,16 +23,11 @@ use Excel;
 
 class RedirectController extends Controller
 {
-    public function __construct(RedirectRepository $redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
     public function index()
     {
         if (Request::wantsJson()) {
 
-            $query = $this->redirect->selectAll();
+            $query = RedirectService::selectAll();
             $datatables = \Datatables::of($query)
 
             ->addColumn('url', function ($query) {
@@ -50,7 +45,7 @@ class RedirectController extends Controller
 
         }
         
-        return view('backend.redirect.index')->with('redirect', $this->redirect->selectAll());
+        return view('backend.redirect.index')->with('redirect', RedirectService::selectAll());
     }
 
     public function create()
@@ -61,7 +56,7 @@ class RedirectController extends Controller
 
     public function store()
     {
-        $result  = $this->redirect->create(Request::all());
+        $result  = RedirectService::create(Request::all());
  
 
         if (isset($result->id)) {
@@ -80,7 +75,7 @@ class RedirectController extends Controller
     {
                 $shops = ShopService::selectAll()->pluck('title', 'id');
         return view('backend.redirect.edit')->with(array(
-            'redirect' => $this->redirect->find($redirectId),
+            'redirect' => RedirectService::find($redirectId),
             'shops' => $shops
         ));
     }
@@ -99,7 +94,7 @@ class RedirectController extends Controller
               $results = $reader->get();
 
             if ($results->count()) {
-                $result = $this->redirect->importCsv($results, auth('hideyobackend')->user()->selected_shop_id);
+                $result = RedirectService::importCsv($results, auth('hideyobackend')->user()->selected_shop_id);
 
                 Notification::success('The redirects are imported.');
        
@@ -113,7 +108,7 @@ class RedirectController extends Controller
 
     public function getExport()
     {
-        $result  =  $this->redirect->selectAll()->get();
+        $result  =  RedirectService::selectAll()->get();
 
         Excel::create('redirects', function ($excel) use ($result) {
 
@@ -134,7 +129,7 @@ class RedirectController extends Controller
 
     public function update($redirectId)
     {
-        $result  = $this->redirect->updateById(Request::all(), $redirectId);
+        $result  = RedirectService::updateById(Request::all(), $redirectId);
 
         if (isset($result->id)) {
             Notification::success('The redirect was updated.');
@@ -150,7 +145,7 @@ class RedirectController extends Controller
 
     public function destroy($redirectId)
     {
-        $result  = $this->redirect->destroy($redirectId);
+        $result  = RedirectService::destroy($redirectId);
 
         if ($result) {
             Notification::success('Redirect item is deleted.');

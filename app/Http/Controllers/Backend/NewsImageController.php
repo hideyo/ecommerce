@@ -8,26 +8,26 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
+
 class NewsImageController extends Controller
 {
-    public function __construct(Request $request, NewsRepository $news)
+    public function __construct(Request $request)
     {
-        $this->news = $news;
         $this->request = $request;
     }
 
     public function index($newsId)
     {
-        $news = $this->news->find($newsId);
+        $news = NewsService::find($newsId);
         if ($this->request->wantsJson()) {
 
-            $image = $this->news->getImageModel()->select(
+            $image = NewsService::getImageModel()->select(
                 ['id',
                 'file', 'news_id']
             )->where('news_id', '=', $newsId);
@@ -56,13 +56,13 @@ class NewsImageController extends Controller
 
     public function create($newsId)
     {
-        $news = $this->news->find($newsId);
+        $news = NewsService::find($newsId);
         return view('backend.news_image.create')->with(array('news' => $news));
     }
 
     public function store($newsId)
     {
-        $result  = $this->news->createImage($this->request->all(), $newsId);
+        $result  = NewsService::createImage($this->request->all(), $newsId);
  
         if (isset($result->id)) {
             Notification::success('The news image was inserted.');
@@ -77,13 +77,13 @@ class NewsImageController extends Controller
 
     public function edit($newsId, $newsImageId)
     {
-        $news = $this->news->find($newsId);
-        return view('backend.news_image.edit')->with(array('newsImage' => $this->news->findImage($newsImageId), 'news' => $news));
+        $news = NewsService::find($newsId);
+        return view('backend.news_image.edit')->with(array('newsImage' => NewsService::findImage($newsImageId), 'news' => $news));
     }
 
     public function update($newsId, $newsImageId)
     {
-        $result  = $this->news->updateImageById($this->request->all(), $newsId, $newsImageId);
+        $result  = NewsService::updateImageById($this->request->all(), $newsId, $newsImageId);
 
         if (isset($result->id)) {
             Notification::success('The news image was updated.');
@@ -98,7 +98,7 @@ class NewsImageController extends Controller
 
     public function destroy($newsId, $newsImageId)
     {
-        $result  = $this->news->destroyImage($newsImageId);
+        $result  = NewsService::destroyImage($newsImageId);
 
         if ($result) {
             Notification::success('The file was deleted.');

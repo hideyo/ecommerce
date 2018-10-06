@@ -9,36 +9,31 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\NewsRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
-use Hideyo\Ecommerce\Framework\Repositories\NewsGroupRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
-use Auth;
+
+use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 
 class NewsController extends Controller
 {
-    public function __construct(Request $request, NewsRepository $news)
+    public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->news = $news;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->news->getModel()->select(
+            $query = NewsService::getModel()->select(
                 [
-                $this->news->getModel()->getTable().'.id',
-                $this->news->getModel()->getTable().'.title',
-                $this->news->getGroupModel()->getTable().'.title as newsgroup']
-            )->where($this->news->getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
-            ->with(array('newsGroup'))        ->leftJoin($this->news->getGroupModel()->getTable(), $this->news->getGroupModel()->getTable().'.id', '=', 'news_group_id');
+                NewsService::getModel()->getTable().'.id',
+                NewsService::getModel()->getTable().'.title',
+                NewsService::getGroupModel()->getTable().'.title as newsgroup']
+            )->where(NewsService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
+            ->with(array('newsGroup'))        ->leftJoin(NewsService::getGroupModel()->getTable(), NewsService::getGroupModel()->getTable().'.id', '=', 'news_group_id');
             
             $datatables = Datatables::of($query)
             ->filterColumn('title', function ($query, $keyword) {
@@ -65,17 +60,17 @@ class NewsController extends Controller
 
         }
         
-        return view('backend.news.index')->with('news', $this->news->selectAll());
+        return view('backend.news.index')->with('news', NewsService::selectAll());
     }
 
     public function create()
     {
-        return view('backend.news.create')->with(array('groups' => $this->news->selectAllGroups()->pluck('title', 'id')->toArray()));
+        return view('backend.news.create')->with(array('groups' => NewsService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
     public function store()
     {
-        $result  = $this->news->create($this->request->all());
+        $result  = NewsService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The news was inserted.');
@@ -91,7 +86,7 @@ class NewsController extends Controller
 
     public function edit($newsId)
     {
-        return view('backend.news.edit')->with(array('news' => $this->news->find($newsId), 'groups' => $this->news->selectAllGroups()->pluck('title', 'id')->toArray()));
+        return view('backend.news.edit')->with(array('news' => NewsService::find($newsId), 'groups' => NewsService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
     public function reDirectoryAllImages()
@@ -110,12 +105,12 @@ class NewsController extends Controller
 
     public function editSeo($newsId)
     {
-        return view('backend.news.edit_seo')->with(array('news' => $this->news->find($newsId)));
+        return view('backend.news.edit_seo')->with(array('news' => NewsService::find($newsId)));
     }
     
     public function update($newsId)
     {
-        $result  = $this->news->updateById($this->request->all(), $newsId);
+        $result  = NewsService::updateById($this->request->all(), $newsId);
 
         if (isset($result->id)) {
             Notification::success('The news was updated.');
@@ -131,7 +126,7 @@ class NewsController extends Controller
 
     public function destroy($newsId)
     {
-        $result  = $this->news->destroy($newsId);
+        $result  = NewsService::destroy($newsId);
 
         if ($result) {
             Notification::success('The news was deleted.');

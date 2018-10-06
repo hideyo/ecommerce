@@ -9,28 +9,26 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Content\Entity\ContentRepository;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
+use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
+
 class ContentGroupController extends Controller
 {
     public function __construct(
-        Request $request,
-        ContentRepository $content
+        Request $request
     ) {
         $this->request = $request;
-        $this->content = $content;
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->content->getGroupModel()
+            $query = ContentService::getGroupModel()
             ->select(['id', 'title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
@@ -45,7 +43,7 @@ class ContentGroupController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.content_group.index')->with('contentGroup', $this->content->selectAll());
+        return view('backend.content_group.index')->with('contentGroup', ContentService::selectAll());
     }
 
     public function create()
@@ -55,7 +53,7 @@ class ContentGroupController extends Controller
 
     public function store()
     {
-        $result  = $this->content->createGroup($this->request->all());
+        $result  = ContentService::createGroup($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The content was inserted.');
@@ -71,17 +69,17 @@ class ContentGroupController extends Controller
 
     public function edit($contentGroupId)
     {
-        return view('backend.content_group.edit')->with(array('contentGroup' => $this->content->findGroup($contentGroupId)));
+        return view('backend.content_group.edit')->with(array('contentGroup' => ContentService::findGroup($contentGroupId)));
     }
 
     public function editSeo($contentGroupId)
     {
-        return view('backend.content_group.edit_seo')->with(array('contentGroup' => $this->content->find($contentGroupId)));
+        return view('backend.content_group.edit_seo')->with(array('contentGroup' => ContentService::find($contentGroupId)));
     }
 
     public function update($contentGroupId)
     {
-        $result  = $this->content->updateGroupById($this->request->all(), $contentGroupId);
+        $result  = ContentService::updateGroupById($this->request->all(), $contentGroupId);
 
         if (isset($result->id)) {
             if ($this->request->get('seo')) {
@@ -110,7 +108,7 @@ class ContentGroupController extends Controller
      */
     public function destroy($contentGroupId)
     {
-        $result  = $this->content->destroyGroup($contentGroupId);
+        $result  = ContentService::destroyGroup($contentGroupId);
 
         if ($result) {
             Notification::success('The content was deleted.');
