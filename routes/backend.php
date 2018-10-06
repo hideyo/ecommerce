@@ -168,7 +168,7 @@
     Route::get('product-category/refactor-images', array('as' => 'product-category.refactor-images', 'uses' => 'ProductCategoryController@refactorAllImages'));
     Route::get('product-category/re-directory-images', array('as' => 'product-category.re-directory-images', 'uses' => 'ProductCategoryController@reDirectoryAllImages'));
 
-    Route::resource('brand/{brandId}/images', 'BrandImageController', ['as' => 'brand-images']);
+    Route::resource('brand/{brandId}/images', 'BrandImageController', ['as' => 'brand']);
  
     Route::get('brand/edit/{brandId}/seo', array('as' => 'brand.edit_seo', 'uses' => 'BrandController@editSeo'));
  

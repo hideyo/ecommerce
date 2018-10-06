@@ -13,16 +13,16 @@
             <li><a href="{!! URL::route('brand.index') !!}">Brand</a></li>
             <li><a href="{!! URL::route('brand.edit', $brand->id) !!}">edit</a></li>
             <li><a href="{!! URL::route('brand.edit', $brand->id) !!}">{!! $brand->title !!}</a></li>
-            <li><a href="{!! URL::route('brand-image.index', $brand->id) !!}">images</a></li>
+            <li><a href="{!! URL::route('brand.images.index', $brand->id) !!}">images</a></li>
           <li class="active">edit image</li> 
         </ol>
 
-        <a href="{!! URL::route('brand-image.index', $brand->id) !!}" class="btn btn-green btn-icon icon-left pull-right">back to images<i class="entypo-plus"></i></a>
+        <a href="{!! URL::route('brand.images.index', $brand->id) !!}" class="btn btn-green btn-icon icon-left pull-right">back to images<i class="entypo-plus"></i></a>
 
         <h2>Brand <small>images edit</small></h2>
         {!! Notification::showAll() !!}
         <hr/>
-        {!! Form::model($brandImage, array('method' => 'put', 'route' => array('brand-image.update', $brand->id, $brandImage->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
+        {!! Form::model($brandImage, array('method' => 'put', 'route' => array('brand.images.update', $brand->id, $brandImage->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">
 
         <div class="form-group">
@@ -42,7 +42,7 @@
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-5">
                 {!! Form::submit('Save', array('class' => 'btn btn-default')) !!}
-                <a href="{!! URL::route('brand-image.index', $brand->id) !!}" class="btn btn-large">Cancel</a>
+                <a href="{!! URL::route('brand.images.index', $brand->id) !!}" class="btn btn-large">Cancel</a>
             </div>
         </div>
 

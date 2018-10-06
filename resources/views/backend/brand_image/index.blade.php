@@ -15,7 +15,7 @@
             <li class="active">images</li>           
         </ol>
 
-        <a href="{{ URL::route('brand-image.create', $brand->id) }}" class="btn btn-success pull-right">upload image<i class="entypo-plus"></i></a>
+        <a href="{{ URL::route('brand.images.create', $brand->id) }}" class="btn btn-success pull-right">upload image<i class="entypo-plus"></i></a>
 
         <h2>Brand <small>images</small></h2>
         <hr/>
@@ -37,7 +37,7 @@
                 oTable = $('#datatable').DataTable({
                     "processing": true,
                     "serverSide": true,
-                   "ajax": "{{ URL::route('brand-image.index', $brand->id) }}",
+                   "ajax": "{{ URL::route('brand.images.index', $brand->id) }}",
 
                  columns: [
               {data: 'thumb', name: 'thumb', orderable: false, searchable: false},
