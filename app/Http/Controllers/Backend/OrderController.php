@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Dutchbridge\Services\AssembleOrder;
 use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
@@ -140,7 +141,7 @@ class OrderController extends Controller
 
     public function getPrint()
     {
-        return view('backend.order.print')->with(array('orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')));
+        return view('backend.order.print')->with(array('orderStatuses' => OrderStatusService::selectAll()->pluck('title', 'id')));
     }
     
     public function postDownloadPrint()
@@ -224,7 +225,7 @@ class OrderController extends Controller
     public function show($orderId)
     {
         $order = OrderService::find($orderId);
-        return view('backend.order.show')->with(array('order' => $order, 'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')));
+        return view('backend.order.show')->with(array('order' => $order, 'orderStatuses' => OrderStatusService::selectAll()->pluck('title', 'id')));
     }
 
     public function updateStatus($orderId)

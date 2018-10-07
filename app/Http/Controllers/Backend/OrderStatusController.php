@@ -9,8 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusRepository;
 use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusEmailTemplateRepository;
+
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -20,11 +21,9 @@ class OrderStatusController extends Controller
 {
     public function __construct(
         Request $request,
-        OrderStatusRepository $orderStatus,
         OrderStatusEmailTemplateRepository $orderStatusEmailTemplate
     ) {
         $this->request = $request;
-        $this->orderStatus = $orderStatus;
         $this->orderStatusEmailTemplate = $orderStatusEmailTemplate;
     }
 
@@ -32,7 +31,7 @@ class OrderStatusController extends Controller
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->orderStatus->getModel()->select(
+            $query = OrderStatusService::getModel()->select(
                 ['id', 'color','title']
             )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -59,7 +58,7 @@ class OrderStatusController extends Controller
 
         }
         
-        return view('backend.order-status.index')->with('content', $this->orderStatus->selectAll());
+        return view('backend.order-status.index')->with('content', OrderStatusService::selectAll());
     }
 
     public function create()
@@ -69,7 +68,7 @@ class OrderStatusController extends Controller
 
     public function store()
     {
-        $result  = $this->orderStatus->create($this->request->all());
+        $result  = OrderStatusService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The order status was inserted.');
@@ -84,7 +83,7 @@ class OrderStatusController extends Controller
 
     public function edit($orderStatusId)
     {
-        $orderStatus = $this->orderStatus->find($orderStatusId);
+        $orderStatus = OrderStatusService::find($orderStatusId);
 
         $populatedData = array();
            
@@ -99,12 +98,12 @@ class OrderStatusController extends Controller
 
     public function editSeo($orderStatusId)
     {
-        return view('backend.order-status.edit_seo')->with(array('content' => $this->orderStatus->find($orderStatusId)));
+        return view('backend.order-status.edit_seo')->with(array('content' => OrderStatusService::find($orderStatusId)));
     }
 
     public function update($orderStatusId)
     {
-        $result  = $this->orderStatus->updateById($this->request->all(), $orderStatusId);
+        $result  = OrderStatusService::updateById($this->request->all(), $orderStatusId);
 
         if (isset($result->id)) {
             Notification::success('order status was updated.');
@@ -120,7 +119,7 @@ class OrderStatusController extends Controller
 
     public function destroy($orderStatusId)
     {
-        $result  = $this->orderStatus->destroy($orderStatusId);
+        $result  = OrderStatusService::destroy($orderStatusId);
 
         if ($result) {
             Notification::success('The order status was deleted.');

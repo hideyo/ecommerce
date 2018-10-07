@@ -9,8 +9,7 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusEmailTemplateRepository;
-use Hideyo\Ecommerce\Framework\Services\SendingMethod\Entity\SendingPaymentMethodRelatedRepository;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -20,20 +19,17 @@ use Form;
 class OrderStatusEmailTemplateController extends Controller
 {
     public function __construct(
-        Request $request,
-        OrderStatusEmailTemplateRepository $orderHtmlTemplate,
-        SendingPaymentMethodRelatedRepository $sendingPaymentMethodRelated
+        Request $request
     ) {
         $this->request = $request;
-        $this->orderHtmlTemplate = $orderHtmlTemplate;
-        $this->sendingPaymentMethodRelated = $sendingPaymentMethodRelated;
+
     }
 
     public function index()
     {
         if ($this->request->wantsJson()) {
 
-            $query = $this->orderHtmlTemplate->getModel()->select(
+            $query = OrderStatusEmailTemplateService::getModel()->select(
                 ['id', 'title', 'subject']
             )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -48,7 +44,7 @@ class OrderStatusEmailTemplateController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.order-status-email-template.index')->with(array('orderHtmlTemplate' =>  $this->orderHtmlTemplate->selectAll()));
+        return view('backend.order-status-email-template.index')->with(array('orderHtmlTemplate' =>  OrderStatusEmailTemplateService::selectAll()));
     }
 
     public function create()
@@ -58,7 +54,7 @@ class OrderStatusEmailTemplateController extends Controller
 
     public function store()
     {
-        $result  = $this->orderHtmlTemplate->create($this->request->all());
+        $result  = OrderStatusEmailTemplateService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The template was inserted.');
@@ -74,17 +70,17 @@ class OrderStatusEmailTemplateController extends Controller
 
     public function edit($templateId)
     {
-        return view('backend.order-status-email-template.edit')->with(array('orderHtmlTemplate' => $this->orderHtmlTemplate->find($templateId)));
+        return view('backend.order-status-email-template.edit')->with(array('orderHtmlTemplate' => OrderStatusEmailTemplateService::find($templateId)));
     }
 
     public function showAjaxTemplate($templateId)
     {
-        return response()->json($this->orderHtmlTemplate->find($templateId));
+        return response()->json(OrderStatusEmailTemplateService::find($templateId));
     }
 
     public function update($templateId)
     {
-        $result  = $this->orderHtmlTemplate->updateById($this->request->all(), $templateId);
+        $result  = OrderStatusEmailTemplateService::updateById($this->request->all(), $templateId);
 
         if (isset($result->id)) {
             Notification::success('template was updated.');
@@ -100,7 +96,7 @@ class OrderStatusEmailTemplateController extends Controller
 
     public function destroy($templateId)
     {
-        $result  = $this->orderHtmlTemplate->destroy($templateId);
+        $result  = OrderStatusEmailTemplateService::destroy($templateId);
 
         if ($result) {
             Notification::success('template was deleted.');
