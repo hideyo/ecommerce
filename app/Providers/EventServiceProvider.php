@@ -13,8 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Event' => [
-            'App\Listeners\EventListener',
+        'Hideyo\Ecommerce\Framework\Services\Order\Events\OrderChangeStatus' => [
+            'Hideyo\Ecommerce\Framework\Services\Order\Events\Handlers\HandleOrderStatusValidated',
+            'Hideyo\Ecommerce\Framework\Services\Order\Events\Handlers\HandleOrderStatusEmail'
         ],
     ];
 
@@ -30,3 +31,5 @@ class EventServiceProvider extends ServiceProvider
         //
     }
 }
+
+

@@ -21,7 +21,7 @@ use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Carbon\Carbon;
 use Request;
 use Notification;
-use App\Events\OrderChangeStatus;
+use Hideyo\Ecommerce\Framework\Services\Order\Events\OrderChangeStatus;
 use Event;
 use Excel;
 use PDF;
@@ -237,7 +237,7 @@ class OrderController extends Controller
             \Notification::success('The status was updated to '.$result->OrderStatus->title);
         }
 
-        return redirect()->route('admin.order.show', $orderId);
+        return redirect()->route('order.show', $orderId);
     }
 
     public function download($orderId)
