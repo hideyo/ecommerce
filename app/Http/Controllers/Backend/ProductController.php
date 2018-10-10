@@ -11,14 +11,12 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
-use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductWeightTypeRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ProductExtraFieldValueRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
-use Hideyo\Ecommerce\Framework\Services\Brand\Entity\BrandRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductCombinationFacade as ProductCombinationService;
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
+use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
+
 
 use Illuminate\Http\Request;
 use Notification;
@@ -28,19 +26,9 @@ use DB;
 class ProductController extends Controller
 {
     public function __construct(
-        Request $request,
-        ProductRepository $product,
-        ProductCategoryRepository $productCategory,
-        TaxRateRepository $taxRate,
-        ProductCombinationRepository $productCombination,
-        BrandRepository $brand
+        Request $request
     ) {
         $this->request = $request;
-        $this->product = $product;
-        $this->productCategory = $productCategory;
-        $this->taxRate = $taxRate;
-        $this->productCombination = $productCombination;
-        $this->brand = $brand;
     }
 
     public function index()
@@ -48,7 +36,7 @@ class ProductController extends Controller
 
         if ($this->request->wantsJson()) {
 
-            $product = $this->product->getModel()->select(
+            $product = ProductService::getModel()->select(
                 ['product.*', 
                 'brand.title as brandtitle', 
                 'product_category.title as categorytitle']
@@ -203,14 +191,14 @@ class ProductController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.product.index')->with('product', $this->product->selectAll());
+        return view('backend.product.index')->with('product', ProductService::selectAll());
     }
 
     public function getRank()
     {
         if ($this->request->wantsJson()) {
 
-            $product = $this->product->getModel()->select(
+            $product = ProductService::getModel()->select(
                 ['product.*', 
                 'brand.title as brandtitle', 
                 'product_category.title as categorytitle']
@@ -246,7 +234,7 @@ class ProductController extends Controller
 
         }
         
-        return view('backend.product.rank')->with('product', $this->product->selectAll());
+        return view('backend.product.rank')->with('product', ProductService::selectAll());
     }
 
     public function refactorAllImages()
@@ -257,12 +245,12 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('backend.product.create')->with(array('brands' => $this->brand->selectAll()->pluck('title', 'id')->toArray(), 'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'productCategories' => $this->productCategory->selectAllProductPullDown()->pluck('title', 'id')));
+        return view('backend.product.create')->with(array('brands' => BrandService::selectAll()->pluck('title', 'id')->toArray(), 'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'), 'productCategories' => ProductCategoryService::selectAllProductPullDown()->pluck('title', 'id')));
     }
 
     public function store()
     {
-        $result  = $this->product->create($this->request->all());
+        $result  = ProductService::create($this->request->all());
 
         if (isset($result->id)) {
             Notification::success('The product was inserted.');
@@ -278,33 +266,33 @@ class ProductController extends Controller
 
     public function changeActive($productId)
     {
-        $result = $this->product->changeActive($productId);
+        $result = ProductService::changeActive($productId);
         return response()->json($result);
     }
 
     public function changeAmount($productId, $amount)
     {
-        $result = $this->product->changeAmount($productId, $amount);
+        $result = ProductService::changeAmount($productId, $amount);
         return response()->json($result);
     }
 
 
     public function changeRank($productId, $rank = 0)
     {
-        $result = $this->product->changeRank($productId, $rank);
+        $result = ProductService::changeRank($productId, $rank);
         return response()->json($result);
     }
 
     public function edit($productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
 
         return view('backend.product.edit')->with(
             array(
             'product' => $product,
-            'brands' => $this->brand->selectAll()->pluck('title', 'id')->toArray(),
-            'productCategories' => $this->productCategory->selectAllProductPullDown()->pluck('title', 'id'),
-            'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id')
+            'brands' => BrandService::selectAll()->pluck('title', 'id')->toArray(),
+            'productCategories' => ProductCategoryService::selectAllProductPullDown()->pluck('title', 'id'),
+            'taxRates' => TaxRateService::selectAll()->pluck('title', 'id')
             )
         );
     }
@@ -317,7 +305,7 @@ class ProductController extends Controller
     public function postExport()
     {
 
-        $result  =  $this->product->selectAllExport();
+        $result  =  ProductService::selectAllExport();
         Excel::create('export', function ($excel) use ($result) {
 
             $excel->sheet('Products', function ($sheet) use ($result) {
@@ -365,22 +353,22 @@ class ProductController extends Controller
 
     public function copy($productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
 
         return view('backend.product.copy')->with(
             array(
-                'brands' => $this->brand->selectAll()->pluck('title', 'id')->toArray(),
+                'brands' => BrandService::selectAll()->pluck('title', 'id')->toArray(),
             'product' => $product,
-            'productCategories' => $this->productCategory->selectAll()->pluck('title', 'id'),
-            'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id')
+            'productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id'),
+            'taxRates' => TaxRateService::selectAll()->pluck('title', 'id')
             )
         );
     }
 
     public function storeCopy($productId)
     {
-        $product = $this->product->find($productId);
-        $result  = $this->product->createCopy($this->request->all(), $productId);
+        $product = ProductService::find($productId);
+        $result  = ProductService::createCopy($this->request->all(), $productId);
 
         if (isset($result->id)) {
             if ($product->attributes) {
@@ -408,19 +396,19 @@ class ProductController extends Controller
 
     public function editSeo($id)
     {
-        return view('backend.product.edit_seo')->with(array('product' => $this->product->find($id)));
+        return view('backend.product.edit_seo')->with(array('product' => ProductService::find($id)));
     }
 
     public function editPrice($id)
     {
-        return view('backend.product.edit_price')->with(array('product' => $this->product->find($id), 'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id')));
+        return view('backend.product.edit_price')->with(array('product' => ProductService::find($id), 'taxRates' => TaxRateService::selectAll()->pluck('title', 'id')));
     }
 
     public function update($productId)
     {
 
         $input = $this->request->all();
-        $result  = $this->product->updateById($input, $productId);
+        $result  = ProductService::updateById($input, $productId);
 
         $redirect = redirect()->route('product.index');
 
@@ -450,7 +438,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $result  = $this->product->destroy($id);
+        $result  = ProductService::destroy($id);
 
         if ($result) {
             Notification::success('The product was deleted.');

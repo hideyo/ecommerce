@@ -12,29 +12,19 @@
 use App\Http\Controllers\Controller;
 
 
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductExtraFieldValueRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductExtraFieldValueFacade as ProductExtraFieldValueService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
 
 use Illuminate\Http\Request;
 use Notification;
 
 class ProductExtraFieldValueController extends Controller
 {
-    public function __construct(
-        ProductExtraFieldValueRepository $productExtraFieldValue,
-        ProductRepository $product,
-        ExtraFieldRepository $extraField
-    ) {
-        $this->productExtraFieldValue = $productExtraFieldValue;
-        $this->product = $product;
-        $this->extraField = $extraField;
-    }
-
     public function index($productId)
     {
-        $product = $this->product->find($productId);
-        $extraFieldsData = $this->productExtraFieldValue->selectAllByProductId($productId);
+        $product = ProductService::find($productId);
+        $extraFieldsData = ProductExtraFieldValueService::selectAllByProductId($productId);
         $newExtraFieldsData = array();
         if ($extraFieldsData->count()) {
             foreach ($extraFieldsData as $row) {
@@ -47,8 +37,8 @@ class ProductExtraFieldValueController extends Controller
    
         return view('backend.product-extra-field-value.index')->with(
             array(
-                'extraFields' =>  $this->extraField->selectAllByAllProductsAndProductCategoryId($product->product_category_id),
-                'product' => $this->product->find($productId),
+                'extraFields' =>  ExtraFieldService::selectAllByAllProductsAndProductCategoryId($product->product_category_id),
+                'product' => ProductService::find($productId),
                 'populateData' => $newExtraFieldsData
             )
         );
@@ -56,11 +46,11 @@ class ProductExtraFieldValueController extends Controller
 
     public function store($productId, Request $request)
     {
-        $result  = $this->productExtraFieldValue->create($request->all(), $productId);
+        $result  = ProductExtraFieldValueService::create($request->all(), $productId);
  
         if (isset($result->id)) {
             Notification::success('The product extra fields are updated.');
-            return redirect()->route('product.extra-field-value.index', $productId);
+            return redirect()->route('product.product-extra-field-value.index', $productId);
         }
           
         return redirect()->back()->withInput();
@@ -68,13 +58,13 @@ class ProductExtraFieldValueController extends Controller
 
     public function edit($productId, $id)
     {
-        $product = $this->product->find($productId);
-        return view('backend.product-extra-field-value.edit')->with(array('productExtraFieldValue' => $this->productExtraFieldValue->find($id), 'product' => $product));
+        $product = ProductService::find($productId);
+        return view('backend.product-extra-field-value.edit')->with(array('productExtraFieldValue' => ProductExtraFieldValueService::find($id), 'product' => $product));
     }
 
     public function update(Request $request, $productId, $id)
     {
-        $result  = $this->productExtraFieldValue->updateById($request->all(), $productId, $id);
+        $result  = ProductExtraFieldValueService::updateById($request->all(), $productId, $id);
 
         if (isset($result->id)) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
@@ -86,7 +76,7 @@ class ProductExtraFieldValueController extends Controller
 
     public function destroy($productId, $id)
     {
-        $result  = $this->productExtraFieldValue->destroy($id);
+        $result  = ProductExtraFieldValueService::destroy($id);
 
         if ($result) {
             Notification::success('The product image is deleted.');
