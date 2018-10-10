@@ -8,6 +8,12 @@
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
   
+		<ol class="breadcrumb">
+		  <li><a href="/"><i class="entypo-folder"></i>Dashboard</a></li>
+		  <li><a href="{{ URL::route('product.index') }}">Product</a></li>
+		  <li><a href="{{ URL::route('product.edit', $product->id) }}">{{ $product->title }}</a></li>
+		  <li class="active">related</li>
+		</ol>
 
            
 

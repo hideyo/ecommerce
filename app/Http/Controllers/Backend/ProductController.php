@@ -251,17 +251,7 @@ class ProductController extends Controller
     public function store()
     {
         $result  = ProductService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The product was inserted.');
-            return redirect()->route('product.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ProductService::notificationRedirect('product.index', $result, 'The product was inserted.');
     }
 
     public function changeActive($productId)

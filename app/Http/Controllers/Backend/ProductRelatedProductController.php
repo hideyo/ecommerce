@@ -11,28 +11,25 @@
 
 use App\Http\Controllers\Controller;
 
-
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRelatedProductRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductRelatedProductFacade as ProductRelatedProductService;
 
 use Illuminate\Http\Request;
 use Notification;
 
 class ProductRelatedProductController extends Controller
 {
-    public function __construct(Request $request, ProductRelatedProductRepository $productRelatedProduct, ProductRepository $product)
+    public function __construct(Request $request)
     {
-        $this->productRelatedProduct    = $productRelatedProduct;
-        $this->product                  = $product;
-        $this->request                  = $request;
+        $this->request = $request;
     }    
 
     public function index($productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
         if ($this->request->wantsJson()) {
 
-            $query = $this->productRelatedProduct->getModel()->where('product_id', '=', $productId);
+            $query = ProductRelatedProductService::getModel()->where('product_id', '=', $productId);
             
             $datatables = \Datatables::of($query)
                 ->addColumn('related', function ($query) use ($productId) {
@@ -55,38 +52,21 @@ class ProductRelatedProductController extends Controller
 
     public function create($productId)
     {
-        $product = $this->product->find($productId);
-        $products = $this->product->selectAll()->pluck('title', 'id');
+        $product = ProductService::find($productId);
+        $products = ProductService::selectAll()->pluck('title', 'id');
 
         return view('backend.product_related_product.create')->with(array('products' => $products, 'product' => $product));
     }
     
     public function store($productId)
     {
-        $result  = $this->productRelatedProduct->create($this->request->all(), $productId);
+        $result  = ProductRelatedProductService::create($this->request->all(), $productId);
         return redirect()->route('product.related-product.index', $productId);
-    }
-
-    public function edit($productRelatedProductId)
-    {
-        return view('backend.product_related_product.edit')->with(array('productRelatedProduct' => ProductImage::find($productRelatedProductId), 'categories' => $this->productRelatedProduct->selectAll()->pluck('title', 'id')));
-    }
-
-    public function update($productRelatedProductId)
-    {
-        $result  = $this->productRelatedProduct->updateById($this->generateInput(), $productRelatedProductId);
-
-        if (!$result->id) {
-            return redirect()->back()->withInput()->withErrors($result->errors()->all());
-        } else {
-            Notification::success('The related product is updated.');
-            return redirect()->route('product_related_product.index');
-        }
     }
 
     public function destroy($productId, $productRelatedProductId)
     {
-        $result  = $this->productRelatedProduct->destroy($productRelatedProductId);
+        $result  = ProductRelatedProductService::destroy($productRelatedProductId);
 
         if ($result) {
             Notification::success('The related product is deleted.');

@@ -47,40 +47,6 @@ class ProductExtraFieldValueController extends Controller
     public function store($productId, Request $request)
     {
         $result  = ProductExtraFieldValueService::create($request->all(), $productId);
- 
-        if (isset($result->id)) {
-            Notification::success('The product extra fields are updated.');
-            return redirect()->route('product.product-extra-field-value.index', $productId);
-        }
-          
-        return redirect()->back()->withInput();
-    }
-
-    public function edit($productId, $id)
-    {
-        $product = ProductService::find($productId);
-        return view('backend.product-extra-field-value.edit')->with(array('productExtraFieldValue' => ProductExtraFieldValueService::find($id), 'product' => $product));
-    }
-
-    public function update(Request $request, $productId, $id)
-    {
-        $result  = ProductExtraFieldValueService::updateById($request->all(), $productId, $id);
-
-        if (isset($result->id)) {
-            return redirect()->back()->withInput()->withErrors($result->errors()->all());
-        }
-        
-        Notification::success('The product image is updated.');
-        return redirect()->route('product.{productId}.images.index', $productId);
-    }
-
-    public function destroy($productId, $id)
-    {
-        $result  = ProductExtraFieldValueService::destroy($id);
-
-        if ($result) {
-            Notification::success('The product image is deleted.');
-            return redirect()->route('product.{productId}.images.index', $productId);
-        }
+         return ProductExtraFieldValueService::notificationRedirect(array('product.product-extra-field-value.index', $productId), $result, 'The product extra fields are updated.');
     }
 }
