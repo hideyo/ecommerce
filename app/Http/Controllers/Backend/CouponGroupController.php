@@ -51,17 +51,7 @@ class CouponGroupController extends Controller
     public function store()
     {
         $result  = CouponService::createGroup($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The coupon was inserted.');
-            return redirect()->route('coupon-group.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return CouponService::notificationRedirect('coupon-group.index', $result, 'The coupon group was inserted.');
     }
 
     public function edit($couponGroupId)
@@ -71,28 +61,8 @@ class CouponGroupController extends Controller
 
     public function update($couponGroupId)
     {
-
         $result  = CouponService::updateGroupById($this->request->all(), $couponGroupId);
-
-        if (isset($result->id)) {
-            if ($this->request->get('seo')) {
-                Notification::success('CouponGroup seo was updated.');
-                return redirect()->route('coupon-group.edit_seo', $couponGroupId);
-            } elseif ($this->request->get('coupon-combination')) {
-                Notification::success('CouponGroup combination leading attribute group was updated.');
-                return redirect()->route('coupon-group.{couponId}.coupon-combination.index', $couponGroupId);
-            } else {
-                Notification::success('CouponGroup was updated.');
-                return redirect()->route('coupon-group.edit', $couponGroupId);
-            }
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-       
-        return redirect()->back()->withInput();
+        return CouponService::notificationRedirect('coupon-group.index', $result, 'The coupon group was updated.');
     }
 
     public function destroy($couponGroupId)

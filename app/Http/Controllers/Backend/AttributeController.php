@@ -68,16 +68,7 @@ class AttributeController extends Controller
     public function store(Request $request, $attributeGroupId)
     {
         $result  = AttributeService::create($request->all(), $attributeGroupId);
-
-        if (isset($result->id)) {
-            Notification::success('The extra field was inserted.');
-            return redirect()->route('attribute.index', $attributeGroupId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return AttributeService::notificationRedirect(array('attribute.index', $attributeGroupId), $result, 'The attribute was inserted.');
     }
 
     /**
@@ -103,17 +94,7 @@ class AttributeController extends Controller
     public function update(Request $request, $attributeGroupId, $attributeId)
     {
         $result  = AttributeService::updateById($request->all(), $attributeGroupId, $attributeId);
-
-        if (isset($result->id)) {
-            Notification::success('Attribute was updated.');
-            return redirect()->route('attribute.index', $attributeGroupId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-
-        return redirect()->back()->withInput();
+        return AttributeService::notificationRedirect(array('attribute.index', $attributeGroupId), $result, 'The attribute was updated.');
     }
 
     /**
@@ -124,7 +105,7 @@ class AttributeController extends Controller
      */
     public function destroy($attributeGroupId, $attributeId)
     {
-        $result  = Attribute::destroy($attributeId);
+        $result  = AttributeService::destroy($attributeId);
 
         if ($result) {
             Notification::success('Atrribute was deleted.');

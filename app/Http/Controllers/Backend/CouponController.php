@@ -74,16 +74,7 @@ class CouponController extends Controller
     public function store()
     {
         $result  = CouponService::create($this->request->all());
- 
-        if (isset($result->id)) {
-            Notification::success('The coupon was inserted.');
-            return redirect()->route('coupon.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return CouponService::notificationRedirect('coupon.index', $result, 'The coupon was inserted.');
     }
 
     public function edit($couponId)
@@ -103,16 +94,7 @@ class CouponController extends Controller
     public function update($couponId)
     {
         $result  = CouponService::updateById($this->request->all(), $couponId);
-
-        if (isset($result->id)) {
-            Notification::success('The coupon method was updated.');
-            return redirect()->route('coupon.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return CouponService::notificationRedirect('coupon.index', $result, 'The coupon was updated.');
     }
 
     public function destroy($couponId)

@@ -66,17 +66,7 @@ class ExtraFieldController extends Controller
     public function store()
     {
         $result  = ExtraFieldService::create(Request::all());
-
-        if (isset($result->id)) {
-            Notification::success('The extra field was inserted.');
-            return redirect()->route('extra-field.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }     
-
-        return redirect()->back()->withInput();
+        return ExtraFieldService::notificationRedirect('extra-field.index', $result, 'The extra field was inserted.');
     }
 
     public function edit($id)
@@ -87,17 +77,7 @@ class ExtraFieldController extends Controller
     public function update($id)
     {
         $result  = ExtraFieldService::updateById(Request::all(), $id);
-
-        if (isset($result->id)) {
-            Notification::success('The extra field was updated.');
-            return redirect()->route('extra-field.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-       
-        return redirect()->back()->withInput();
+        return ExtraFieldService::notificationRedirect('extra-field.index', $result, 'The extra field was updated.');
     }
 
     public function destroy($id)

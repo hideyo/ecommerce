@@ -69,16 +69,7 @@ class OrderStatusController extends Controller
     public function store()
     {
         $result  = OrderStatusService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The order status was inserted.');
-            return redirect()->route('order-status.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return OrderStatusService::notificationRedirect('order-status.index', $result, 'The order status was inserted.');
     }
 
     public function edit($orderStatusId)
@@ -104,18 +95,8 @@ class OrderStatusController extends Controller
     public function update($orderStatusId)
     {
         $result  = OrderStatusService::updateById($this->request->all(), $orderStatusId);
-
-        if (isset($result->id)) {
-            Notification::success('order status was updated.');
-            return redirect()->route('order-status.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result->errors()->all());
+        return OrderStatusService::notificationRedirect('order-status.index', $result, 'The order status was updated.');
     }
-
 
     public function destroy($orderStatusId)
     {

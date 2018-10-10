@@ -111,16 +111,7 @@ class ClientController extends Controller
     public function store()
     {
         $result  = ClientService::create($this->request->all());
-        
-        if (isset($result->id)) {
-            Notification::success('The client was inserted.');
-            return redirect()->route('client.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return ClientService::notificationRedirect('client.index', $result, 'The client was inserted.');
     }
 
     public function edit($clientId)

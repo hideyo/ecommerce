@@ -55,17 +55,7 @@ class OrderStatusEmailTemplateController extends Controller
     public function store()
     {
         $result  = OrderStatusEmailTemplateService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The template was inserted.');
-            return redirect()->route('order-status-email-template.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-
-        return redirect()->back()->withInput();
+        return OrderStatusEmailTemplateService::notificationRedirect('order-status-email-template.index', $result, 'The template was inserted.');
     }
 
     public function edit($templateId)
@@ -81,17 +71,7 @@ class OrderStatusEmailTemplateController extends Controller
     public function update($templateId)
     {
         $result  = OrderStatusEmailTemplateService::updateById($this->request->all(), $templateId);
-
-        if (isset($result->id)) {
-            Notification::success('template was updated.');
-            return redirect()->route('order-status-email-template.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput()->withErrors($result->errors()->all());
+        return OrderStatusEmailTemplateService::notificationRedirect('order-status-email-template.index', $result, 'The template was updated.');
     }
 
     public function destroy($templateId)

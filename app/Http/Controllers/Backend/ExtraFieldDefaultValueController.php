@@ -53,17 +53,7 @@ class ExtraFieldDefaultValueController extends Controller
     public function store($extraFieldId)
     {
         $result  = ExtraFieldService::createValue(Request::all(), $extraFieldId);
-
-        if (isset($result->id)) {
-            Notification::success('The extra field was inserted.');
-            return redirect()->route('extra-field.values.index', $extraFieldId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }  
-
-        return redirect()->back()->withInput();
+        return ExtraFieldService::notificationRedirect(array('extra-field.values.index', $extraFieldId), $result, 'The extra field was inserted.');
     }
 
     public function edit($extraFieldId, $id)
@@ -74,17 +64,7 @@ class ExtraFieldDefaultValueController extends Controller
     public function update($extraFieldId, $id)
     {
         $result  = ExtraFieldService::updateValueById(Request::all(), $extraFieldId, $id);
-
-        if (isset($result->id)) {
-            Notification::success('The extra field was updated.');
-            return redirect()->route('extra-field.values.index', $extraFieldId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }      
-
-        return redirect()->back()->withInput();
+        return ExtraFieldService::notificationRedirect(array('extra-field.values.index', $extraFieldId), $result, 'The extra field was updated.');
     }
 
     public function destroy($extraFieldId, $id)
@@ -93,7 +73,7 @@ class ExtraFieldDefaultValueController extends Controller
 
         if ($result) {
             Notification::success('Extra field was deleted.');
-            return Redirect::route('hideyo.extra-field.values.index', $extraFieldId);
+            return redirect()->route('extra-field.values.index', $extraFieldId);
         }
     }
 }

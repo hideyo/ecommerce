@@ -83,14 +83,7 @@ class ClientAddressController extends Controller
     public function store($clientId)
     {
         $result  = ClientService::createAddress($this->request->all(), $clientId);
- 
-        if ($result->id) {
-            Notification::success('The client address is inserted.');
-            return redirect()->route('client.addresses.index', $clientId);
-        }
-        
-        Notification::error('field are required');
-        return redirect()->back()->withInput()->withErrors($result->errors()->all());
+        return ClientService::notificationRedirect(array('client.addresses.index', $clientId), $result, 'The client adress is inserted.');
     }
 
     public function edit($clientId, $id)
@@ -102,13 +95,7 @@ class ClientAddressController extends Controller
     public function update($clientId, $id)
     {
         $result  = ClientService::editAddress($clientId, $id, $this->request->all());
-
-        if (!$result->id) {
-            return redirect()->back()->withInput()->withErrors($result->errors()->all());
-        }
-    
-        Notification::success('The client address is updated.');    
-        return redirect()->route('client.addresses.index', $clientId); 
+        return ClientService::notificationRedirect(array('client.addresses.index', $clientId), $result, 'The client adress is updated.'); 
     }
 
     public function destroy($clientId, $id)

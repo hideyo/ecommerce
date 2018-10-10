@@ -50,41 +50,17 @@ class AttributeGroupController extends Controller
         return view('backend.attribute-group.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return view
-     */
     public function create()
     {
         return view('backend.attribute-group.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request  $request
-     * @return Redirect
-     */
     public function store(Request $request)
     {
         $result  = AttributeService::createGroup($request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The extra field was inserted.');
-            return redirect()->route('attribute-group.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }      
-
-        return redirect()->back()->withInput();
+        return AttributeService::notificationRedirect('attribute-group.index', $result, 'The attribute group was inserted.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param  int  $attributeGroupId
-     * @return Redirect
-     */
     public function edit($attributeGroupId)
     {
         return view('backend.attribute-group.edit')
@@ -95,33 +71,12 @@ class AttributeGroupController extends Controller
         );
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $attributeGroupId
-     * @return Redirect
-     */
     public function update(Request $request, $attributeGroupId)
     {
         $result  = AttributeService::updateGroupById($request->all(), $attributeGroupId);
-
-        if (isset($result->id)) {
-            Notification::success('Attribute group was updated.');
-            return redirect()->route('attribute-group.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-    
-        return redirect()->back()->withInput();
+        return AttributeService::notificationRedirect('attribute-group.index', $result, 'The attribute group was updated.');
     }
 
-    /**
-     * Remove the specified resource from storagep
-     * @param  int  $attributeGroupId
-     * @return Redirect
-     */
     public function destroy($attributeGroupId)
     {
         $result  = AttributeService::destroyGroup($attributeGroupId);
