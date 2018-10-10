@@ -18,9 +18,7 @@ use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
 
 class ContentGroupController extends Controller
 {
-    public function __construct(
-        Request $request
-    ) {
+    public function __construct(Request $request) {
         $this->request = $request;
     }
 

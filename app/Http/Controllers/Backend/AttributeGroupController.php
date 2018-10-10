@@ -11,7 +11,6 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use DB;
 use Datatables;
 use Form;
 
@@ -31,7 +30,7 @@ class AttributeGroupController extends Controller
         if ($request->wantsJson()) {
 
             $query = AttributeService::getGroupModel()
-            ->select([DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id','title'])
+            ->select(['id','title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
@@ -62,12 +61,7 @@ class AttributeGroupController extends Controller
 
     public function edit($attributeGroupId)
     {
-        return view('backend.attribute-group.edit')
-        ->with(
-            array(
-                'attributeGroup' => AttributeService::findGroup($attributeGroupId)
-            )
-        );
+        return view('backend.attribute-group.edit')->with(array('attributeGroup' => AttributeService::findGroup($attributeGroupId)));
     }
 
     public function update(Request $request, $attributeGroupId)

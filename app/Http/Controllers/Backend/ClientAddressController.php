@@ -19,8 +19,7 @@ use Datatables;
 
 class ClientAddressController extends Controller
 {
-    public function __construct(
-        Request $request)
+    public function __construct(Request $request)
     {
         $this->request          = $request;
     }

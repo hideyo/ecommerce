@@ -20,10 +20,8 @@ use Datatables;
 
 class ContentController extends Controller
 {
-    public function __construct(
-        Request $request
-    ) {
-
+    public function __construct(Request $request) 
+    {
         $this->request = $request;
     }
 
@@ -80,7 +78,6 @@ class ContentController extends Controller
 
     public function update($contentId)
     {
-
         $result  = ContentService::updateById($this->request->all(), $contentId);
         return ContentService::notificationRedirect('content.index', $result, 'The content was updated.');
     }

@@ -17,8 +17,7 @@ use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
 
 class BrandController extends Controller
 {
-    public function __construct(
-        Request $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }

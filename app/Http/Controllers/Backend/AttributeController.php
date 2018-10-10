@@ -37,7 +37,6 @@ class AttributeController extends Controller
             ->addColumn('action', function ($query) use ($attributeGroupId) {
                 $deleteLink = Form::deleteajax(url()->route('attribute.destroy', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = ' <a href="'.url()->route('attribute.edit', array('attributeGroupId' => $attributeGroupId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>'.$deleteLink;
-            
                 return $links;
             });
 
@@ -79,9 +78,7 @@ class AttributeController extends Controller
      */
     public function edit($attributeGroupId, $attributeId)
     {
-        return view('backend.attribute.edit')->with(
-            array('attributeGroupId' => $attributeGroupId, 'attribute' => AttributeService::find($attributeId))
-        );
+        return view('backend.attribute.edit')->with(array('attributeGroupId' => $attributeGroupId, 'attribute' => AttributeService::find($attributeId)));
     }
 
     /**

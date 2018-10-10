@@ -42,7 +42,6 @@ class ExtraFieldDefaultValueController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('backend.extra-field-default-value.index')->with('extraField', ExtraFieldService::find($extraFieldId));

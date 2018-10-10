@@ -16,10 +16,7 @@ use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 
 class NewsGroupController extends Controller
 {
-
-    public function __construct(
-        Request $request
-    ) {
+    public function __construct(Request $request) {
         $this->request = $request;
     }
 
