@@ -16,17 +16,4 @@
         </a>
     </li>
 
-    @if(isset($newsGroupEditSeo))
-    <li class="active">
-    @else
-    <li>
-    @endif
-        <a href="{{ URL::route('news-group.edit_seo', $newsGroup->id) }}">
-            <span class="visible-xs"><i class="entypo-gauge"></i></span>
-            <span class="hidden-xs">Seo</span>
-        </a>
-    </li>  
-   
-
-
 </ul>

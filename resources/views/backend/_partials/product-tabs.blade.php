@@ -79,16 +79,6 @@
 
 
 
-                        @if(isset($productEditSeo))
-                        <li class="active">
-                            @else   
-                            <li>
-                                @endif
-                                <a href="{{ URL::route('product.edit_seo', $product->id) }}">
-                                    <span class="visible-xs"><i class="entypo-gauge"></i></span>
-                                    <span class="hidden-xs">Seo</span>
-                                </a>
-                            </li>  
 
                             
                             @if(isset($productImage))

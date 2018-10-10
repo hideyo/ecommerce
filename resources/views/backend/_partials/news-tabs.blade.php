@@ -15,17 +15,6 @@
                     <span class="hidden-xs">Edit</span>
                 </a>
             </li>
-
-            @if(isset($newsEditSeo))
-            <li class="active">
-            @else
-            <li>
-            @endif
-                <a href="{{ URL::route('news.edit_seo', $news->id) }}">
-                    <span class="visible-xs"><i class="entypo-gauge"></i></span>
-                    <span class="hidden-xs">Seo</span>
-                </a>
-            </li>  
            
             @if(isset($newsImages))
             <li class="active">

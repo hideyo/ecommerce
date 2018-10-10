@@ -63,13 +63,9 @@
 
     Route::resource('content/{contentId}/images', 'ContentImageController', array('as' => 'content'));
 
-    Route::get('content/edit/{contentId}/seo', array('as' => 'content.edit_seo', 'uses' => 'ContentController@editSeo'));
-
     Route::resource('content', 'ContentController');
 
     Route::resource('content-group', 'ContentGroupController');
-
-    Route::get('content-group/edit/{contentGroupId}/seo', array('as' => 'content-group.edit_seo', 'uses' => 'ContentGroupController@editSeo'));
 
     Route::get('news/refactor-images', array('as' => 'news.refactor.images', 'uses' => 'NewsController@refactorAllImages'));
  
@@ -78,13 +74,10 @@
 
     Route::resource('news/{newsId}/images', 'NewsImageController', ['as' => 'news']);
 
-    Route::get('news/edit/{newsId}/seo', array('as' => 'news.edit_seo', 'uses' => 'NewsController@editSeo'));
-
     Route::resource('news', 'NewsController');
 
     Route::resource('news-group', 'NewsGroupController');
 
-    Route::get('news-group/edit/{newsGroupId}/seo', array('as' => 'news-group.edit_seo', 'uses' => 'NewsGroupController@editSeo'));
 
     Route::resource('faq', 'FaqItemController');
 
@@ -146,7 +139,6 @@
     Route::get('product/change-amount/{productId}/{amount?}', array('as' => 'product.change-amount', 'uses' => 'ProductController@changeAmount', 'as' => 'product.change-amount'));
     Route::get('product/change-rank/{productId}/{rank?}', array('as' => 'product.change-rank', 'uses' => 'ProductController@changeRank', 'as' => 'product.change-rank'));
   
-    Route::get('product/edit/{productId}/seo', array('as' => 'product.edit_seo', 'uses' => 'ProductController@editSeo'));
     Route::resource('product/{productId}/images', 'ProductImageController', ['as' => 'product']);
     Route::resource('product/{productId}/product-amount-option', 'ProductAmountOptionController', ['as' => 'product']);
     Route::resource('product/{productId}/product-amount-series', 'ProductAmountSeriesController', ['as' => 'product']);
