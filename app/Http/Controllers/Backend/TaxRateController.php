@@ -78,7 +78,7 @@ class TaxRateController extends Controller
     {
         $result  = TaxRateService::destroy($taxRateId);
         if ($result) {
-            Notification::error('The tax_rate was deleted.');
+            Notification::error('The tax rate was deleted.');
             return redirect()->route('tax-rate.index');
         }
     }

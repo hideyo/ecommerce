@@ -98,16 +98,8 @@ class FaqItemController extends Controller
         $result  = FaqService::updateById($this->request->all(), $faqId);
 
         if (isset($result->id)) {
-            if ($this->request->get('seo')) {
-                Notification::success('FaqItem seo was updated.');
-                return redirect()->route('faq.edit_seo', $faqId);
-            } elseif ($this->request->get('faq-combination')) {
-                Notification::success('FaqItem combination leading attribute group was updated.');
-                return redirect()->route('faq.{faqId}.faq-combination.index', $faqId);
-            } else {
-                Notification::success('FaqItem was updated.');
-                return redirect()->route('faq.edit', $faqId);
-            }
+            Notification::success('FaqItem was updated.');
+            return redirect()->route('faq.index');
         }
 
         foreach ($result->errors()->all() as $error) {
