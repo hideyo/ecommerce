@@ -56,17 +56,7 @@ class ProductImageController extends Controller
     public function store($productId)
     {
         $result  = ProductService::createImage($this->request->all(), $productId);
- 
-        if (isset($result->id)) {
-            Notification::success('The product image is inserted.');
-            return redirect()->route('product.images.index', $productId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ProductService::notificationRedirect(array('product.images.index', $productId), $result, 'The product image was inserted.');
     }
 
     public function edit($productId, $productImageId)
@@ -125,13 +115,7 @@ class ProductImageController extends Controller
     public function update($productId, $productImageId)
     {
         $result  = ProductService::updateImageById($this->request->all(), $productId, $productImageId);
-
-        if (!$result->id) {
-            return redirect()->back()->withInput()->withErrors($result->errors()->all());
-        }
-        
-        Notification::success('The product image is updated.');
-        return redirect()->route('product.images.index', $productId);
+        return ProductService::notificationRedirect(array('product.images.index', $productId), $result, 'The product image was update.');
     }
 
     public function destroy($productId, $productImageId)
