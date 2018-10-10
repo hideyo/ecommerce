@@ -55,3 +55,7 @@ package-lock.json
 /config/deploy
 /config/deploy.rb
 /CapFile
+
+
+/database/migrations/*
+/database/seeds/*

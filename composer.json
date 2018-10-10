@@ -29,7 +29,7 @@
         "edvinaskrucas/notification": "5.*",
         "cviebrock/eloquent-sluggable": "^4.1",
         "yajra/laravel-datatables-oracle": "~6.0",
-        "barryvdh/laravel-debugbar": "^2.1",
+        "barryvdh/laravel-debugbar": "2.4",
         "laravelcollective/html": "^5.2",
         "baum/baum": "~1.1",
         "intervention/image": "~2.3",

@@ -14,6 +14,8 @@ use Dutchbridge\Datatable\ProductCategoryDatatable;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
 
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
+
 use Illuminate\Http\Request;
 use Notification;
 use Auth;
@@ -32,7 +34,7 @@ class ProductCategoryController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $productCategory = $this->productCategory->getModel()->select(
+            $productCategory = ProductCategoryService::getModel()->select(
                 ['id', 'active','shop_id','parent_id', 'redirect_product_category_id','title', 'meta_title', 'meta_description']
             )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
@@ -92,7 +94,7 @@ class ProductCategoryController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.product_category.index')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(auth('hideyobackend')->user()->shop->id)->toArray()));
+        return view('backend.product_category.index')->with(array('productCategory' =>  ProductCategoryService::selectAll()));
     }
 
     public function refactorAllImages()
@@ -103,7 +105,7 @@ class ProductCategoryController extends Controller
 
     public function tree()
     {
-        return view('backend.product_category.tree')->with(array('productCategory' =>  $this->productCategory->selectAll(), 'tree' => $this->productCategory->entireTreeStructure(auth('hideyobackend')->user()->shop->id)->toArray()));
+        return view('backend.product_category.tree')->with(array('productCategory' =>  ProductCategoryService::selectAll(), 'tree' => ProductCategoryService::entireTreeStructure(auth('hideyobackend')->user()->shop->id)->toArray()));
     }
 
     public function ajaxCategories(Request $request)
@@ -112,14 +114,14 @@ class ProductCategoryController extends Controller
         $selectedId = $request->get('selectedId');
 
         if ($request->wantsJson()) {
-            return response()->json($this->productCategory->ajaxSearchByTitle($query, $selectedId));
+            return response()->json(ProductCategoryService::ajaxSearchByTitle($query, $selectedId));
         }
     }
 
     public function ajaxCategory(Request $request, $productCategoryId)
     {
         if ($request->wantsJson()) {
-            return response()->json($this->productCategory->find($productCategoryId));
+            return response()->json(ProductCategoryService::find($productCategoryId));
         }
     }
 
@@ -138,12 +140,12 @@ class ProductCategoryController extends Controller
 
     public function create()
     {
-        return view('backend.product_category.create')->with(array('categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('backend.product_category.create')->with(array('categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function store(Request $request)
     {
-        $result  = $this->productCategory->create($this->generateInput($request->all()));
+        $result  = ProductCategoryService::create($this->generateInput($request->all()));
 
         if (isset($result->id)) {
             Notification::success('The product category was inserted.');
@@ -159,25 +161,25 @@ class ProductCategoryController extends Controller
 
     public function edit($productCategoryId)
     {
-        $category =$this->productCategory->find($productCategoryId);
-        return view('backend.product_category.edit')->with(array('productCategory' => $this->productCategory->find($productCategoryId), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        $category = ProductCategoryService::find($productCategoryId);
+        return view('backend.product_category.edit')->with(array('productCategory' => ProductCategoryService::find($productCategoryId), 'categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function editHighlight($productCategoryId)
     {
-        $category =$this->productCategory->find($productCategoryId);
+        $category = ProductCategoryService::find($productCategoryId);
         $products = $this->product->selectAll()->pluck('title', 'id');
-        return view('backend.product_category.edit-highlight')->with(array('products' => $products, 'productCategory' => $this->productCategory->find($productCategoryId), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('backend.product_category.edit-highlight')->with(array('products' => $products, 'productCategory' => ProductCategoryService::find($productCategoryId), 'categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function editSeo($productCategoryId)
     {
-        return view('backend.product_category.edit_seo')->with(array('productCategory' => $this->productCategory->find($productCategoryId), 'categories' => $this->productCategory->selectAll()->pluck('title', 'id')));
+        return view('backend.product_category.edit_seo')->with(array('productCategory' => ProductCategoryService::find($productCategoryId), 'categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function update(Request $request, $productCategoryId)
     {
-        $result  = $this->productCategory->updateById($this->generateInput($request->all()), $productCategoryId);
+        $result  = ProductCategoryService::updateById($this->generateInput($request->all()), $productCategoryId);
 
         if (isset($result->id)) {
             if ($request->get('seo')) {
@@ -201,7 +203,7 @@ class ProductCategoryController extends Controller
 
     public function destroy($productCategoryId)
     {
-        $result  = $this->productCategory->destroy($productCategoryId);
+        $result  = ProductCategoryService::destroy($productCategoryId);
 
         if ($result) {
             Notification::success('Category was deleted.');
@@ -211,7 +213,7 @@ class ProductCategoryController extends Controller
 
     public function ajaxRootTree()
     {
-        $tree = $this->productCategory->entireTreeStructure(auth('hideyobackend')->user()->shop->id);
+        $tree = ProductCategoryService::entireTreeStructure(auth('hideyobackend')->user()->shop->id);
         foreach ($tree as $key => $row) {
             $children = false;
             if ($row->children->count()) {
@@ -233,7 +235,7 @@ class ProductCategoryController extends Controller
     public function ajaxChildrenTree(Request $request)
     {
         $productCategoryId = $request->get('id');
-        $category = $this->productCategory->find($productCategoryId);
+        $category = ProductCategoryService::find($productCategoryId);
 
         foreach ($category->children()->get() as $key => $row) {
             $children = false;
@@ -253,7 +255,7 @@ class ProductCategoryController extends Controller
 
     public function changeActive($productCategoryId)
     {
-        $result = $this->productCategory->changeActive($productCategoryId);
+        $result = ProductCategoryService::changeActive($productCategoryId);
         return response()->json($result);
     }
 
@@ -261,11 +263,11 @@ class ProductCategoryController extends Controller
     {
         $productCategoryId = $request->get('id');
         $position = $request->get('position');
-        $node = $this->productCategory->find($productCategoryId);
+        $node = ProductCategoryService::find($productCategoryId);
         $parent = $request->get('parent');
 
         if ($parent != '#') {
-            $parent = $this->productCategory->find($parent);
+            $parent = ProductCategoryService::find($parent);
             if ($position == 0) {
                 $node->makeFirstChildOf($parent);
             } elseif ($parent->children()->count()) {
@@ -283,12 +285,12 @@ class ProductCategoryController extends Controller
             $node->makeRoot();
         }
 
-        $node = $this->productCategory->find($productCategoryId);
+        $node = ProductCategoryService::find($productCategoryId);
         $arrayPosition = $node->siblingsAndSelf()->get()->toArray();
 
         $positionToMove = $arrayPosition[$position];
         
-        $otherNode = $this->productCategory->find($positionToMove['id']);
+        $otherNode = ProductCategoryService::find($positionToMove['id']);
         $node->moveToLeftOf($otherNode);
     }
 }

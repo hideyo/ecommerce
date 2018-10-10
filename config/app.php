@@ -188,6 +188,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        Hideyo\Ecommerce\Framework\Providers\HideyoServiceProvider::class,
         Hideyo\Ecommerce\Framework\Providers\RouteServiceProvider::class,
         Hideyo\Ecommerce\Framework\Providers\CartServiceProvider::class,
         Hideyo\Ecommerce\Framework\Providers\ComposerServiceProvider::class,
