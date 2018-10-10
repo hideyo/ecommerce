@@ -10,40 +10,33 @@
 
 use App\Http\Controllers\Controller;
 
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductCombinationFacade as ProductCombinationService;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
+use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductCombinationRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeGroupRepository;
-use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
+use Illuminate\Http\Request;
+use Notification;
 
-use \Request;
-use \Notification;
-use \Redirect;
-use \Response;
 
 class ProductCombinationController extends Controller
 {
     public function __construct(
-        ProductCombinationRepository $productCombination,
-        ProductRepository $product,
-        AttributeGroupRepository $attributeGroup,
-        TaxRateRepository $taxRate
-    ) {
-        $this->productCombination = $productCombination;
-        $this->product = $product;
-        $this->attributeGroup = $attributeGroup;
-        $this->taxRate = $taxRate;
+        Request $request)
+    {
+        $this->request = $request;
     }
+
 
     public function index($productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
 
         if($product) {
-            if (Request::wantsJson()) {
+            if ($this->request->wantsJson()) {
 
-                $query = $this->productCombination->getModel()->select(
+                $query = ProductCombinationService::getModel()->select(
                     ['id', 'tax_rate_id', 'amount', 'price', 'product_id', 'reference_code',
                     'default_on']
                 )->where('product_id', '=', $productId);
@@ -132,60 +125,52 @@ class ProductCombinationController extends Controller
 
             }
             
-            return view('backend.product-combination.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
+            return view('backend.product-combination.index')->with(array('product' => $product, 'attributeGroups' => AttributeService::selectAllGroups()->pluck('title', 'id')));
         }
         
-        return Redirect::route('product.index');            
+        return redirect()->route('product.index');            
     }
 
     public function create($productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
 
-        if (Request::wantsJson()) {
-            $input = Request::all();
-            $attributeGroup = $this->attributeGroup->find($input['attribute_group_id']);
+        if ($this->request->wantsJson()) {
+            $input = $this->request->all();
+            $attributeGroup = AttributeService::findGroup($input['attribute_group_id']);
             if ($attributeGroup->count()) {
                 if ($attributeGroup->attributes()) {
-                    return Response::json($attributeGroup->attributes);
+                    return response()->json($attributeGroup->attributes);
                 }
             }
         }
         
-        return view('backend.product-combination.create')->with(array('taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
+        return view('backend.product-combination.create')->with(array('taxRates' => TaxRateService::selectAll()->pluck('title', 'id'), 'product' => $product, 'attributeGroups' => AttributeService::selectAllGroups()->pluck('title', 'id')));
     }
 
     public function changeAmount($productId, $id, $amount)
     {
-        $result = $this->productCombination->changeAmount($id, $amount);
+        $result = ProductCombinationService::changeAmount($id, $amount);
 
-        return Response::json($result);
+        return response()->json($result);
     }
 
     public function store($productId)
     {
-        $result  = $this->productCombination->create(Request::all(), $productId);
- 
-        if (isset($result->id)) {
-            Notification::success('The product extra fields are updated.');
-            return Redirect::route('product-combination.index', $productId);
+        $result  = ProductCombinationService::create($this->request->all(), $productId);
+        if($result) {
+            return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product extra fields are updated.');
+
         }
 
-        if ($result) {
-            foreach ($result->errors()->all() as $error) {
-                \Notification::error($error);
-            }
-        } else {
-            \Notification::error('combination already exist');
-        }
-        
-        return \Redirect::back()->withInput();
+        Notification::error('combination already exist');
+        return redirect()->back()->withInput();
     }
 
     public function edit($productId, $id)
     {
-        $product = $this->product->find($productId);
-        $productCombination = $this->productCombination->find($id);
+        $product = ProductService::find($productId);
+        $productCombination = ProductCombinationService::find($id);
         $selectedAttributes = array();
         $attributes = array();
         foreach ($productCombination->combinations as $row) {
@@ -194,39 +179,34 @@ class ProductCombinationController extends Controller
             $attributes[$row->attribute->id]['value'] = $row->attribute->value;
         }
 
-        if (Request::wantsJson()) {
-            $input = Request::all();
-            $attributeGroup = $this->attributeGroup->find($input['attribute_group_id']);
+        if ($this->request->wantsJson()) {
+            $input = $this->request->all();
+            $attributeGroup = AttributeService::find($input['attribute_group_id']);
             if ($attributeGroup->count()) {
                 if ($attributeGroup->attributes()) {
-                    return Response::json($attributeGroup->attributes);
+                    return response()->json($attributeGroup->attributes);
                 }
             }
         } else {
-            return view('backend.product-combination.edit')->with(array('taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'selectedAttributes' => $selectedAttributes, 'attributes' => $attributes, 'productCombination' => $productCombination, 'product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
+            return view('backend.product-combination.edit')->with(array('taxRates' => TaxRateService::selectAll()->pluck('title', 'id'), 'selectedAttributes' => $selectedAttributes, 'attributes' => $attributes, 'productCombination' => $productCombination, 'product' => $product, 'attributeGroups' => AttributeService::selectAllGroups()->pluck('title', 'id')));
         }
     }
 
     public function update($productId, $id)
     {
 
-        $result  = $this->productCombination->updateById(Request::all(), $productId, $id);
+        $result  = ProductCombinationService::updateById($this->request->all(), $productId, $id);
+        return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product combinations are updated.');
 
-        if (!$result->id) {
-            return Redirect::back()->withInput()->withErrors($result->errors()->all());
-        }
-        
-        Notification::success('The product combination is updated.');
-        return Redirect::route('product-combination.index', $productId);
     }
 
     public function destroy($productId, $id)
     {
-        $result  = $this->productCombination->destroy($id);
+        $result  = ProductCombinationService::destroy($id);
 
         if ($result) {
             Notification::success('The product combination is deleted.');
-            return Redirect::route('product-combination.index', $productId);
+            return redirect()->route('product-combination.index', $productId);
         }
     }
 }
