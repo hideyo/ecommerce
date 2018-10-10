@@ -58,7 +58,6 @@ class GeneralSettingController extends Controller
     {
         $result  = GeneralSettingService::updateById($this->request->all(), $generalSettingId);
         return GeneralSettingService::notificationRedirect('general-setting.index', $result, 'The general setting was updated.');
-    
     }
 
     public function destroy($generalSettingId)

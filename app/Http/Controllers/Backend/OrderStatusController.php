@@ -87,11 +87,6 @@ class OrderStatusController extends Controller
         );
     }
 
-    public function editSeo($orderStatusId)
-    {
-        return view('backend.order-status.edit_seo')->with(array('content' => OrderStatusService::find($orderStatusId)));
-    }
-
     public function update($orderStatusId)
     {
         $result  = OrderStatusService::updateById($this->request->all(), $orderStatusId);

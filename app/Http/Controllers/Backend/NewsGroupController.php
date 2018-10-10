@@ -67,25 +67,7 @@ class NewsGroupController extends Controller
     public function update($newsGroupId)
     {
         $result  = NewsService::updateGroupById(Request::all(), $newsGroupId);
-
-        if (isset($result->id)) {
-            if (Request::get('seo')) {
-                Notification::success('NewsGroup seo was updated.');
-                return redirect()->route('news-group.edit_seo', $newsGroupId);
-            } elseif (Request::get('news-combination')) {
-                Notification::success('NewsGroup combination leading attribute group was updated.');
-                return redirect()->route('news-group.{newsId}.news-combination.index', $newsGroupId);
-            } else {
-                Notification::success('NewsGroup was updated.');
-                return redirect()->route('news-group.edit', $newsGroupId);
-            }
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }        
-       
-        return redirect()->back()->withInput();
+        return NewsService::notificationRedirect('news-group.index', $result, 'The news group was updated.');
     }
 
     public function destroy($newsGroupId)

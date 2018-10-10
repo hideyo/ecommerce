@@ -73,14 +73,8 @@ class FaqItemController extends Controller
 
     public function edit($faqItemId)
     {
-
         $groups = FaqService::selectAllGroups()->pluck('title', 'id')->toArray();
         return view('backend.faq-item.edit')->with(array('faq' => FaqService::find($faqItemId), 'groups' => $groups));
-    }
-
-    public function editSeo($faqItemId)
-    {
-        return view('backend.faq-item.edit_seo')->with(array('faq' => FaqService::find($faqItemId)));
     }
 
     public function update($faqId)

@@ -51,8 +51,6 @@ class ExtraFieldController extends Controller
             });
 
             return $datatables->make(true);
-
-
         }
         
         return view('backend.extra-field.index')->with('extraField', ExtraFieldService::selectAll());

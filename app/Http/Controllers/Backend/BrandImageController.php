@@ -57,16 +57,7 @@ class BrandImageController extends Controller
     public function store($brandId)
     {
         $result  = BrandService::createImage($this->request->all(), $brandId);
- 
-        if (isset($result->id)) {
-            Notification::success('The brand image was inserted.');
-            return redirect()->route('brand.images.index', $brandId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result);
+        return BrandService::notificationRedirect(array('brand.images.index', $brandId), $result, 'The brand image was inserted.');
     }
 
     public function edit($brandId, $brandImageId)
@@ -78,16 +69,7 @@ class BrandImageController extends Controller
     public function update($brandId, $brandImageId)
     {
         $result  = BrandService::updateImageById($this->request->all(), $brandId, $brandImageId);
-
-        if (isset($result->id)) {
-            Notification::success('The brand image was updated.');
-            return redirect()->route('brand.images.index', $brandId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result);
+        return BrandService::notificationRedirect(array('brand.images.index', $brandId), $result, 'The brand image was updated.');
     }
 
     public function destroy($brandId, $brandImageId)

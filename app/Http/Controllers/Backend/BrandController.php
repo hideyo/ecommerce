@@ -54,11 +54,6 @@ class BrandController extends Controller
         return BrandService::notificationRedirect('brand.index', $result, 'The brand was inserted.');
     }
 
-    public function editSeo($brandId)
-    {
-        return view('backend.brand.edit_seo')->with(array('brand' => BrandService::find($brandId)));
-    }
-
     public function edit($brandId)
     {
         return view('backend.brand.edit')->with(array('brand' => BrandService::find($brandId)));

@@ -70,17 +70,7 @@ class ContentController extends Controller
     public function store()
     {
         $result  = ContentService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The content was inserted.');
-            return redirect()->route('content.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ContentService::notificationRedirect('content.index', $result, 'The content was inserted.');
     }
 
     public function edit($contentId)
@@ -88,35 +78,11 @@ class ContentController extends Controller
         return view('backend.content.edit')->with(array('content' => ContentService::find($contentId), 'groups' => ContentService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
-    public function editSeo($contentId)
-    {
-        return view('backend.content.edit_seo')->with(array('content' => ContentService::find($contentId)));
-    }
-
     public function update($contentId)
     {
 
         $result  = ContentService::updateById($this->request->all(), $contentId);
-
-        if (isset($result->id)) {
-            if ($this->request->get('seo')) {
-                Notification::success('Content seo was updated.');
-                return redirect()->route('content.edit_seo', $contentId);
-            } elseif ($this->request->get('content-combination')) {
-                Notification::success('Content combination leading attribute group was updated.');
-                return redirect()->route('content.{contentId}.content-combination.index', $contentId);
-            } else {
-                Notification::success('Content was updated.');
-                return redirect()->route('content.edit', $contentId);
-            }
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-       
-        return redirect()->back()->withInput();
+        return ContentService::notificationRedirect('content.index', $result, 'The content was updated.');
     }
 
     public function destroy($contentId)

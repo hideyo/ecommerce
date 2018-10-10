@@ -63,16 +63,7 @@ class NewsImageController extends Controller
     public function store($newsId)
     {
         $result  = NewsService::createImage($this->request->all(), $newsId);
- 
-        if (isset($result->id)) {
-            Notification::success('The news image was inserted.');
-            return redirect()->route('news-images.index', $newsId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result);  
+        return NewsService::notificationRedirect(array('news-images.index', $newsId), $result, 'The news image was inserted.');
     }
 
     public function edit($newsId, $newsImageId)
@@ -84,16 +75,7 @@ class NewsImageController extends Controller
     public function update($newsId, $newsImageId)
     {
         $result  = NewsService::updateImageById($this->request->all(), $newsId, $newsImageId);
-
-        if (isset($result->id)) {
-            Notification::success('The news image was updated.');
-            return redirect()->route('news-images.index', $newsId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result);
+        return NewsService::notificationRedirect(array('news-images.index', $newsId), $result, 'The news image was updated.');
     }
 
     public function destroy($newsId, $newsImageId)

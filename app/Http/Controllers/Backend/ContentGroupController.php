@@ -55,17 +55,11 @@ class ContentGroupController extends Controller
     {
         $result  = ContentService::createGroup($this->request->all());
         return ContentService::notificationRedirect('content-group.index', $result, 'The content group was inserted.');
-   
     }
 
     public function edit($contentGroupId)
     {
         return view('backend.content_group.edit')->with(array('contentGroup' => ContentService::findGroup($contentGroupId)));
-    }
-
-    public function editSeo($contentGroupId)
-    {
-        return view('backend.content_group.edit_seo')->with(array('contentGroup' => ContentService::find($contentGroupId)));
     }
 
     public function update($contentGroupId)

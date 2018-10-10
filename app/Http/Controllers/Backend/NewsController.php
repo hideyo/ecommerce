@@ -92,11 +92,6 @@ class NewsController extends Controller
 
         return redirect()->route('news.index');
     }
-
-    public function editSeo($newsId)
-    {
-        return view('backend.news.edit_seo')->with(array('news' => NewsService::find($newsId)));
-    }
     
     public function update($newsId)
     {

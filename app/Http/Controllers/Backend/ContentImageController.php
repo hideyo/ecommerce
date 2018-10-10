@@ -62,16 +62,7 @@ class ContentImageController extends Controller
     public function store($contentId)
     {
         $result  = ContentService::createImage($this->request->all(), $contentId);
- 
-        if (isset($result->id)) {
-            Notification::success('The content image was inserted.');
-            return redirect()->route('content.{contentId}.images.index', $contentId);
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result);
+        return ContentService::notificationRedirect(array('content.{contentId}.images.index', $contentId), $result, 'The content image was inserted.');
     }
 
     public function edit($contentId, $contentImageId)
@@ -83,16 +74,7 @@ class ContentImageController extends Controller
     public function update($contentId, $contentImageId)
     {
         $result  = ContentService::updateImageById($this->request->all(), $contentId, $contentImageId);
-
-        if (isset($result->id)) {
-            Notification::success('The content image was updated.');
-            return redirect()->route('content.{contentId}.images.index', $contentId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
-        }
+        return ContentService::notificationRedirect(array('content.{contentId}.images.index', $contentId), $result, 'The content image was updated.');
     }
 
     public function destroy($contentId, $contentImageId)

@@ -58,16 +58,7 @@ class ProductCategoryImageController extends Controller
     public function store(Request $request, $productCategoryId)
     {
         $result  = ProductCategoryService::createImage($request->all(), $productCategoryId);
- 
-        if (isset($result->id)) {
-            Notification::success('The category image was inserted.');
-            return redirect()->route('product-category.images.index', $productCategoryId);
-        } else {
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }
-            return redirect()->back()->withInput()->withErrors($result);
-        }
+        return ProductCategoryService::notificationRedirect(array('product-category.images.index', $productCategoryId), $result, 'The category image was inserted.');
     }
 
     public function edit(Request $request, $productCategoryId, $productCategoryImageId)
@@ -79,16 +70,7 @@ class ProductCategoryImageController extends Controller
     public function update(Request $request, $productCategoryId, $productCategoryImageId)
     {
         $result  = ProductCategoryService::updateImageById($request->all(), $productCategoryId, $productCategoryImageId);
-
-        if (isset($result->id)) {
-            Notification::success('The category image was updated.');
-            return redirect()->route('product-category.images.index', $productCategoryId);
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput()->withErrors($result);
+        return ProductCategoryService::notificationRedirect(array('product-category.images.index', $productCategoryId), $result, 'The category image was updated.');
     }
 
     public function destroy($productCategoryId, $productCategoryImageId)
