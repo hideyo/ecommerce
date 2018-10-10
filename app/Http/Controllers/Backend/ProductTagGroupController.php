@@ -49,17 +49,7 @@ class ProductTagGroupController extends Controller
     public function store()
     {
         $result  = ProductTagGroupService::create(\Request::all());
-
-        if (isset($result->id)) {
-            Notification::success('The product group tag was inserted.');
-            return redirect()->route('product-tag-group.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ProductTagGroupService::notificationRedirect('product-tag-group.index', $result, 'The product group tag was inserted.');
     }
 
     public function edit($productTagGroupId)
@@ -75,17 +65,7 @@ class ProductTagGroupController extends Controller
     public function update($productTagGroupId)
     {
         $result  = ProductTagGroupService::updateById(\Request::all(), $productTagGroupId);
-
-        if (isset($result->id)) {
-            Notification::success('The product group tag was updated.');
-            return redirect()->route('product-tag-group.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ProductTagGroupService::notificationRedirect('product-tag-group.index', $result, 'The product group tag was updated.');
     }
 
     public function destroy($productTagGroupId)

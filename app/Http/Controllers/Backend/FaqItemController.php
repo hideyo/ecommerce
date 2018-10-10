@@ -68,17 +68,7 @@ class FaqItemController extends Controller
     public function store()
     {
         $result  = FaqService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The faq was inserted.');
-            return redirect()->route('faq.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return FaqService::notificationRedirect('faq.index', $result, 'FaqItem was inserted.');
     }
 
     public function edit($faqItemId)
@@ -96,18 +86,7 @@ class FaqItemController extends Controller
     public function update($faqId)
     {
         $result  = FaqService::updateById($this->request->all(), $faqId);
-
-        if (isset($result->id)) {
-            Notification::success('FaqItem was updated.');
-            return redirect()->route('faq.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-       
-        return redirect()->back()->withInput();
+        return FaqService::notificationRedirect('faq.index', $result, 'FaqItem was updated.');
     }
 
     public function destroy($faqItemId)

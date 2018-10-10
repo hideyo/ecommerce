@@ -57,18 +57,7 @@ class RedirectController extends Controller
     public function store()
     {
         $result  = RedirectService::create(Request::all());
- 
-
-        if (isset($result->id)) {
-            Notification::success('The redirect was created.');
-            return redirect()->route('redirect.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return RedirectService::notificationRedirect('redirect.index', $result, 'The redirect was inserted.');
     }
 
     public function edit($redirectId)
@@ -129,17 +118,7 @@ class RedirectController extends Controller
     public function update($redirectId)
     {
         $result  = RedirectService::updateById(Request::all(), $redirectId);
-
-        if (isset($result->id)) {
-            Notification::success('The redirect was updated.');
-            return redirect()->route('redirect.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return RedirectService::notificationRedirect('redirect.index', $result, 'The redirect was updated.');
     }
 
     public function destroy($redirectId)

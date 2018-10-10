@@ -46,16 +46,7 @@ class GeneralSettingController extends Controller
     public function store()
     {
         $result  = GeneralSettingService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The general setting was inserted.');
-            return redirect()->route('general-setting.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return GeneralSettingService::notificationRedirect('general-setting.index', $result, 'The general setting was inserted.');
     }
 
     public function edit($generalSettingId)
@@ -66,16 +57,8 @@ class GeneralSettingController extends Controller
     public function update($generalSettingId)
     {
         $result  = GeneralSettingService::updateById($this->request->all(), $generalSettingId);
-
-        if (isset($result->id)) {
-            Notification::success('The general setting was updated.');
-            return redirect()->route('general-setting.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return GeneralSettingService::notificationRedirect('general-setting.index', $result, 'The general setting was updated.');
+    
     }
 
     public function destroy($generalSettingId)

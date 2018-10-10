@@ -46,55 +46,17 @@ class UserController extends Controller
         
         return view('backend.user.index');
     }
-
-    public function show($id)
-    {
-        $user = UserService::find($id);
-        $userProfileData = $user->getUserProfileData()->get();
-        return view('backend.user.show')->with(array('user' => $user, 'user_profile_data' => $userProfileData));
-    }
-
+    
     public function create()
     {
         $shops = ShopService::selectAll()->pluck('title', 'id');
         return view('backend.user.create', array('shops' => $shops));
     }
 
-    public function selectNumber($id)
-    {
-        $numbers = $this->number->selectNewNumbers();
-
-        return view('backend.user.select_number', array('numbers' => $numbers, 'user' => UserService::find($id)));
-    }
-
-    public function storeNumber($user_id)
-    {
-        $result  = $this->userNumber->create(Request::all(), $user_id);
- 
-        if ($result->user_id) {
-            return Redirect::route('user.numbers', $user_id);
-        } else {
-            Notification::error('field are required');
-        }
-
-        return Redirect::back()->withInput()->withErrors($result->errors);
-    }
-
     public function store()
     {
         $result  = UserService::signup(Request::all());
- 
-
-        if (isset($result->id)) {
-            Notification::success('The user was inserted.');
-            return Redirect::route('user.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            \Notification::error($error);
-        }
-        
-        return \Redirect::back()->withInput();
+        return UserService::notificationRedirect('user.index', $result, 'The user was inserted.');
     }
 
     public function edit($id)
@@ -133,14 +95,7 @@ class UserController extends Controller
         }
 
         $result  = UserService::updateProfileById(Request::all(), Request::file('avatar'), $id);
-
-        if ($result->errors) {
-            return Redirect::back()->withInput()->withErrors($result->errors);
-        } else {
-            //$this->userLog->create('info', 'My Profile '.$result->email.' updated', $result->id);
-            Notification::success('The user was updated.');
-            return Redirect::route('edit.profile');
-        }
+        return UserService::notificationRedirect('user.index', $result, 'The user was updated.');
     }
 
     public function updateLanguage()
@@ -162,14 +117,7 @@ class UserController extends Controller
     public function update($id)
     {
         $result  = UserService::updateById(Request::all(), Request::file('avatar'), $id);
-    
-        if ($result->errors) {
-            return Redirect::back()->withInput()->withErrors($result->errors);
-        } else {
-            // $this->userLog->create('info', 'Profile '.$result->email.' updated', $result->id);
-            Notification::success('The user was updated.');
-            return Redirect::route('user.edit', $result->id);
-        }
+        return UserService::notificationRedirect('user.index', $result, 'The user was updated.');
     }
 
     public function destroy($id)

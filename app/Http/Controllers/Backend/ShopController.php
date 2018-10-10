@@ -57,17 +57,7 @@ class ShopController extends Controller
     public function store()
     {
         $result  = ShopService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The shop was inserted.');
-            return redirect()->route('shop.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ShopService::notificationRedirect('shop.index', $result, 'The shop was inserted.');
     }
 
     public function edit($shopId)
@@ -78,17 +68,7 @@ class ShopController extends Controller
     public function update($shopId)
     {
         $result  = ShopService::updateById($this->request->all(), $shopId);
-
-        if (isset($result->id)) {
-            Notification::success('The shop was updated.');
-            return redirect()->route('shop.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ShopService::notificationRedirect('shop.index', $result, 'The shop was updated.');
     }
 
     public function destroy($shopId)

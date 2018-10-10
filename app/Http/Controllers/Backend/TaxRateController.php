@@ -42,16 +42,7 @@ class TaxRateController extends Controller
     public function store()
     {
         $result  = TaxRateService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The tax rate was inserted.');
-            return redirect()->route('tax-rate.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return TaxRateService::notificationRedirect('tax-rate.index', $result, 'The tax rate was inserted.');
     }
 
     public function edit($taxRateId)
@@ -62,16 +53,7 @@ class TaxRateController extends Controller
     public function update($taxRateId)
     {
         $result  = TaxRateService::updateById($this->request->all(), $taxRateId);
-
-        if (isset($result->id)) {
-            Notification::success('The tax rate was updated.');
-            return redirect()->route('tax-rate.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return TaxRateService::notificationRedirect('tax-rate.index', $result, 'The tax rate was updated.');
     }
 
     public function destroy($taxRateId)

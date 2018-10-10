@@ -79,17 +79,7 @@ class PaymentMethodController extends Controller
     public function store()
     {
         $result  = PaymentMethodService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The payment method was inserted.');
-            return redirect()->route('payment-method.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return PaymentMethodService::notificationRedirect('payment-method.index', $result, 'The payment method was inserted.');
     }
 
     public function edit($paymentMethodId)
@@ -106,17 +96,7 @@ class PaymentMethodController extends Controller
     public function update($paymentMethodId)
     {
         $result  = PaymentMethodService::updateById($this->request->all(), $paymentMethodId);
-
-        if (isset($result->id)) {
-            Notification::success('The payment method was updated.');
-            return redirect()->route('payment-method.index');
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return PaymentMethodService::notificationRedirect('payment-method.index', $result, 'The payment method was updated.');
     }
 
     public function destroy($paymentMethodId)

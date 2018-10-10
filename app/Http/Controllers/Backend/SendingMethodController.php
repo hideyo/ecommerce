@@ -54,17 +54,7 @@ class SendingMethodController extends Controller
     public function store()
     {
         $result  = SendingMethodService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The sending method was inserted.');
-            return redirect()->route('sending-method.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return SendingMethodService::notificationRedirect('sending-method.index', $result, 'The sending method was inserted.');
     }
 
     public function edit($sendingMethodId)
@@ -81,17 +71,7 @@ class SendingMethodController extends Controller
     public function update($sendingMethodId)
     {
         $result  = SendingMethodService::updateById($this->request->all(), $sendingMethodId);
-
-        if (isset($result->id)) {
-            Notification::success('The sending method was updated.');
-            return redirect()->route('sending-method.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return SendingMethodService::notificationRedirect('sending-method.index', $result, 'The sending method was updated.');
     }
 
     public function destroy($sendingMethodId)
