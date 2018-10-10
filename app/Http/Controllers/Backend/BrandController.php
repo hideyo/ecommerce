@@ -51,16 +51,7 @@ class BrandController extends Controller
     public function store()
     {
         $result  = BrandService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The brand was inserted.');
-            return redirect()->route('brand.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        return redirect()->back()->withInput();
+        return BrandService::notificationRedirect('brand.index', $result, 'The brand was inserted.');
     }
 
     public function editSeo($brandId)
@@ -76,25 +67,7 @@ class BrandController extends Controller
     public function update($brandId)
     {
         $result  = BrandService::updateById($this->request->all(), $brandId);
-
-        if (isset($result->id)) {
-            if ($this->request->get('seo')) {
-                Notification::success('Brand seo was updated.');
-                return redirect()->route('brand.edit_seo', $brandId);
-            } elseif ($this->request->get('brand-combination')) {
-                Notification::success('Brand combination leading attribute group was updated.');
-                return redirect()->route('brand.{brandId}.brand-combination.index', $brandId);
-            }
-
-            Notification::success('Brand was updated.');
-            return redirect()->route('brand.edit', $brandId);            
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }        
-       
-        return redirect()->back()->withInput();
+        return BrandService::notificationRedirect('brand.index', $result, 'The brand was updated.');
     }
 
     public function destroy($brandId)

@@ -65,6 +65,29 @@ class HtmlBlockController extends Controller
         return view('backend.html-block.create')->with(array());
     }
 
+    public function store()
+    {
+        $result  = HtmlBlockService::create($this->request->all());
+        return HtmlBlockService::notificationRedirect('html-block.index', $result, 'The html block was inserted.');     
+    }
+
+    public function changeActive($htmlBlockId)
+    {
+        $result = HtmlBlockService::changeActive($htmlBlockId);
+        return response()->json($result);
+    }
+
+    public function edit($htmlBlockId)
+    {
+        return view('backend.html-block.edit')->with(array('htmlBlock' => HtmlBlockService::find($htmlBlockId)));
+    }
+
+    public function update($htmlBlockId)
+    {
+        $result  = HtmlBlockService::updateById($this->request->all(), $htmlBlockId);
+            return HtmlBlockService::notificationRedirect('html-block.index', $result, 'The html block was updated.');     
+    }
+
     public function copy($htmlBlockId)
     {
         $htmlBlock = HtmlBlockService::find($htmlBlockId);
@@ -81,75 +104,10 @@ class HtmlBlockController extends Controller
         $htmlBlock = HtmlBlockService::find($htmlBlockId);
 
         if($htmlBlock) {
-
             $result  = HtmlBlockService::createCopy($this->request->all(), $htmlBlockId);
-
-            if (isset($result->id)) {
-                Notification::success('The htmlBlock copy is inserted.');
-                return redirect()->route('html-block.index');
-            }
-
-            foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
-            }        
+            return HtmlBlockService::notificationRedirect('html-block.index', $result, 'The html block was inserted.');      
         }
 
-        return redirect()->back()->withInput();
-    }
-
-    public function store()
-    {
-        $result  = HtmlBlockService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The html block was inserted.');
-            return redirect()->route('html-block.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
-    }
-
-    public function changeActive($htmlBlockId)
-    {
-        $result = HtmlBlockService::changeActive($htmlBlockId);
-        return response()->json($result);
-    }
-
-    public function edit($htmlBlockId)
-    {
-        return view('backend.html-block.edit')->with(array('htmlBlock' => HtmlBlockService::find($htmlBlockId)));
-    }
-
-    public function editSeo($htmlBlockId)
-    {
-        return view('backend.html-block.edit_seo')->with(array('htmlBlock' => HtmlBlockService::find($htmlBlockId)));
-    }
-
-    public function update($htmlBlockId)
-    {
-        $result  = HtmlBlockService::updateById($this->request->all(), $htmlBlockId);
-
-        if (isset($result->id)) {
-            if ($this->request->get('seo')) {
-                Notification::success('HtmlBlock seo was updated.');
-                return redirect()->route('html-block.edit_seo', $htmlBlockId);
-            } elseif ($this->request->get('htmlBlock-combination')) {
-                Notification::success('HtmlBlock combination leading attribute group was updated.');
-                return redirect()->route('html-block.{htmlBlockId}.htmlBlock-combination.index', $htmlBlockId);
-            }
-
-            Notification::success('HtmlBlock was updated.');
-            return redirect()->route('html-block.edit', $htmlBlockId);  
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
         return redirect()->back()->withInput();
     }
 

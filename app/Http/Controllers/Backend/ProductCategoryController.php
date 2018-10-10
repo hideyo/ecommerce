@@ -11,9 +11,7 @@
 use App\Http\Controllers\Controller;
 
 use Dutchbridge\Datatable\ProductCategoryDatatable;
-use Hideyo\Ecommerce\Framework\Services\ProductCategory\Entity\ProductCategoryRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 
 use Illuminate\Http\Request;
@@ -24,12 +22,6 @@ use Form;
 
 class ProductCategoryController extends Controller
 {
-    public function __construct(ProductRepository $product, ProductCategoryRepository $productCategory)
-    {
-        $this->productCategory = $productCategory;
-        $this->product = $product;
-    }
-
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
@@ -146,17 +138,7 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         $result  = ProductCategoryService::create($this->generateInput($request->all()));
-
-        if (isset($result->id)) {
-            Notification::success('The product category was inserted.');
-            return redirect()->route('product-category.index');
-        }
-            
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-
-        return redirect()->back()->withInput();
+        return ProductCategoryService::notificationRedirect('product-category.index', $result, 'The product category was inserted.');
     }
 
     public function edit($productCategoryId)
@@ -168,7 +150,7 @@ class ProductCategoryController extends Controller
     public function editHighlight($productCategoryId)
     {
         $category = ProductCategoryService::find($productCategoryId);
-        $products = $this->product->selectAll()->pluck('title', 'id');
+        $products = ProductService::selectAll()->pluck('title', 'id');
         return view('backend.product_category.edit-highlight')->with(array('products' => $products, 'productCategory' => ProductCategoryService::find($productCategoryId), 'categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
@@ -180,25 +162,7 @@ class ProductCategoryController extends Controller
     public function update(Request $request, $productCategoryId)
     {
         $result  = ProductCategoryService::updateById($this->generateInput($request->all()), $productCategoryId);
-
-        if (isset($result->id)) {
-            if ($request->get('seo')) {
-                Notification::success('Category seo was updated.');
-                return redirect()->route('product-category.edit_seo', $productCategoryId);
-            } elseif ($request->get('highlight')) {
-                Notification::success('Highlight was updated.');
-                return redirect()->route('product-category.edit.hightlight', $productCategoryId);
-            }
-    
-            Notification::success('Category was updated.');
-            return redirect()->route('product-category.edit', $productCategoryId);        
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-
-        return redirect()->back()->withInput();
+        return ProductCategoryService::notificationRedirect('product-category.index', $result, 'The product category was updated.');
     }
 
     public function destroy($productCategoryId)

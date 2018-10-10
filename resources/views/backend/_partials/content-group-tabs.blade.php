@@ -16,17 +16,7 @@
         </a>
     </li>
 
-    @if(isset($contentGroupEditSeo))
-    <li class="active">
-    @else
-    <li>
-    @endif
-        <a href="{{ URL::route('content-group.edit_seo', $contentGroup->id) }}">
-            <span class="visible-xs"><i class="entypo-gauge"></i></span>
-            <span class="hidden-xs">Seo</span>
-        </a>
-    </li>  
-   
+
 
 
 </ul>

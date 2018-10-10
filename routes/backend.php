@@ -76,7 +76,7 @@
     Route::get('news/re-directory-images', array('as' => 'news.re.directory.images', 'uses' => 'NewsController@reDirectoryAllImages'));
  
 
-    Route::resource('news/{newsId}/images', 'NewsImageController', ['as' => 'news-images']);
+    Route::resource('news/{newsId}/images', 'NewsImageController', ['as' => 'news']);
 
     Route::get('news/edit/{newsId}/seo', array('as' => 'news.edit_seo', 'uses' => 'NewsController@editSeo'));
 
@@ -170,8 +170,6 @@
 
     Route::resource('brand/{brandId}/images', 'BrandImageController', ['as' => 'brand']);
  
-    Route::get('brand/edit/{brandId}/seo', array('as' => 'brand.edit_seo', 'uses' => 'BrandController@editSeo'));
- 
     Route::resource('brand', 'BrandController');
 
     Route::get('product-category/change-active/{productCategoryId}', array('as' => 'product-category.change-active', 'uses' => 'ProductCategoryController@changeActive'));
@@ -182,10 +180,6 @@
     Route::get('product_category/edit/{productCategoryId}/hightlight', array('as' => 'product-category.edit.hightlight', 'uses' => 'ProductCategoryController@editHighlight'));
 
     Route::resource('product-category/{productCategoryId}/images', 'ProductCategoryImageController', ['as' => 'product-category']);
-
-
-    Route::get('product_category/edit/{productCategoryId}/seo', array('as' => 'product-category.edit_seo', 'uses' => 'ProductCategoryController@editSeo'));
-
     Route::get('product_category/ajax-root-tree', array('as' => 'product-category.ajax-root-tree', 'uses' => 'ProductCategoryController@ajaxRootTree'));
     Route::get('product_category/ajax-children-tree', array('as' => 'product-category.ajax-children-tree', 'uses' => 'ProductCategoryController@ajaxChildrenTree'));
     Route::get('product_category/ajax-move-node', array('as' => 'product-category.ajax-move-node', 'uses' => 'ProductCategoryController@ajaxMoveNode'));

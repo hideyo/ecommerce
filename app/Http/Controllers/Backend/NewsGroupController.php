@@ -56,17 +56,7 @@ class NewsGroupController extends Controller
     public function store()
     {
         $result  = NewsService::createGroup(\Request::all());
-
-        if (isset($result->id)) {
-            Notification::success('The news was inserted.');
-            return redirect()->route('news-group.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return NewsService::notificationRedirect('news-group.index', $result, 'The news group was inserted.');
     }
 
     public function edit($newsGroupId)

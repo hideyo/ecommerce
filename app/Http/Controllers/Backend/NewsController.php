@@ -71,17 +71,7 @@ class NewsController extends Controller
     public function store()
     {
         $result  = NewsService::create($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The news was inserted.');
-            return redirect()->route('news.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return NewsService::notificationRedirect('news.index', $result, 'The news item was inserted.');
     }
 
     public function edit($newsId)
@@ -111,17 +101,7 @@ class NewsController extends Controller
     public function update($newsId)
     {
         $result  = NewsService::updateById($this->request->all(), $newsId);
-
-        if (isset($result->id)) {
-            Notification::success('The news was updated.');
-            return redirect()->route('news.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return NewsService::notificationRedirect('news.index', $result, 'The news item was inserted.');
     }
 
     public function destroy($newsId)

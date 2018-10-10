@@ -92,6 +92,8 @@
 
                 </div>
 
+                @include('backend._fields.seo-fields')
+
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-5">
                         {!! Form::submit('Save', array('class' => 'btn btn-default')) !!}

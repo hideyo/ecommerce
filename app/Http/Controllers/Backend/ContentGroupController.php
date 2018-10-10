@@ -54,17 +54,8 @@ class ContentGroupController extends Controller
     public function store()
     {
         $result  = ContentService::createGroup($this->request->all());
-
-        if (isset($result->id)) {
-            Notification::success('The content was inserted.');
-            return redirect()->route('content-group.index');
-        }
-        
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }
-        
-        return redirect()->back()->withInput();
+        return ContentService::notificationRedirect('content-group.index', $result, 'The content group was inserted.');
+   
     }
 
     public function edit($contentGroupId)
@@ -80,25 +71,7 @@ class ContentGroupController extends Controller
     public function update($contentGroupId)
     {
         $result  = ContentService::updateGroupById($this->request->all(), $contentGroupId);
-
-        if (isset($result->id)) {
-            if ($this->request->get('seo')) {
-                Notification::success('ContentGroup seo was updated.');
-                return redirect()->route('content-group.edit_seo', $contentGroupId);
-            } elseif ($this->request->get('content-combination')) {
-                Notification::success('ContentGroup combination leading attribute group was updated.');
-                return redirect()->route('content-group.{contentId}.content-combination.index', $contentGroupId);
-            } else {
-                Notification::success('ContentGroup was updated.');
-                return redirect()->route('content-group.index');
-            }
-        }
-
-        foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
-        }        
-       
-        return redirect()->back()->withInput();
+        return ContentService::notificationRedirect('content-group.index', $result, 'The content group was updated.');
     }
 
     /**

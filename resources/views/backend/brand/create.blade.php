@@ -60,6 +60,7 @@
                 </div>
             </div>
 
+            @include('backend._fields.seo-fields')
             @include('backend._fields.buttons', array('cancelRoute' => 'brand.index'))
 
     	{!! Form::close() !!}

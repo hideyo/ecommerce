@@ -30,6 +30,30 @@
                     {!! Form::text('title', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This is custom message for required field.')) !!}
                 </div>
             </div>
+        <div class="form-group">
+            {!! Form::label('meta_title', 'Meta title', array('class' => 'col-sm-3 control-label')) !!}
+
+            <div class="col-sm-5">
+                {!! Form::text('meta_title', null, array('class' => 'form-control', 'data-validate' => 'required,minlength[4],maxlength[60]', 'data-message-required' => 'This field is required')) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('meta_description', 'Meta description', array('class' => 'col-sm-3 control-label')) !!}
+
+            <div class="col-sm-5">
+                {!! Form::text('meta_description', null, array('class' => 'form-control', 'data-validate' => 'required,minlength[4],maxlength[160]', 'data-message-required' => 'This field is required.')) !!}
+            </div>
+        </div> 
+
+        <div class="form-group">
+            {!! Form::label('meta_keywords', 'Meta keywords', array('class' => 'col-sm-3 control-label')) !!}
+
+            <div class="col-sm-5">
+                {!! Form::text('meta_keywords', null, array('class' => 'form-control', 'required' => 'required', 'data-message-required' => 'This field is required.')) !!}
+            </div>
+        </div> 
+
 
             @include('backend._fields.buttons', array('cancelRoute' => 'content-group.index'))   
 

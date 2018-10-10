@@ -15,16 +15,7 @@
             <span class="hidden-xs">Edit</span>
         </a>
     </li>
-    @if(isset($productCategoryEditSeo))
-    <li class="active">
-    @else
-    <li>
-    @endif
-        <a href="{!! URL::route('product-category.edit_seo', $productCategory->id) !!}">
-            <span class="visible-xs"><i class="entypo-gauge"></i></span>
-            <span class="hidden-xs">Seo</span>
-        </a>
-    </li>   
+
     @if(isset($productCategoryImages))
     <li class="active">
     @else
@@ -35,7 +26,6 @@
             <span class="hidden-xs">Images</span>
         </a>
     </li>
-
 
     @if(isset($productCategoryHighlight))
     <li class="active">
