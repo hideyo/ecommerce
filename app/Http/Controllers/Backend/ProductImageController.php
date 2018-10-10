@@ -10,25 +10,23 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Illuminate\Http\Request;
 use Notification;
 
 class ProductImageController extends Controller
 {
-    public function __construct(Request $request, ProductRepository $product)
+    public function __construct(Request $request)
     {
-        $this->product = $product;
         $this->request = $request;
     }
 
     public function index($productId)
     {
-           $product = $this->product->find($productId);
+           $product = ProductService::find($productId);
         if ($this->request->wantsJson()) {
 
-            $query = $this->product->getImageModel()->where('product_id', '=', $productId);
+            $query = ProductService::getImageModel()->where('product_id', '=', $productId);
             
             $datatables = \Datatables::of($query)
             ->addColumn('thumb', function ($query) use ($productId) {
@@ -50,14 +48,14 @@ class ProductImageController extends Controller
 
     public function create($productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
         $lists = $this->generateAttributeLists($product);
         return view('backend.product_image.create')->with(array('attributesList' => $lists['attributesList'], 'productAttributesList' => $lists['productAttributesList'], 'product' => $product));
     }
 
     public function store($productId)
     {
-        $result  = $this->product->createImage($this->request->all(), $productId);
+        $result  = ProductService::createImage($this->request->all(), $productId);
  
         if (isset($result->id)) {
             Notification::success('The product image is inserted.');
@@ -73,8 +71,8 @@ class ProductImageController extends Controller
 
     public function edit($productId, $productImageId)
     {
-        $product = $this->product->find($productId);
-        $productImage = $this->product->findImage($productImageId);
+        $product = ProductService::find($productId);
+        $productImage = ProductService::findImage($productImageId);
         $lists = $this->generateAttributeLists($product);
         $selectedProductAttributes = array();
         $selectedAttributes = array();
@@ -126,7 +124,7 @@ class ProductImageController extends Controller
 
     public function update($productId, $productImageId)
     {
-        $result  = $this->product->updateImageById($this->request->all(), $productId, $productImageId);
+        $result  = ProductService::updateImageById($this->request->all(), $productId, $productImageId);
 
         if (!$result->id) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
@@ -138,7 +136,7 @@ class ProductImageController extends Controller
 
     public function destroy($productId, $productImageId)
     {
-        $result  = $this->product->destroyImage($productImageId);
+        $result  = ProductService::destroyImage($productImageId);
 
         if ($result) {
             Notification::success('The product image is deleted.');
