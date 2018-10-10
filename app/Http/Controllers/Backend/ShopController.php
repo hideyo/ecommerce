@@ -17,8 +17,7 @@ use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
 class ShopController extends Controller
 {
-    public function __construct(
-        Request $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }

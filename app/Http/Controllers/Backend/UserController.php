@@ -22,16 +22,8 @@ class UserController extends Controller
 {
     public function index()
     {
-
         if (Request::wantsJson()) {
-
-            $query = UserService::getModel()->select(
-                [
-                
-                'id',
-                'email', 'username']
-            );
-            
+            $query = UserService::getModel()->select(['id','email', 'username']);
             $datatables = \Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax(url()->route('user.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('user.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
@@ -40,7 +32,6 @@ class UserController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('backend.user.index');
