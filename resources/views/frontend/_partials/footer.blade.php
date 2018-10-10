@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 hidden-xs col-sm-4 col-md-4 col-lg-4"> 
-                {!! HtmlBlockHelper::findByPosition("footer-about-us") !!}
+                {!! HtmlBlockService::findByPosition("footer-about-us") !!}
             </div>
 
             <div class="col-xs-12 hidden-xs col-sm-3 col-md-3 col-lg-offset-1 col-lg-4">
@@ -17,7 +17,7 @@
             </div>
             <div class="col-xs-12  col-sm-3 col-md-3 col-lg-3">
                 
-                {!! HtmlBlockHelper::findByPosition("footer-contact") !!}
+                {!! HtmlBlockService::findByPosition("footer-contact") !!}
                  
             </div>
         </div>

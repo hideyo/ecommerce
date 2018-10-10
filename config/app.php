@@ -247,9 +247,9 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'BrowserDetect' => 'hisorange\BrowserDetect\Facade\Parser',
         'Cart' => Hideyo\Ecommerce\Framework\Services\Cart\CartFacade::class,
-        'ProductHelper'     => Hideyo\Ecommerce\Framework\Helpers\ProductHelper::class,
-        'HtmlBlockHelper'   => Hideyo\Ecommerce\Framework\Helpers\HtmlBlockHelper::class,
-        'DbView'          => 'Flynsarmy\DbBladeCompiler\Facades\DbView'
+        'ProductService'     => Hideyo\Ecommerce\Framework\Services\Product\ProductFacade::class,
+        'HtmlBlockService'   => Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade::class,
+        'DbView'          => 'Flynsarmy\DbBladeCompiler\Facades\DbView',
 
 
     ],

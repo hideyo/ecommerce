@@ -11,8 +11,8 @@
 
                 <a href="/{{ $product['attributes']['product_category_slug'] }}/{{ $product['id'] }}/{{ $product['attributes']['slug'] }}" title="terug naar product">   
 
-                    @if(ProductHelper::getImage($product['attributes']['id'], array())) 
-                    <img src="/files/product/100x100/{!! $product['attributes']['id'] !!}/{!! ProductHelper::getImage($product['attributes']['id'], array()) !!}" alt="">
+                    @if(ProductService::getImage($product['attributes']['id'], array())) 
+                    <img src="/files/product/100x100/{!! $product['attributes']['id'] !!}/{!! ProductService::getImage($product['attributes']['id'], array()) !!}" alt="">
                     @else
                     <img src="/images/product-thumb2.jpg" />
                     @endif                                          
