@@ -3,7 +3,6 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Closure;
-use Auth;
 use Notification;
 
 class AuthController extends Controller

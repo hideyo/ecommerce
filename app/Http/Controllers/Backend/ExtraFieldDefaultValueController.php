@@ -10,18 +10,21 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
 
-use Request;
+use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
 
 class ExtraFieldDefaultValueController extends Controller
 {
-
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     public function index($extraFieldId)
     {
-        if (Request::wantsJson()) {
+        if ($this->request->wantsJson()) {
 
             $query = ExtraFieldService::getValueModel()->select(
                 [
@@ -52,7 +55,7 @@ class ExtraFieldDefaultValueController extends Controller
 
     public function store($extraFieldId)
     {
-        $result  = ExtraFieldService::createValue(Request::all(), $extraFieldId);
+        $result  = ExtraFieldService::createValue($this->request->all(), $extraFieldId);
         return ExtraFieldService::notificationRedirect(array('extra-field.values.index', $extraFieldId), $result, 'The extra field was inserted.');
     }
 
@@ -63,7 +66,7 @@ class ExtraFieldDefaultValueController extends Controller
 
     public function update($extraFieldId, $id)
     {
-        $result  = ExtraFieldService::updateValueById(Request::all(), $extraFieldId, $id);
+        $result  = ExtraFieldService::updateValueById($this->request->all(), $extraFieldId, $id);
         return ExtraFieldService::notificationRedirect(array('extra-field.values.index', $extraFieldId), $result, 'The extra field was updated.');
     }
 

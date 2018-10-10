@@ -14,7 +14,6 @@ use Dutchbridge\Validators\UserValidator;
 use Dutchbridge\Datatable\UserNumberDatatable;
 use Hideyo\Ecommerce\Framework\Services\User\UserFacade as UserService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
-use Auth;
 use Notification;
 use Redirect;
 use Request;
@@ -67,8 +66,8 @@ class UserController extends Controller
 
     public function editProfile()
     {
-        if (Auth::user()) {
-            $id = Auth::id();
+        if (auth()->user()) {
+            $id = auth()->id();
         }
 
         $shops = ShopService::selectAll()->pluck('title', 'id');
@@ -85,13 +84,13 @@ class UserController extends Controller
         $shop = ShopService::find($shopId);
         $result  = UserService::updateShopProfileById($shop, $id);
         Notification::success('The shop changed.');
-        return Redirect::route('shop.index');
+        return redirect()->route('shop.index');
     }
 
     public function updateProfile()
     {
-        if (Auth::user()) {
-            $id = Auth::id();
+        if (auth()->user()) {
+            $id = auth()->id();
         }
 
         $result  = UserService::updateProfileById(Request::all(), Request::file('avatar'), $id);
@@ -126,7 +125,7 @@ class UserController extends Controller
 
         if ($result) {
             Notification::success('The user was deleted.');
-            return Redirect::route('user.index');
+            return redirect()->route('user.index');
         }
     }
 }

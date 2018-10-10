@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 use Notification;
 use Form;
 use Datatables;
-use Auth;
 
 class PaymentMethodController extends Controller
 {

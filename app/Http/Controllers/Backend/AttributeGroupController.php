@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
 use DB;
-use Auth;
 use Datatables;
 use Form;
 

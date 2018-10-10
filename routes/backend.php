@@ -157,26 +157,27 @@
     Route::get('product/{productId}/copy', array('as' => 'product.copy', 'uses' => 'ProductController@copy', 'as' => 'product.copy'));
 
 
-    Route::get('product-category/refactor-images', array('as' => 'product-category.refactor-images', 'uses' => 'ProductCategoryController@refactorAllImages'));
-    Route::get('product-category/re-directory-images', array('as' => 'product-category.re-directory-images', 'uses' => 'ProductCategoryController@reDirectoryAllImages'));
 
     Route::resource('brand/{brandId}/images', 'BrandImageController', ['as' => 'brand']);
  
     Route::resource('brand', 'BrandController');
 
+    Route::get('product-category/refactor-images', array('as' => 'product-category.refactor-images', 'uses' => 'ProductCategoryController@refactorAllImages'));
+    Route::get('product-category/re-directory-images', array('as' => 'product-category.re-directory-images', 'uses' => 'ProductCategoryController@reDirectoryAllImages'));
+
     Route::get('product-category/change-active/{productCategoryId}', array('as' => 'product-category.change-active', 'uses' => 'ProductCategoryController@changeActive'));
 
-    Route::get('product_category/get_ajax_categories', array('as' => 'product-category.ajax_categories', 'uses' => 'ProductCategoryController@ajaxCategories'));
-    Route::get('product_category/get_ajax_category/{id}', array('as' => 'product-category.ajax_category', 'uses' => 'ProductCategoryController@ajaxCategory'));
+    Route::get('product-category/get_ajax_categories', array('as' => 'product-category.ajax_categories', 'uses' => 'ProductCategoryController@ajaxCategories'));
+    Route::get('product-category/get_ajax_category/{id}', array('as' => 'product-category.ajax_category', 'uses' => 'ProductCategoryController@ajaxCategory'));
  
-    Route::get('product_category/edit/{productCategoryId}/hightlight', array('as' => 'product-category.edit.hightlight', 'uses' => 'ProductCategoryController@editHighlight'));
+    Route::get('product-category/edit/{productCategoryId}/hightlight', array('as' => 'product-category.edit.hightlight', 'uses' => 'ProductCategoryController@editHighlight'));
 
     Route::resource('product-category/{productCategoryId}/images', 'ProductCategoryImageController', ['as' => 'product-category']);
-    Route::get('product_category/ajax-root-tree', array('as' => 'product-category.ajax-root-tree', 'uses' => 'ProductCategoryController@ajaxRootTree'));
-    Route::get('product_category/ajax-children-tree', array('as' => 'product-category.ajax-children-tree', 'uses' => 'ProductCategoryController@ajaxChildrenTree'));
-    Route::get('product_category/ajax-move-node', array('as' => 'product-category.ajax-move-node', 'uses' => 'ProductCategoryController@ajaxMoveNode'));
+    Route::get('product-category/ajax-root-tree', array('as' => 'product-category.ajax-root-tree', 'uses' => 'ProductCategoryController@ajaxRootTree'));
+    Route::get('product-category/ajax-children-tree', array('as' => 'product-category.ajax-children-tree', 'uses' => 'ProductCategoryController@ajaxChildrenTree'));
+    Route::get('product-category/ajax-move-node', array('as' => 'product-category.ajax-move-node', 'uses' => 'ProductCategoryController@ajaxMoveNode'));
 
-    Route::get('product_category/tree', array('as' => 'product-category.tree', 'uses' => 'ProductCategoryController@tree'));
+    Route::get('product-category/tree', array('as' => 'product-category.tree', 'uses' => 'ProductCategoryController@tree'));
 
     Route::resource('product-category', 'ProductCategoryController');
 

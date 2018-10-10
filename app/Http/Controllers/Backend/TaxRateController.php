@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Notification;
 use Form;
 use Datatables;
-use Auth;
 
 class TaxRateController extends Controller
 {

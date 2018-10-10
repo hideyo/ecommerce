@@ -17,7 +17,6 @@ use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
 
 use Illuminate\Http\Request;
 use Notification;
-use Response;
 use Datatables;
 use Form;
 
@@ -77,7 +76,7 @@ class ProductAmountSeriesController extends Controller
             $attributeGroup = $this->attributeGroup->find($input['attribute_group_id']);
             if ($attributeGroup->count()) {
                 if ($attributeGroup->attributes()) {
-                    return Response::json($attributeGroup->attributes);
+                    return response()->json($attributeGroup->attributes);
                 }
             }
         } else {

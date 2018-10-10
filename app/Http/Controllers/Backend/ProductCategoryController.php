@@ -16,7 +16,6 @@ use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as
 
 use Illuminate\Http\Request;
 use Notification;
-use Auth;
 use Datatables;
 use Form;
 

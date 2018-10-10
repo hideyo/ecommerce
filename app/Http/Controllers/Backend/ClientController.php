@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 use Notification;
 use Mail;
 use Excel;
-use Auth;
 use Form;
 use Datatables;
 

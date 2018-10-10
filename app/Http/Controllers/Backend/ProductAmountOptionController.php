@@ -19,8 +19,6 @@ use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
 
 use Request;
 use Notification;
-use Redirect;
-use Response;
 use Datatables;
 use Form;
 
@@ -70,7 +68,7 @@ class ProductAmountOptionController extends Controller
             $attributeGroup = $this->attributeGroup->find($input['attribute_group_id']);
             if ($attributeGroup->count()) {
                 if ($attributeGroup->attributes()) {
-                    return Response::json($attributeGroup->attributes);
+                    return response()->json($attributeGroup->attributes);
                 }
             }
         } else {

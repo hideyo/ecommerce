@@ -12,11 +12,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Redirect\RedirectFacade as RedirectService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
-use Session;
-use Apiclient;
-use Input;
-use Response;
-use View;
 use Request;
 use Notification;
 use Excel;

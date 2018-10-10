@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\Controller;
 
-
-use Request;
-use Auth;
 use Notification;
 use Lava;
 use Carbon\Carbon;
