@@ -10,6 +10,8 @@ use Cart;
 use Validator;
 use Notification;
 use BrowserDetect;
+use Mail;
+use Event;
 
 class CheckoutController extends Controller
 {
