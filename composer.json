@@ -8,15 +8,7 @@
         }
     ],
 
-    "repositories": [
-        {
-            "type": "path",
-            "url": "/Users/isomis/www/ecommerce-framework",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
+
 
     "license": "GPL-3.0+",
     "minimum-stability": "dev",
@@ -84,8 +76,5 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
         ]
-    },
-    "config": {
-        "preferred-install": "dist"
     }
 }
