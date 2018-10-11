@@ -7,6 +7,17 @@
             "email": "matthijs@hideyo.io"
         }
     ],
+
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/Users/isomis/www/ecommerce-framework",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+
     "license": "GPL-3.0+",
     "minimum-stability": "dev",
     "type": "project",
