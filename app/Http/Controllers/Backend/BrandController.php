@@ -20,9 +20,7 @@ class BrandController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            $brand = BrandService::getModel()
-            ->select(['id', 'rank','title'])
-            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $brand = BrandService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($brand)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('brand.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $query->title);

@@ -22,9 +22,7 @@ class ProductCategoryImageController extends Controller
         $productCategory = ProductCategoryService::find($productCategoryId);
         if ($request->wantsJson()) {
 
-            $image = ProductCategoryService::getImageModel()->select(
-                ['id','file', 'product_category_id']
-            )->where('product_category_id', '=', $productCategoryId);
+            $image = ProductCategoryService::getImageModel()->where('product_category_id', '=', $productCategoryId);
             
             $datatables = Datatables::of($image)
 

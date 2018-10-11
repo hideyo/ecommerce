@@ -23,10 +23,7 @@ class HtmlBlockController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = HtmlBlockService::getModel()->select(
-                ['id', 'active',
-                'title', 'image_file_name', 'position']
-            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = HtmlBlockService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)
 

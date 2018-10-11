@@ -21,10 +21,7 @@ class ExtraFieldDefaultValueController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = ExtraFieldService::getValueModel()->select(
-                ['id',
-                'value']
-            )->where('extra_field_id', '=', $extraFieldId);
+            $query = ExtraFieldService::getValueModel()->where('extra_field_id', '=', $extraFieldId);
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($extraFieldId) {
                 $deleteLink = Form::deleteajax(url()->route('extra-field.values.destroy', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

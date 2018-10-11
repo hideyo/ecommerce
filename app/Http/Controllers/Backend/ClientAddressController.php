@@ -24,16 +24,7 @@ class ClientAddressController extends Controller
         $client = ClientService::find($clientId);
         if ($request->wantsJson()) {
 
-            $addresses = ClientService::getAddressModel()->select(
-                [
-                'id',
-                'firstname',
-                'street',
-                'housenumber',
-                'housenumber_suffix',
-                'city',
-                'lastname']
-            )->with(array('clientDeliveryAddress', 'clientBillAddress'))->where('client_id', '=', $clientId);
+            $addresses = ClientService::getAddressModel()->with(array('clientDeliveryAddress', 'clientBillAddress'))->where('client_id', '=', $clientId);
             
             $datatables = Datatables::of($addresses)
             ->addColumn('housenumber', function ($addresses) {

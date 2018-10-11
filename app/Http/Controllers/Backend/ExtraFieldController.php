@@ -24,9 +24,7 @@ class ExtraFieldController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = ExtraFieldService::getModel()
-            ->select(['id', 'all_products','title'])
-            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = ExtraFieldService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)
 

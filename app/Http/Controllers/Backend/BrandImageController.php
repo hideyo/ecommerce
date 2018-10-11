@@ -22,9 +22,7 @@ class BrandImageController extends Controller
         $brand = BrandService::find($brandId);
         if ($request->wantsJson()) {
 
-            $image = BrandService::getModelImage()
-            ->select(['id','file', 'brand_id'])
-            ->where('brand_id', '=', $brandId);
+            $image = BrandService::getModelImage()->where('brand_id', '=', $brandId);
             
             $datatables = Datatables::of($image)
 

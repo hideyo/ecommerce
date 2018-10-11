@@ -28,14 +28,11 @@ class CouponController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            $query = CouponService::getModel()->select(['active','id', 'title', 'code'])
+            $query = CouponService::getModel()
             ->where(CouponService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
-
-
             ->with(array('couponGroup'));
             
             $datatables = Datatables::of($query)
-
             ->filterColumn('title', function ($query, $keyword) {
                 $query->whereRaw("coupon.title like ?", ["%{$keyword}%"]);
             })

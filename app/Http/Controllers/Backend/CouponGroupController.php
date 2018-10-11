@@ -21,8 +21,7 @@ class CouponGroupController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = CouponService::getGroupModel()->select(['id', 'title'])
-            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = CouponService::getGroupModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = \Datatables::of($query)
             ->addColumn('action', function ($query) {

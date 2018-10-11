@@ -29,9 +29,7 @@ class AttributeController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = AttributeService::getModel()
-            ->select(['id','value'])
-            ->where('attribute_group_id', '=', $attributeGroupId);
+            $query = AttributeService::getModel()->where('attribute_group_id', '=', $attributeGroupId);
             
             $datatables = Datatables::of($query)
             ->addColumn('action', function ($query) use ($attributeGroupId) {

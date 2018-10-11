@@ -20,11 +20,7 @@ class NewsGroupController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = NewsService::getGroupModel()->select(
-                [
-                'id',
-                'title']
-            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = NewsService::getGroupModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = \Datatables::of($query)
             ->addColumn('action', function ($query) {

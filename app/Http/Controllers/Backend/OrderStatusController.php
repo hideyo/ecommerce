@@ -21,9 +21,7 @@ class OrderStatusController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = OrderStatusService::getModel()->select(
-                ['id', 'color','title']
-            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = OrderStatusService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \Datatables::of($query)
 
@@ -32,9 +30,9 @@ class OrderStatusController extends Controller
                 if ($query->color) {
                     return '<span style="background-color:'.$query->color.'; padding: 10px; line-height:30px; text-align:center; color:white;">'.$query->title.'</span>';
                 }
-                    return $query->title;
+                
+                return $query->title;
             })
-
 
             ->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax('/admin/order-status/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
@@ -44,8 +42,6 @@ class OrderStatusController extends Controller
             });
 
             return $datatables->make(true);
-
-
         }
         
         return view('backend.order-status.index')->with('content', OrderStatusService::selectAll());

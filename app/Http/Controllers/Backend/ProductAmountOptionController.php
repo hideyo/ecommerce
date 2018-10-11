@@ -42,9 +42,7 @@ class ProductAmountOptionController extends Controller
         $product = $this->product->find($productId);
         if (Request::wantsJson()) {
 
-            $query = $this->productAmountOption->getModel()->select(
-                ['id', 'amount','default_on']
-            )->where('product_id', '=', $productId);
+            $query = $this->productAmountOption->getModel()->where('product_id', '=', $productId);
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
                 $deleteLink = Form::deleteajax('/admin/product/'.$productId.'/product-amount-option/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

@@ -21,8 +21,7 @@ class ShopController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = ShopService::getModel()
-            ->select(['id', 'title', 'logo_file_name']);
+            $query = ShopService::getModel();
             $datatables = Datatables::of($query)
 
             ->addColumn('action', function ($query) {

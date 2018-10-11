@@ -25,20 +25,12 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-            $clients = ClientService::getModel()->select(
-                [
-                
-                'id', 'confirmed', 'active',
-                'email', 'last_login']
-            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $clients = ClientService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($clients)
-
-
             ->addColumn('last_login', function ($clients) {
                 return date('d F H:i', strtotime($clients->last_login));
             })
-
             ->addColumn('action', function ($clients) {
                 $deleteLink = Form::deleteajax(url()->route('client.destroy', $clients->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('client.edit', $clients->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Show</a>  '.$deleteLink;
@@ -48,7 +40,7 @@ class ClientController extends Controller
                 } else {
                     $links .= ' <a href="'.url()->route('client.de-activate', $clients->id).'" class="btn btn-default btn-sm btn-info">block</a>';
                 }
-
+                
                 return $links;
             });
 

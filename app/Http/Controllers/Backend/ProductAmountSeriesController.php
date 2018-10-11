@@ -22,9 +22,7 @@ class ProductAmountSeriesController extends Controller
     {
         $product = ProductService::find($productId);
         if ($request->wantsJson()) {
-            $query = ProductAmountSeriesService::getModel()->select(
-                ['id', 'series_start', 'series_value', 'active','series_max']
-            )->where('product_id', '=', $productId);
+            $query = ProductAmountSeriesService::getModel()->where('product_id', '=', $productId);
             
             $datatables = Datatables::of($query)
 

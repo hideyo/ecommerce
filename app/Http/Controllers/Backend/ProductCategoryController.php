@@ -23,9 +23,7 @@ class ProductCategoryController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $productCategory = ProductCategoryService::getModel()->select(
-                ['id', 'active','shop_id','parent_id', 'redirect_product_category_id','title', 'meta_title', 'meta_description']
-            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $productCategory = ProductCategoryService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($productCategory)
 

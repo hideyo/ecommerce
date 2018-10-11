@@ -28,10 +28,7 @@ class AttributeGroupController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-
-            $query = AttributeService::getGroupModel()
-            ->select(['id','title'])
-            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = AttributeService::getGroupModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('attribute-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

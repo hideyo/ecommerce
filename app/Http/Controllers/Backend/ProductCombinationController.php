@@ -29,10 +29,7 @@ class ProductCombinationController extends Controller
         if($product) {
             if ($request->wantsJson()) {
 
-                $query = ProductCombinationService::getModel()->select(
-                    ['id', 'tax_rate_id', 'amount', 'price', 'product_id', 'reference_code',
-                    'default_on']
-                )->where('product_id', '=', $productId);
+                $query = ProductCombinationService::getModel()->where('product_id', '=', $productId);
 
                 $datatables = \Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
                     $deleteLink = \Form::deleteajax(url()->route('product-combination.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

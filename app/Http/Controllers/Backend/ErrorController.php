@@ -19,11 +19,7 @@ class ErrorController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = $this->error->getModel()->select(
-                [
-                'id',
-                'class', 'file' , 'status_code', 'line', 'message', 'url', 'method']
-            );
+            $query = $this->error->getModel();
             
             $datatables = \Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax('/admin/general-setting/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

@@ -21,9 +21,7 @@ class OrderStatusEmailTemplateController extends Controller
     {
         if ($request->wantsJson()) {
 
-            $query = OrderStatusEmailTemplateService::getModel()->select(
-                ['id', 'title', 'subject']
-            )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = OrderStatusEmailTemplateService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = Datatables::of($query)
             ->addColumn('action', function ($query) {

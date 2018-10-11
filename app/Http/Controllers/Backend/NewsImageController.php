@@ -22,10 +22,7 @@ class NewsImageController extends Controller
         $news = NewsService::find($newsId);
         if ($request->wantsJson()) {
 
-            $image = NewsService::getImageModel()->select(
-                ['id',
-                'file', 'news_id']
-            )->where('news_id', '=', $newsId);
+            $image = NewsService::getImageModel()->where('news_id', '=', $newsId);
             
             $datatables = Datatables::of($image)
 
