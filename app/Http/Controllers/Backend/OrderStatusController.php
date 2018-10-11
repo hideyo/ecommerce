@@ -10,8 +10,8 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 use Notification;
+use Form;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 
@@ -37,7 +37,7 @@ class OrderStatusController extends Controller
 
 
             ->addColumn('action', function ($query) {
-                $deleteLink = \Form::deleteajax('/admin/order-status/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+                $deleteLink = Form::deleteajax('/admin/order-status/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="/admin/order-status/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $links;

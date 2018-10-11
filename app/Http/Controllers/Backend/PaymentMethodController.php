@@ -8,24 +8,16 @@
  * @version 0.1
  */
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
-use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusRepository;
-
-
 use Illuminate\Http\Request;
 use Notification;
 use Form;
 use Datatables;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 
 class PaymentMethodController extends Controller
 {
-    public function __construct(
-        OrderStatusRepository $orderStatus
-    ) {
-        $this->orderStatus = $orderStatus;
-    }
-
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
@@ -68,7 +60,7 @@ class PaymentMethodController extends Controller
         return view('backend.payment_method.create')->with(
             array(
                 'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
-                'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')                
+                'orderStatuses' => OrderStatusService::selectAll()->pluck('title', 'id')                
             )
         );
     }
@@ -85,7 +77,7 @@ class PaymentMethodController extends Controller
             array(
                 'paymentMethod' => PaymentMethodService::find($paymentMethodId),
                 'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
-                'orderStatuses' => $this->orderStatus->selectAll()->pluck('title', 'id')
+                'orderStatuses' => OrderStatusService::selectAll()->pluck('title', 'id')
             )
         );
     }

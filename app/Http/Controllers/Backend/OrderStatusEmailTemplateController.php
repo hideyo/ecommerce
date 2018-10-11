@@ -9,12 +9,11 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
 
 class OrderStatusEmailTemplateController extends Controller
 {

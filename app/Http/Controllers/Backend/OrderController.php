@@ -9,14 +9,12 @@
  */
 
 use App\Http\Controllers\Controller;
-
 use Dutchbridge\Services\AssembleOrder;
 use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
-use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 
 use Carbon\Carbon;
 use Request;
