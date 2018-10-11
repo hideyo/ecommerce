@@ -13,17 +13,6 @@ use BrowserDetect;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(
-        Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function checkout()
     {
         $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
