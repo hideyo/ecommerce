@@ -13,7 +13,7 @@ use Hideyo\Ecommerce\Framework\Services\Product\ProductAmountSeriesFacade as Pro
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 class ProductAmountSeriesController extends Controller
@@ -24,7 +24,7 @@ class ProductAmountSeriesController extends Controller
         if ($request->wantsJson()) {
             $query = ProductAmountSeriesService::getModel()->where('product_id', '=', $productId);
             
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
 
             ->addColumn('active', function ($query) {
                 if ($query->active) {

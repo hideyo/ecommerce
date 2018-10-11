@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
-use Datatables;
+use DataTables;
 
 use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
 
@@ -22,7 +22,7 @@ class BrandController extends Controller
         if ($request->wantsJson()) {
             $brand = BrandService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($brand)->addColumn('action', function ($query) {
+            $datatables = DataTables::of($brand)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('brand.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'), $query->title);
                 $links = '<a href="'.url()->route('brand.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             

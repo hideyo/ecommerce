@@ -10,7 +10,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
@@ -24,7 +24,7 @@ class NewsImageController extends Controller
 
             $image = NewsService::getImageModel()->where('news_id', '=', $newsId);
             
-            $datatables = Datatables::of($image)
+            $datatables = DataTables::of($image)
 
             ->addColumn('thumb', function ($image) {
                 return '<img src="/files/news/100x100/'.$image->news_id.'/'.$image->file.'"  />';

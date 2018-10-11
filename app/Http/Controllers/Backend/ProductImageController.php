@@ -23,7 +23,7 @@ class ProductImageController extends Controller
 
             $query = ProductService::getImageModel()->where('product_id', '=', $productId);
             
-            $datatables = \Datatables::of($query)
+            $datatables = \DataTables::of($query)
             ->addColumn('thumb', function ($query) use ($productId) {
                 return '<img src="/files/product/100x100/'.$query->product_id.'/'.$query->file.'"  />';
             })

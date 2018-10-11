@@ -16,7 +16,7 @@ use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
-use Datatables;
+use DataTables;
 
 class ContentController extends Controller
 {
@@ -34,7 +34,7 @@ class ContentController extends Controller
 
             ->with(array('contentGroup'))        ->leftJoin(ContentService::getGroupModel()->getTable(), ContentService::getGroupModel()->getTable().'.id', '=', ContentService::getModel()->getTable().'.content_group_id');
             
-            $datatables = Datatables::of($content)
+            $datatables = DataTables::of($content)
 
             ->filterColumn('title', function ($query, $keyword) {
                 $query->whereRaw("content.title like ?", ["%{$keyword}%"]);

@@ -31,7 +31,7 @@ class ProductCombinationController extends Controller
 
                 $query = ProductCombinationService::getModel()->where('product_id', '=', $productId);
 
-                $datatables = \Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
+                $datatables = \DataTables::of($query)->addColumn('action', function ($query) use ($productId) {
                     $deleteLink = \Form::deleteajax(url()->route('product-combination.destroy', array('productId' => $productId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                     $links = '<a href="'.url()->route('product-combination.edit', array('productId' => $productId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 

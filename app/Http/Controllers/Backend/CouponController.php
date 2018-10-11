@@ -20,7 +20,7 @@ use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as Pay
 
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 class CouponController extends Controller
@@ -32,7 +32,7 @@ class CouponController extends Controller
             ->where(CouponService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
             ->with(array('couponGroup'));
             
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
             ->filterColumn('title', function ($query, $keyword) {
                 $query->whereRaw("coupon.title like ?", ["%{$keyword}%"]);
             })

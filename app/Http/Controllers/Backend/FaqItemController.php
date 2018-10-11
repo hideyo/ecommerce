@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\Faq\FaqFacade as FaqService;
@@ -33,7 +33,7 @@ class FaqItemController extends Controller
             ->leftJoin('faq_item_group', 'faq_item_group.id', '=', 'faq_item.faq_item_group_id')
             ->where('faq_item.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
             ->addColumn('faqitemgroup', function ($query) {
                 return $query->grouptitle;
             })

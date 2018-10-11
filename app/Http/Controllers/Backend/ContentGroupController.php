@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
@@ -26,7 +26,7 @@ class ContentGroupController extends Controller
             ->select(['id', 'title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
             ->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('content-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('content-group.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;

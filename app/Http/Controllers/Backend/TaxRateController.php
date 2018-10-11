@@ -5,7 +5,7 @@ use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
-use Datatables;
+use DataTables;
 
 class TaxRateController extends Controller
 {
@@ -13,7 +13,7 @@ class TaxRateController extends Controller
     {
         if ($request->wantsJson()) {
             $query = TaxRateService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
-            $datatables = Datatables::of($query)->addColumn('action', function ($query) {
+            $datatables = DataTables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('tax-rate.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $query->title);
                 $links = '<a href="'.url()->route('tax-rate.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
                 return $links;

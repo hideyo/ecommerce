@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
@@ -23,7 +23,7 @@ class ShopController extends Controller
 
             $query = ShopService::getModel()->select(['id', 'title', 'logo_file_name']);
 
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
 
             ->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('shop.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

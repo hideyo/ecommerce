@@ -56,7 +56,7 @@ class OrderController extends Controller
             ->leftJoin('order_address', 'order.bill_order_address_id', '=', 'order_address.id');
             
             
-            $datatables = \Datatables::of($order)
+            $datatables = \DataTables::of($order)
 
             ->addColumn('generated_custom_order_id', function ($order) {
                 return $order->generated_custom_order_id;

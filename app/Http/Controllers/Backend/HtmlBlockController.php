@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade as HtmlBlockService;
@@ -25,7 +25,7 @@ class HtmlBlockController extends Controller
 
             $query = HtmlBlockService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
 
             ->addColumn('active', function ($query) {
                 if ($query->active) {
@@ -45,7 +45,7 @@ class HtmlBlockController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['active', 'image', 'action'])->make(true);
         }
         
         return view('backend.html-block.index')->with('htmlBlock', HtmlBlockService::selectAll());

@@ -15,7 +15,7 @@ use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
-use Datatables;
+use DataTables;
 
 class ClientAddressController extends Controller
 {
@@ -26,7 +26,7 @@ class ClientAddressController extends Controller
 
             $addresses = ClientService::getAddressModel()->with(array('clientDeliveryAddress', 'clientBillAddress'))->where('client_id', '=', $clientId);
             
-            $datatables = Datatables::of($addresses)
+            $datatables = DataTables::of($addresses)
             ->addColumn('housenumber', function ($addresses) {
                 return $addresses->housenumber.$addresses->housenumber_suffix;
             })

@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
@@ -29,7 +29,7 @@ class ContentImageController extends Controller
                 'file', 'content_id']
             )->where('content_id', '=', $contentId);
             
-            $datatables = Datatables::of($image)
+            $datatables = DataTables::of($image)
 
             ->addColumn('thumb', function ($image) {
                 return '<img src="/files/content/100x100/'.$image->content_id.'/'.$image->file.'"  />';

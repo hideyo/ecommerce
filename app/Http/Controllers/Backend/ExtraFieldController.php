@@ -15,7 +15,7 @@ use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as
 
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 class ExtraFieldController extends Controller
@@ -26,7 +26,7 @@ class ExtraFieldController extends Controller
 
             $query = ExtraFieldService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
 
             ->addColumn('category', function ($query) {
                 if ($query->categories) {

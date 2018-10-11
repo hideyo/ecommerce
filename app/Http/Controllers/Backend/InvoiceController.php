@@ -40,7 +40,7 @@ class InvoiceController extends Controller
             )->with(array('Order'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             
-            $datatables = \Datatables::of($invoice)
+            $datatables = \DataTables::of($invoice)
             ->addColumn('price_with_tax', function ($order) {
                 $money = '&euro; '.$order->price_with_tax;
                 return $money;

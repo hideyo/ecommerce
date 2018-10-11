@@ -12,7 +12,7 @@ use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFiel
 
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 class ExtraFieldDefaultValueController extends Controller
@@ -23,7 +23,7 @@ class ExtraFieldDefaultValueController extends Controller
 
             $query = ExtraFieldService::getValueModel()->where('extra_field_id', '=', $extraFieldId);
             
-            $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($extraFieldId) {
+            $datatables = DataTables::of($query)->addColumn('action', function ($query) use ($extraFieldId) {
                 $deleteLink = Form::deleteajax(url()->route('extra-field.values.destroy', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = ' <a href="'.url()->route('extra-field.values.edit', array('ExtraFieldId' => $extraFieldId, 'id' => $query->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a> 
                 '.$deleteLink;

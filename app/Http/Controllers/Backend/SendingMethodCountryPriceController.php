@@ -30,7 +30,7 @@ class SendingMethodCountryPriceController extends Controller
                 'name']
             )->where('sending_method_id', '=', $sendingMethodId);
             
-            $datatables = \Datatables::of($users)->addColumn('action', function ($users) use ($sendingMethodId) {
+            $datatables = \DataTables::of($users)->addColumn('action', function ($users) use ($sendingMethodId) {
                 $delete = \Form::deleteajax(url()->route('sending-method.country-prices.destroy', array('sendingMethodId' => $sendingMethodId, 'id' => $users->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $link = '<a href="'.url()->route('sending-method.country-prices.edit', array('sendingMethodId' => $sendingMethodId, 'id' => $users->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$delete;
             

@@ -21,7 +21,7 @@ class ErrorController extends Controller
 
             $query = $this->error->getModel();
             
-            $datatables = \Datatables::of($query)->addColumn('action', function ($query) {
+            $datatables = \DataTables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax('/admin/general-setting/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="/admin/general-setting/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             

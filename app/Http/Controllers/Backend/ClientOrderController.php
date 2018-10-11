@@ -15,7 +15,7 @@ use Hideyo\Ecommerce\Framework\Services\Client\Entity\ClientAddressRepository;
 use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderRepository;
 use Illuminate\Http\Request;
 use Form;
-use Datatables;
+use DataTables;
 
 class ClientOrderController extends Controller
 {
@@ -42,7 +42,7 @@ class ClientOrderController extends Controller
             )->with(array('orderStatus', 'orderPaymentMethod', 'orderSendingMethod', 'products', 'client', 'orderBillAddress', 'orderDeliveryAddress'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)->where('client_id', '=', $clientId);
             
             
-            $datatables = Datatables::of($order)
+            $datatables = DataTables::of($order)
 
             ->addColumn('status', function ($order) {
                 if ($order->orderStatus) {

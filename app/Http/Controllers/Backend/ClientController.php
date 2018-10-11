@@ -18,7 +18,7 @@ use Notification;
 use Mail;
 use Excel;
 use Form;
-use Datatables;
+use DataTables;
 
 class ClientController extends Controller
 {
@@ -27,7 +27,7 @@ class ClientController extends Controller
         if ($request->wantsJson()) {
             $clients = ClientService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($clients)
+            $datatables = DataTables::of($clients)
             ->addColumn('last_login', function ($clients) {
                 return date('d F H:i', strtotime($clients->last_login));
             })

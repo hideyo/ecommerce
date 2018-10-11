@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
@@ -30,7 +30,7 @@ class NewsController extends Controller
             )->where(NewsService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
             ->with(array('newsGroup'))        ->leftJoin(NewsService::getGroupModel()->getTable(), NewsService::getGroupModel()->getTable().'.id', '=', 'news_group_id');
             
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
             ->filterColumn('title', function ($query, $keyword) {
 
                 $query->where(

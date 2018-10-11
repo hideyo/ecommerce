@@ -22,7 +22,7 @@ class NewsGroupController extends Controller
 
             $query = NewsService::getGroupModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
-            $datatables = \Datatables::of($query)
+            $datatables = \DataTables::of($query)
             ->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax(url()->route('news-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('news-group.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;

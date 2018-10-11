@@ -23,7 +23,7 @@ class OrderStatusController extends Controller
 
             $query = OrderStatusService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($query)
+            $datatables = \DataTables::of($query)
 
             ->addColumn('title', function ($query) {
      
@@ -41,7 +41,7 @@ class OrderStatusController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['title', 'action'])->make(true);
         }
         
         return view('backend.order-status.index')->with('content', OrderStatusService::selectAll());

@@ -14,7 +14,7 @@ use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 class ProductCategoryController extends Controller
@@ -25,7 +25,7 @@ class ProductCategoryController extends Controller
 
             $productCategory = ProductCategoryService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($productCategory)
+            $datatables = DataTables::of($productCategory)
 
             ->addColumn('image', function ($productCategory) {
                 if ($productCategory->productCategoryImages->count()) {
@@ -78,7 +78,7 @@ class ProductCategoryController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['active', 'title', 'action'])->make(true);
         }
         
         return view('backend.product_category.index')->with(array('productCategory' =>  ProductCategoryService::selectAll()));

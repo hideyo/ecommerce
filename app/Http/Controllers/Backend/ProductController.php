@@ -37,7 +37,7 @@ class ProductController extends Controller
 
             ->where('product.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($product)
+            $datatables = \DataTables::of($product)
             ->filterColumn('reference_code', function ($query, $keyword) {
                 $query->whereRaw("product.reference_code like ?", ["%{$keyword}%"]);
             })
@@ -177,7 +177,7 @@ class ProductController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['action', 'active', 'amount', 'categorytitle', 'image'])->make(true);
         }
         
         return view('backend.product.index')->with('product', ProductService::selectAll());
@@ -196,7 +196,7 @@ class ProductController extends Controller
             ->leftJoin('brand as brand', 'brand.id', '=', 'product.brand_id')
             ->where('product.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = \Datatables::of($product)
+            $datatables = \DataTables::of($product)
             ->addColumn('rank', function ($product) {
                 return '<input type="text" class="change-rank" value="'.$product->rank.'" style="width:50px;" data-url="'.url()->route('product.change-rank', array('productId' => $product->id)).'">';
             })

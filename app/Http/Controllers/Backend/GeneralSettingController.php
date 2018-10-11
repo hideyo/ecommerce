@@ -3,7 +3,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\GeneralSetting\GeneralSettingFacade as GeneralSettingService;
@@ -16,7 +16,7 @@ class GeneralSettingController extends Controller
 
             $query = GeneralSettingService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($query)->addColumn('action', function ($query) {
+            $datatables = DataTables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('general-setting.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('general-setting.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
                 return $links;

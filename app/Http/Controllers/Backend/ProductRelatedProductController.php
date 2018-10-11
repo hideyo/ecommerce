@@ -24,7 +24,7 @@ class ProductRelatedProductController extends Controller
 
             $query = ProductRelatedProductService::getModel()->where('product_id', '=', $productId);
             
-            $datatables = \Datatables::of($query)
+            $datatables = \DataTables::of($query)
                 ->addColumn('related', function ($query) use ($productId) {
                     return $query->RelatedProduct->title;
                 })

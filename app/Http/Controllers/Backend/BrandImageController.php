@@ -10,7 +10,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
@@ -24,7 +24,7 @@ class BrandImageController extends Controller
 
             $image = BrandService::getModelImage()->where('brand_id', '=', $brandId);
             
-            $datatables = Datatables::of($image)
+            $datatables = DataTables::of($image)
 
             ->addColumn('thumb', function ($image) {
                 return '<img src="'.config('hideyo.public_path').'/brand/100x100/'.$image->brand_id.'/'.$image->file.'"  />';

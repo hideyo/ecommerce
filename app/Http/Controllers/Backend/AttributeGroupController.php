@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeService;
@@ -30,7 +30,7 @@ class AttributeGroupController extends Controller
         if ($request->wantsJson()) {
             $query = AttributeService::getGroupModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
-            $datatables = Datatables::of($query)->addColumn('action', function ($query) {
+            $datatables = DataTables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('attribute-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '
                     <a href="'.url()->route('attribute.index', $query->id).'" class="btn btn-sm btn-info"><i class="entypo-pencil"></i>'.$query->attributes->count().' Attributes</a>

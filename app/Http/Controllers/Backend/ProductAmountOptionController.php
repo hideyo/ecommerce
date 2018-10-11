@@ -19,7 +19,7 @@ use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
 
 use Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 
 class ProductAmountOptionController extends Controller
@@ -44,7 +44,7 @@ class ProductAmountOptionController extends Controller
 
             $query = $this->productAmountOption->getModel()->where('product_id', '=', $productId);
             
-            $datatables = Datatables::of($query)->addColumn('action', function ($query) use ($productId) {
+            $datatables = DataTables::of($query)->addColumn('action', function ($query) use ($productId) {
                 $deleteLink = Form::deleteajax('/admin/product/'.$productId.'/product-amount-option/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="/admin/product/'.$productId.'/product-amount-option/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
                 

@@ -250,7 +250,7 @@ return [
         'ProductService'     => Hideyo\Ecommerce\Framework\Services\Product\ProductFacade::class,
         'HtmlBlockService'   => Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade::class,
         'DbView'          => 'Flynsarmy\DbBladeCompiler\Facades\DbView',
-
+'DataTables' => Yajra\DataTables\Facades\DataTables::class
 
     ],
 

@@ -11,7 +11,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
-use Datatables;
+use DataTables;
 use Form;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 
@@ -24,7 +24,7 @@ class ProductCategoryImageController extends Controller
 
             $image = ProductCategoryService::getImageModel()->where('product_category_id', '=', $productCategoryId);
             
-            $datatables = Datatables::of($image)
+            $datatables = DataTables::of($image)
 
             ->addColumn('thumb', function ($image) use ($productCategoryId) {
                 return '<img src="/files/product_category/100x100/'.$image->product_category_id.'/'.$image->file.'"  />';

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Notification;
 use Form;
-use Datatables;
+use DataTables;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
@@ -25,7 +25,7 @@ class PaymentMethodController extends Controller
             $query = PaymentMethodService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
             ->with(array('orderConfirmedOrderStatus', 'orderPaymentCompletedOrderStatus', 'orderPaymentFailedOrderStatus'));
             
-            $datatables = Datatables::of($query)
+            $datatables = DataTables::of($query)
 
             ->addColumn('orderconfirmed', function ($query) {
                 if ($query->orderConfirmedOrderStatus) {

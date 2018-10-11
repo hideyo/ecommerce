@@ -23,7 +23,7 @@ class RedirectController extends Controller
         if (Request::wantsJson()) {
 
             $query = RedirectService::selectAll();
-            $datatables = \Datatables::of($query)
+            $datatables = \DataTables::of($query)
 
             ->addColumn('url', function ($query) {
                 return '<a href="'.$query->url.'" target="_blank">'.$query->url.'</a>';
