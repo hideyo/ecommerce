@@ -219,7 +219,7 @@ class CheckoutController extends Controller
     {
         $noAccountUser = session()->get('noAccountUser');
         if (auth('web')->guest() and !$noAccountUser) {
-            return view('frontend.checkout.login')->with(array('products' => $products, 'totals' => $totals, 'sendingMethodsList' => $sendingMethodsList, 'paymentMethodsList' => $paymentMethodsList));
+            return view('frontend.checkout.login');
         }
 
         if (!Cart::getContent()->count()) {        
