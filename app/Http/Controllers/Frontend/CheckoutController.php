@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\Sendingmethod\SendingmethodFacade as SendingmethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
+use Hideyo\Ecommerce\Framework\Services\Order\Events\OrderChangeStatus;
 use Cart;
 use Validator;
 use Notification;
@@ -261,14 +262,6 @@ class CheckoutController extends Controller
                 if ($orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id) {
                     Event::fire(new OrderChangeStatus($orderStatus));
                 }
-            }
-
-            if ($orderInsertAttempt->OrderPaymentMethod) {
-                $paymentMethodId = $orderInsertAttempt->OrderPaymentMethod->payment_method_id;
-            }
-
-            if ($orderInsertAttempt->OrderSendingMethod) {
-                $sendingMethodId = $orderInsertAttempt->OrderSendingMethod->sending_method_id;
             }
 
             session()->put('orderData', $orderInsertAttempt);

@@ -49,7 +49,7 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
-        $result  = ShopService::create($request->all());
+        $result = ShopService::create($request->all());
         return ShopService::notificationRedirect('shop.index', $result, 'The shop was inserted.');
     }
 
@@ -60,14 +60,14 @@ class ShopController extends Controller
 
     public function update(Request $request, $shopId)
     {
-        $result  = ShopService::updateById($request->all(), $shopId);
+        $result = ShopService::updateById($request->all(), $shopId);
         return ShopService::notificationRedirect('shop.index', $result, 'The shop was updated.');
     }
 
     public function destroy($shopId)
     {
-        $result  = ShopService::destroy($shopId);
-
+        $result = ShopService::destroy($shopId);
+        
         if ($result) {
             Notification::success('The shop was deleted.');
             return redirect()->route('shop.index');

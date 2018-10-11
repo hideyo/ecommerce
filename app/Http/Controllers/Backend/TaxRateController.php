@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
-
 use Illuminate\Http\Request;
 use Notification;
 use Form;
@@ -23,17 +22,17 @@ class TaxRateController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.tax_rate.index')->with('taxRate', TaxRateService::selectAll());
+        return view('backend.tax_rate.index');
     }
 
     public function create()
     {
-        return view('backend.tax_rate.create')->with(array());
+        return view('backend.tax_rate.create');
     }
 
     public function store(Request $request)
     {
-        $result  = TaxRateService::create($request->all());
+        $result = TaxRateService::create($request->all());
         return TaxRateService::notificationRedirect('tax-rate.index', $result, 'The tax rate was inserted.');
     }
 
@@ -44,13 +43,13 @@ class TaxRateController extends Controller
 
     public function update(Request $request, $taxRateId)
     {
-        $result  = TaxRateService::updateById($request->all(), $taxRateId);
+        $result = TaxRateService::updateById($request->all(), $taxRateId);
         return TaxRateService::notificationRedirect('tax-rate.index', $result, 'The tax rate was updated.');
     }
 
     public function destroy($taxRateId)
     {
-        $result  = TaxRateService::destroy($taxRateId);
+        $result = TaxRateService::destroy($taxRateId);
         if ($result) {
             Notification::error('The tax rate was deleted.');
             return redirect()->route('tax-rate.index');
