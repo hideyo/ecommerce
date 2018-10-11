@@ -20,14 +20,9 @@ use Form;
 
 class ExtraFieldController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ExtraFieldService::getModel()
             ->select(['id', 'all_products','title'])
@@ -66,9 +61,9 @@ class ExtraFieldController extends Controller
         return view('backend.extra-field.create')->with(array('productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ExtraFieldService::create($this->request->all());
+        $result  = ExtraFieldService::create($request->all());
         return ExtraFieldService::notificationRedirect('extra-field.index', $result, 'The extra field was inserted.');
     }
 
@@ -77,9 +72,9 @@ class ExtraFieldController extends Controller
         return view('backend.extra-field.edit')->with(array('extraField' => ExtraFieldService::find($id), 'productCategories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $result  = ExtraFieldService::updateById($this->request->all(), $id);
+        $result  = ExtraFieldService::updateById($request->all(), $id);
         return ExtraFieldService::notificationRedirect('extra-field.index', $result, 'The extra field was updated.');
     }
 

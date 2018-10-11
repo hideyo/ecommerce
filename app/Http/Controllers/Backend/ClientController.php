@@ -22,16 +22,11 @@ use Datatables;
 
 class ClientController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request          = $request;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
         $shop  = auth('hideyobackend')->user()->shop;
 
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
             $shop  = auth('hideyobackend')->user()->shop();
             $clients = ClientService::getModel()->select(
                 [
@@ -81,9 +76,9 @@ class ClientController extends Controller
         return view('backend.client.de-activate')->with(array('client' => ClientService::find($clientId)));
     }
 
-    public function postActivate($clientId)
+    public function postActivate(Request $request, $clientId)
     {
-        $input = $this->request->all();
+        $input = $request->all();
         $result  = ClientService::activate($clientId);
         $shop  = auth('hideyobackend')->user()->shop;
 
@@ -106,9 +101,9 @@ class ClientController extends Controller
         return redirect()->route('client.index');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ClientService::create($this->request->all());
+        $result  = ClientService::create($request->all());
         return ClientService::notificationRedirect('client.index', $result, 'The client was inserted.');
     }
 
@@ -178,10 +173,10 @@ class ClientController extends Controller
         return redirect()->route('product.index');
     }
 
-    public function update($clientId)
+    public function update(Request $request, $clientId)
     {
-        $result  = ClientService::updateById($this->request->all(), $clientId);
-        $input = $this->request->all();
+        $result  = ClientService::updateById($request->all(), $clientId);
+        $input = $request->all();
         if (isset($result->id)) {
             if ($result->active) {
                 $shop  = auth('hideyobackend')->user()->shop;

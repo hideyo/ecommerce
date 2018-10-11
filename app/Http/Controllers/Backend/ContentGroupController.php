@@ -18,13 +18,9 @@ use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
 
 class ContentGroupController extends Controller
 {
-    public function __construct(Request $request) {
-        $this->request = $request;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ContentService::getGroupModel()
             ->select(['id', 'title'])
@@ -49,9 +45,9 @@ class ContentGroupController extends Controller
         return view('backend.content_group.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ContentService::createGroup($this->request->all());
+        $result  = ContentService::createGroup($request->all());
         return ContentService::notificationRedirect('content-group.index', $result, 'The content group was inserted.');
     }
 
@@ -60,9 +56,9 @@ class ContentGroupController extends Controller
         return view('backend.content_group.edit')->with(array('contentGroup' => ContentService::findGroup($contentGroupId)));
     }
 
-    public function update($contentGroupId)
+    public function update(Request $request, $contentGroupId)
     {
-        $result  = ContentService::updateGroupById($this->request->all(), $contentGroupId);
+        $result  = ContentService::updateGroupById($request->all(), $contentGroupId);
         return ContentService::notificationRedirect('content-group.index', $result, 'The content group was updated.');
     }
 

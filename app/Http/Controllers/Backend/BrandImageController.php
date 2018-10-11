@@ -17,15 +17,10 @@ use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
 
 class BrandImageController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function index($brandId)
+    public function index(Request $request, $brandId)
     {
         $brand = BrandService::find($brandId);
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $image = BrandService::getModelImage()
             ->select(['id','file', 'brand_id'])
@@ -54,9 +49,9 @@ class BrandImageController extends Controller
         return view('backend.brand_image.create')->with(array('brand' => $brand));
     }
 
-    public function store($brandId)
+    public function store(Request $request, $brandId)
     {
-        $result  = BrandService::createImage($this->request->all(), $brandId);
+        $result  = BrandService::createImage($request->all(), $brandId);
         return BrandService::notificationRedirect(array('brand.images.index', $brandId), $result, 'The brand image was inserted.');
     }
 
@@ -66,9 +61,9 @@ class BrandImageController extends Controller
         return view('backend.brand_image.edit')->with(array('brandImage' => BrandService::findImage($brandImageId), 'brand' => $brand));
     }
 
-    public function update($brandId, $brandImageId)
+    public function update(Request $request, $brandId, $brandImageId)
     {
-        $result  = BrandService::updateImageById($this->request->all(), $brandId, $brandImageId);
+        $result  = BrandService::updateImageById($request->all(), $brandId, $brandImageId);
         return BrandService::notificationRedirect(array('brand.images.index', $brandId), $result, 'The brand image was updated.');
     }
 

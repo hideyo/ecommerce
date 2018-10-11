@@ -17,14 +17,9 @@ use Form;
 
 class ExtraFieldDefaultValueController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request, $extraFieldId)
     {
-        $this->request = $request;
-    }
-
-    public function index($extraFieldId)
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ExtraFieldService::getValueModel()->select(
                 [
@@ -52,9 +47,9 @@ class ExtraFieldDefaultValueController extends Controller
         return view('backend.extra-field-default-value.create')->with(array('extraField' =>  ExtraFieldService::find($extraFieldId)));
     }
 
-    public function store($extraFieldId)
+    public function store(Request $request, $extraFieldId)
     {
-        $result  = ExtraFieldService::createValue($this->request->all(), $extraFieldId);
+        $result  = ExtraFieldService::createValue($request->all(), $extraFieldId);
         return ExtraFieldService::notificationRedirect(array('extra-field.values.index', $extraFieldId), $result, 'The extra field was inserted.');
     }
 
@@ -63,9 +58,9 @@ class ExtraFieldDefaultValueController extends Controller
         return view('backend.extra-field-default-value.edit')->with(array('extraFieldDefaultValue' => ExtraFieldService::findValue($id)));
     }
 
-    public function update($extraFieldId, $id)
+    public function update(Request $request, $extraFieldId, $id)
     {
-        $result  = ExtraFieldService::updateValueById($this->request->all(), $extraFieldId, $id);
+        $result  = ExtraFieldService::updateValueById($request->all(), $extraFieldId, $id);
         return ExtraFieldService::notificationRedirect(array('extra-field.values.index', $extraFieldId), $result, 'The extra field was updated.');
     }
 

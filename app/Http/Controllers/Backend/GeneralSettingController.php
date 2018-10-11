@@ -10,14 +10,9 @@ use Hideyo\Ecommerce\Framework\Services\GeneralSetting\GeneralSettingFacade as G
 
 class GeneralSettingController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = GeneralSettingService::getModel()->select(
                 [
@@ -43,9 +38,9 @@ class GeneralSettingController extends Controller
         return view('backend.general-setting.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = GeneralSettingService::create($this->request->all());
+        $result  = GeneralSettingService::create($request->all());
         return GeneralSettingService::notificationRedirect('general-setting.index', $result, 'The general setting was inserted.');
     }
 
@@ -54,9 +49,9 @@ class GeneralSettingController extends Controller
         return view('backend.general-setting.edit')->with(array('generalSetting' => GeneralSettingService::find($generalSettingId)));
     }
 
-    public function update($generalSettingId)
+    public function update(Request $request, $generalSettingId)
     {
-        $result  = GeneralSettingService::updateById($this->request->all(), $generalSettingId);
+        $result  = GeneralSettingService::updateById($request->all(), $generalSettingId);
         return GeneralSettingService::notificationRedirect('general-setting.index', $result, 'The general setting was updated.');
     }
 

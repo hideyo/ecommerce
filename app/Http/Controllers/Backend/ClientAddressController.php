@@ -19,15 +19,10 @@ use Datatables;
 
 class ClientAddressController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request          = $request;
-    }
-
-    public function index($clientId)
+    public function index(Request $request, $clientId)
     {
         $client = ClientService::find($clientId);
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $addresses = ClientService::getAddressModel()->select(
                 [
@@ -79,9 +74,9 @@ class ClientAddressController extends Controller
         return view('backend.client_address.create')->with(array('client' => $client));
     }
 
-    public function store($clientId)
+    public function store(Request $request, $clientId)
     {
-        $result  = ClientService::createAddress($this->request->all(), $clientId);
+        $result  = ClientService::createAddress($request->all(), $clientId);
         return ClientService::notificationRedirect(array('client.addresses.index', $clientId), $result, 'The client adress is inserted.');
     }
 
@@ -91,9 +86,9 @@ class ClientAddressController extends Controller
         return view('backend.client_address.edit')->with(array('clientAddress' => ClientService::findAddress($id), 'client' => $client));
     }
 
-    public function update($clientId, $id)
+    public function update(Request $request, $clientId, $id)
     {
-        $result  = ClientService::editAddress($clientId, $id, $this->request->all());
+        $result  = ClientService::editAddress($clientId, $id, $request->all());
         return ClientService::notificationRedirect(array('client.addresses.index', $clientId), $result, 'The client adress is updated.'); 
     }
 

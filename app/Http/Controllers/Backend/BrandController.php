@@ -17,14 +17,9 @@ use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
 
 class BrandController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
             $brand = BrandService::getModel()
             ->select(['id', 'rank','title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
@@ -47,9 +42,9 @@ class BrandController extends Controller
         return view('backend.brand.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = BrandService::create($this->request->all());
+        $result  = BrandService::create($request->all());
         return BrandService::notificationRedirect('brand.index', $result, 'The brand was inserted.');
     }
 
@@ -58,9 +53,9 @@ class BrandController extends Controller
         return view('backend.brand.edit')->with(array('brand' => BrandService::find($brandId)));
     }
 
-    public function update($brandId)
+    public function update(Request $request, $brandId)
     {
-        $result  = BrandService::updateById($this->request->all(), $brandId);
+        $result  = BrandService::updateById($request->all(), $brandId);
         return BrandService::notificationRedirect('brand.index', $result, 'The brand was updated.');
     }
 

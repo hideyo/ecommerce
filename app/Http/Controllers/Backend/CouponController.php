@@ -15,10 +15,8 @@ use Hideyo\Ecommerce\Framework\Services\Coupon\CouponFacade as CouponService;
 
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
-
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-
 
 use Illuminate\Http\Request;
 use Notification;
@@ -27,14 +25,9 @@ use Form;
 
 class CouponController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
             $query = CouponService::getModel()->select(['active','id', 'title', 'code'])
             ->where(CouponService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
 
@@ -71,9 +64,9 @@ class CouponController extends Controller
         ));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = CouponService::create($this->request->all());
+        $result  = CouponService::create($request->all());
         return CouponService::notificationRedirect('coupon.index', $result, 'The coupon was inserted.');
     }
 
@@ -91,9 +84,9 @@ class CouponController extends Controller
         );
     }
 
-    public function update($couponId)
+    public function update(Request $request, $couponId)
     {
-        $result  = CouponService::updateById($this->request->all(), $couponId);
+        $result  = CouponService::updateById($request->all(), $couponId);
         return CouponService::notificationRedirect('coupon.index', $result, 'The coupon was updated.');
     }
 

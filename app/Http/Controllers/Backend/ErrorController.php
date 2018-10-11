@@ -10,15 +10,14 @@ use Notification;
 class ErrorController extends Controller
 {
 
-    public function __construct(Request $request, ExceptionRepository $error)
+    public function __construct(ExceptionRepository $error)
     {
-        $this->request = $request;
         $this->error = $error;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = $this->error->getModel()->select(
                 [

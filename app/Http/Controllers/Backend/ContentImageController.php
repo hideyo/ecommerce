@@ -18,15 +18,10 @@ use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
 
 class ContentImageController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function index($contentId)
+    public function index(Request $request, $contentId)
     {
         $content = ContentService::find($contentId);
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $image = ContentService::getImageModel()->select(
                 [
@@ -59,9 +54,9 @@ class ContentImageController extends Controller
         return view('backend.content_image.create')->with(array('content' => $content));
     }
 
-    public function store($contentId)
+    public function store(Request $request, $contentId)
     {
-        $result  = ContentService::createImage($this->request->all(), $contentId);
+        $result  = ContentService::createImage($request->all(), $contentId);
         return ContentService::notificationRedirect(array('content.{contentId}.images.index', $contentId), $result, 'The content image was inserted.');
     }
 
@@ -71,9 +66,9 @@ class ContentImageController extends Controller
         return view('backend.content_image.edit')->with(array('contentImage' => ContentService::findImage($contentImageId), 'content' => $content));
     }
 
-    public function update($contentId, $contentImageId)
+    public function update(Request $request, $contentId, $contentImageId)
     {
-        $result  = ContentService::updateImageById($this->request->all(), $contentId, $contentImageId);
+        $result  = ContentService::updateImageById($request->all(), $contentId, $contentImageId);
         return ContentService::notificationRedirect(array('content.{contentId}.images.index', $contentId), $result, 'The content image was updated.');
     }
 

@@ -18,14 +18,9 @@ use Hideyo\Ecommerce\Framework\Services\Faq\FaqFacade as FaqService;
 
 class FaqItemController extends Controller
 {
-    public function __construct(Request $request) 
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = FaqService::getModel()->select(
                 [
@@ -64,9 +59,9 @@ class FaqItemController extends Controller
         return view('backend.faq-item.create')->with(array('groups' => $groups));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = FaqService::create($this->request->all());
+        $result  = FaqService::create($request->all());
         return FaqService::notificationRedirect('faq.index', $result, 'FaqItem was inserted.');
     }
 
@@ -76,9 +71,9 @@ class FaqItemController extends Controller
         return view('backend.faq-item.edit')->with(array('faq' => FaqService::find($faqItemId), 'groups' => $groups));
     }
 
-    public function update($faqId)
+    public function update(Request $request, $faqId)
     {
-        $result  = FaqService::updateById($this->request->all(), $faqId);
+        $result  = FaqService::updateById($request->all(), $faqId);
         return FaqService::notificationRedirect('faq.index', $result, 'FaqItem was updated.');
     }
 

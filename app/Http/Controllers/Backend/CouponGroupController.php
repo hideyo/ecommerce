@@ -17,13 +17,9 @@ use Hideyo\Ecommerce\Framework\Services\Coupon\CouponFacade as CouponService;
 
 class CouponGroupController extends Controller
 {
-    public function __construct(Request $request) {
-        $this->request = $request;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = CouponService::getGroupModel()->select(['id', 'title'])
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
@@ -46,9 +42,9 @@ class CouponGroupController extends Controller
         return view('backend.coupon-group.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = CouponService::createGroup($this->request->all());
+        $result  = CouponService::createGroup($request->all());
         return CouponService::notificationRedirect('coupon-group.index', $result, 'The coupon group was inserted.');
     }
 
@@ -57,9 +53,9 @@ class CouponGroupController extends Controller
         return view('backend.coupon-group.edit')->with(array('couponGroup' => CouponService::findGroup($couponGroupId)));
     }
 
-    public function update($couponGroupId)
+    public function update(Request $request, $couponGroupId)
     {
-        $result  = CouponService::updateGroupById($this->request->all(), $couponGroupId);
+        $result  = CouponService::updateGroupById($request->all(), $couponGroupId);
         return CouponService::notificationRedirect('coupon-group.index', $result, 'The coupon group was updated.');
     }
 
