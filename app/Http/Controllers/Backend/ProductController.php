@@ -9,15 +9,11 @@
  */
 
 use App\Http\Controllers\Controller;
-
-
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductCombinationFacade as ProductCombinationService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
-
-
 use Illuminate\Http\Request;
 use Notification;
 use Excel;

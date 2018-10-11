@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 use Notification;
 use Datatables;
 use Form;
-
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
-
 
 class ProductCategoryImageController extends Controller
 {
@@ -40,9 +38,6 @@ class ProductCategoryImageController extends Controller
             });
 
             return $datatables->make(true);
-        
-
-
         }
         
         return view('backend.product_category_image.index')->with(array('productCategory' => $productCategory));
@@ -51,7 +46,6 @@ class ProductCategoryImageController extends Controller
     public function create($productCategoryId)
     {
         $productCategory = ProductCategoryService::find($productCategoryId);
-
         return view('backend.product_category_image.create')->with(array('productCategory' => $productCategory));
     }
 

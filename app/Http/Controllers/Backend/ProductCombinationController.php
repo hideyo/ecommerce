@@ -153,7 +153,6 @@ class ProductCombinationController extends Controller
         $result  = ProductCombinationService::create($request->all(), $productId);
         if($result) {
             return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product extra fields are updated.');
-
         }
 
         Notification::error('combination already exist');

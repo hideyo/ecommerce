@@ -10,12 +10,9 @@
  */
 
 use App\Http\Controllers\Controller;
-
-
 use Hideyo\Ecommerce\Framework\Services\Product\ProductExtraFieldValueFacade as ProductExtraFieldValueService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
-
 use Illuminate\Http\Request;
 use Notification;
 

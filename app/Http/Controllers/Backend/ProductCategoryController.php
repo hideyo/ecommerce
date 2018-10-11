@@ -9,11 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-
 use Dutchbridge\Datatable\ProductCategoryDatatable;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
-
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;

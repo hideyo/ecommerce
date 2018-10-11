@@ -10,10 +10,8 @@
  */
 
 use App\Http\Controllers\Controller;
-
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductRelatedProductFacade as ProductRelatedProductService;
-
 use Illuminate\Http\Request;
 use Notification;
 
@@ -49,7 +47,6 @@ class ProductRelatedProductController extends Controller
     {
         $product = ProductService::find($productId);
         $products = ProductService::selectAll()->pluck('title', 'id');
-
         return view('backend.product_related_product.create')->with(array('products' => $products, 'product' => $product));
     }
     

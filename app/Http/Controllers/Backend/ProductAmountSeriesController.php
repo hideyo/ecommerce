@@ -10,11 +10,7 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductAmountSeriesRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Services\ExtraField\Entity\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Services\Attribute\Entity\AttributeGroupRepository;
-use Hideyo\Ecommerce\Framework\Services\TaxRate\Entity\TaxRateRepository;
-
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Illuminate\Http\Request;
 use Notification;
 use Datatables;
@@ -22,21 +18,14 @@ use Form;
 
 class ProductAmountSeriesController extends Controller
 {
-    public function __construct(
-        ProductAmountSeriesRepository $productAmountSeries,
-        ProductRepository $product,
-        AttributeGroupRepository $attributeGroup,
-        TaxRateRepository $taxRate
-    ) {
+    public function __construct(ProductAmountSeriesRepository $productAmountSeries) 
+    {
         $this->productAmountSeries = $productAmountSeries;
-        $this->product = $product;
-        $this->attributeGroup = $attributeGroup;
-        $this->taxRate = $taxRate;
     }
 
     public function index(Request $request, $productId)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
         if ($request->wantsJson()) {
 
 
@@ -64,24 +53,7 @@ class ProductAmountSeriesController extends Controller
 
         }
         
-        return view('backend.product-amount-series.index')->with(array('product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
-    }
-
-    public function create(Request $request, $productId)
-    {
-        $product = $this->product->find($productId);
-
-        if ($request->wantsJson()) {
-            $input = $request->all();
-            $attributeGroup = $this->attributeGroup->find($input['attribute_group_id']);
-            if ($attributeGroup->count()) {
-                if ($attributeGroup->attributes()) {
-                    return response()->json($attributeGroup->attributes);
-                }
-            }
-        } else {
-            return view('backend.product-amount-series.create')->with(array('taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
-        }
+        return view('backend.product-amount-series.index')->with(array('product' => $product));
     }
 
     public function store(Request $request, $productId)
@@ -106,12 +78,15 @@ class ProductAmountSeriesController extends Controller
 
     public function edit(Request $request, $productId, $id)
     {
-        $product = $this->product->find($productId);
+        $product = ProductService::find($productId);
         $productAmountSeries = $this->productAmountSeries->find($id);
-        $selectedAttributes = array();
-        $attributes = array();
 
-        return view('backend.product-amount-series.edit')->with(array('taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'), 'selectedAttributes' => $selectedAttributes, 'attributes' => $attributes, 'productAmountSeries' => $productAmountSeries, 'product' => $product, 'attributeGroups' => $this->attributeGroup->selectAll()->pluck('title', 'id')));
+        return view('backend.product-amount-series.edit')->with(
+            array(
+                'productAmountSeries' => $productAmountSeries, 
+                'product' => $product, 
+            )
+        );
     }
 
     public function update(Request $request, $productId, $id)
