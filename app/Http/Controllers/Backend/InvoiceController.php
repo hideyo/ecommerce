@@ -31,26 +31,20 @@ class InvoiceController extends Controller
 
     public function index()
     {
-
         if (Request::wantsJson()) {
 
             $invoice = $this->invoice->getModel->select(
                 [
-                
                 'id', 'generated_custom_invoice_id', 'order_id',
                 'price_with_tax']
             )->with(array('Order'))->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             
             $datatables = \Datatables::of($invoice)
-
             ->addColumn('price_with_tax', function ($order) {
                 $money = '&euro; '.$order->price_with_tax;
                 return $money;
             })
-
-
-
             ->addColumn('action', function ($invoice) {
                 $deleteLink = \Form::deleteajax('/invoice/'. $invoice->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $download = '<a href="/invoice/'.$invoice->id.'/download" class="btn btn-default btn-sm btn-info"><i class="entypo-pencil"></i>Download</a>  ';
@@ -60,8 +54,6 @@ class InvoiceController extends Controller
             });
 
             return $datatables->make(true);
-
-
         }
         
         return view('backend.invoice.index')->with('invoice', $this->invoice->selectAll());

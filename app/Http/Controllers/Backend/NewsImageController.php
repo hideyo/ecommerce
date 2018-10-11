@@ -29,13 +29,9 @@ class NewsImageController extends Controller
             
             $datatables = Datatables::of($image)
 
-            ->addColumn('thumb', function ($image) use ($newsId) {
-
-
+            ->addColumn('thumb', function ($image) {
                 return '<img src="/files/news/100x100/'.$image->news_id.'/'.$image->file.'"  />';
             })
-
-
             ->addColumn('action', function ($image) use ($newsId) {
                 $deleteLink = Form::deleteajax(url()->route('news-images.destroy', array('newsId' => $newsId, 'id' => $image->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('news-images.edit', array('newsId' => $newsId, 'id' => $image->id)).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;

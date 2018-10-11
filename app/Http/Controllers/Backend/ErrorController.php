@@ -21,7 +21,6 @@ class ErrorController extends Controller
 
             $query = $this->error->getModel()->select(
                 [
-                
                 'id',
                 'class', 'file' , 'status_code', 'line', 'message', 'url', 'method']
             );

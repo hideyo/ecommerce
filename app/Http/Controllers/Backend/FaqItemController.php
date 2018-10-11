@@ -23,9 +23,7 @@ class FaqItemController extends Controller
         if ($request->wantsJson()) {
 
             $query = FaqService::getModel()->select(
-                [
-                
-                'faq_item.id', 
+                ['faq_item.id', 
                 'faq_item.faq_item_group_id',
                 'faq_item.question', 
                 'faq_item.answer', 
@@ -47,7 +45,6 @@ class FaqItemController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('backend.faq-item.index')->with('faq', FaqService::selectAll());

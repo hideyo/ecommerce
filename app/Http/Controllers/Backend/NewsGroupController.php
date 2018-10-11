@@ -22,7 +22,6 @@ class NewsGroupController extends Controller
 
             $query = NewsService::getGroupModel()->select(
                 [
-                
                 'id',
                 'title']
             )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);

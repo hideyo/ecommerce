@@ -10,8 +10,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $shop  = auth('hideyobackend')->user()->shop;
-
         return view('backend.dashboard.stats')->with(
             array(
 

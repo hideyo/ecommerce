@@ -15,9 +15,7 @@ class GeneralSettingController extends Controller
         if ($request->wantsJson()) {
 
             $query = GeneralSettingService::getModel()->select(
-                [
-                
-                'id',
+                ['id',
                 'name', 'value']
             )->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             

@@ -22,9 +22,7 @@ class ExtraFieldDefaultValueController extends Controller
         if ($request->wantsJson()) {
 
             $query = ExtraFieldService::getValueModel()->select(
-                [
-                
-                'id',
+                ['id',
                 'value']
             )->where('extra_field_id', '=', $extraFieldId);
             

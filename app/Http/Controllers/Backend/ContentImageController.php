@@ -25,14 +25,13 @@ class ContentImageController extends Controller
 
             $image = ContentService::getImageModel()->select(
                 [
-                
                 'id',
                 'file', 'content_id']
             )->where('content_id', '=', $contentId);
             
             $datatables = Datatables::of($image)
 
-            ->addColumn('thumb', function ($image) use ($contentId) {
+            ->addColumn('thumb', function ($image) {
                 return '<img src="/files/content/100x100/'.$image->content_id.'/'.$image->file.'"  />';
             })
             ->addColumn('action', function ($image) use ($contentId) {
