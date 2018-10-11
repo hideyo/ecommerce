@@ -16,19 +16,9 @@ use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 
 class NewsGroupController extends Controller
 {
-    public function __construct(Request $request) {
-        $this->request = $request;
-    }
-
-    public function __construct(
-        NewsRepository $news
-    ) {
-        $this->news = $news;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = NewsService::getGroupModel()->select(
                 [
@@ -57,9 +47,9 @@ class NewsGroupController extends Controller
         return view('backend.news_group.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = NewsService::createGroup($this->request->all());
+        $result  = NewsService::createGroup($request->all());
         return NewsService::notificationRedirect('news-group.index', $result, 'The news group was inserted.');
     }
 
@@ -68,9 +58,9 @@ class NewsGroupController extends Controller
         return view('backend.news_group.edit')->with(array('newsGroup' => NewsService::findGroup($newsGroupId)));
     }
 
-    public function update($newsGroupId)
+    public function update(Request $request, $newsGroupId)
     {
-        $result  = NewsService::updateGroupById($this->request->all(), $newsGroupId);
+        $result  = NewsService::updateGroupById($request->all(), $newsGroupId);
         return NewsService::notificationRedirect('news-group.index', $result, 'The news group was updated.');
     }
 

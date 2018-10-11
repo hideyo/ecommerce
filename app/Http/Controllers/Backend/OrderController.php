@@ -28,7 +28,6 @@ use PDF;
 
 class OrderController extends Controller
 {
-
     public function index()
     {
         $shop  = auth('hideyobackend')->user()->shop;

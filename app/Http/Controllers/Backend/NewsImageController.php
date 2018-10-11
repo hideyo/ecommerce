@@ -17,15 +17,10 @@ use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 
 class NewsImageController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function index($newsId)
+    public function index(Request $request, $newsId)
     {
         $news = NewsService::find($newsId);
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $image = NewsService::getImageModel()->select(
                 ['id',
@@ -60,9 +55,9 @@ class NewsImageController extends Controller
         return view('backend.news_image.create')->with(array('news' => $news));
     }
 
-    public function store($newsId)
+    public function store(Request $request, $newsId)
     {
-        $result  = NewsService::createImage($this->request->all(), $newsId);
+        $result  = NewsService::createImage($request->all(), $newsId);
         return NewsService::notificationRedirect(array('news-images.index', $newsId), $result, 'The news image was inserted.');
     }
 
@@ -72,9 +67,9 @@ class NewsImageController extends Controller
         return view('backend.news_image.edit')->with(array('newsImage' => NewsService::findImage($newsImageId), 'news' => $news));
     }
 
-    public function update($newsId, $newsImageId)
+    public function update(Request $request, $newsId, $newsImageId)
     {
-        $result  = NewsService::updateImageById($this->request->all(), $newsId, $newsImageId);
+        $result  = NewsService::updateImageById($request->all(), $newsId, $newsImageId);
         return NewsService::notificationRedirect(array('news-images.index', $newsId), $result, 'The news image was updated.');
     }
 

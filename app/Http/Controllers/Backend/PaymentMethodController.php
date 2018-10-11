@@ -21,16 +21,14 @@ use Datatables;
 class PaymentMethodController extends Controller
 {
     public function __construct(
-        Request $request, 
         OrderStatusRepository $orderStatus
     ) {
-        $this->request = $request;
         $this->orderStatus = $orderStatus;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = PaymentMethodService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
             ->with(array('orderConfirmedOrderStatus', 'orderPaymentCompletedOrderStatus', 'orderPaymentFailedOrderStatus'));
@@ -75,9 +73,9 @@ class PaymentMethodController extends Controller
         );
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = PaymentMethodService::create($this->request->all());
+        $result  = PaymentMethodService::create($request->all());
         return PaymentMethodService::notificationRedirect('payment-method.index', $result, 'The payment method was inserted.');
     }
 
@@ -92,9 +90,9 @@ class PaymentMethodController extends Controller
         );
     }
 
-    public function update($paymentMethodId)
+    public function update(Request $request, $paymentMethodId)
     {
-        $result  = PaymentMethodService::updateById($this->request->all(), $paymentMethodId);
+        $result  = PaymentMethodService::updateById($request->all(), $paymentMethodId);
         return PaymentMethodService::notificationRedirect('payment-method.index', $result, 'The payment method was updated.');
     }
 

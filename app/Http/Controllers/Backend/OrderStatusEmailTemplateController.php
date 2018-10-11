@@ -18,16 +18,9 @@ use Form;
 
 class OrderStatusEmailTemplateController extends Controller
 {
-    public function __construct(
-        Request $request
-    ) {
-        $this->request = $request;
-
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = OrderStatusEmailTemplateService::getModel()->select(
                 ['id', 'title', 'subject']
@@ -52,9 +45,9 @@ class OrderStatusEmailTemplateController extends Controller
         return view('backend.order-status-email-template.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = OrderStatusEmailTemplateService::create($this->request->all());
+        $result  = OrderStatusEmailTemplateService::create($request->all());
         return OrderStatusEmailTemplateService::notificationRedirect('order-status-email-template.index', $result, 'The template was inserted.');
     }
 
@@ -68,9 +61,9 @@ class OrderStatusEmailTemplateController extends Controller
         return response()->json(OrderStatusEmailTemplateService::find($templateId));
     }
 
-    public function update($templateId)
+    public function update(Request $request, $templateId)
     {
-        $result  = OrderStatusEmailTemplateService::updateById($this->request->all(), $templateId);
+        $result  = OrderStatusEmailTemplateService::updateById($request->all(), $templateId);
         return OrderStatusEmailTemplateService::notificationRedirect('order-status-email-template.index', $result, 'The template was updated.');
     }
 

@@ -20,16 +20,14 @@ use Notification;
 class OrderStatusController extends Controller
 {
     public function __construct(
-        Request $request,
         OrderStatusEmailTemplateRepository $orderStatusEmailTemplate
     ) {
-        $this->request = $request;
         $this->orderStatusEmailTemplate = $orderStatusEmailTemplate;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = OrderStatusService::getModel()->select(
                 ['id', 'color','title']
@@ -66,9 +64,9 @@ class OrderStatusController extends Controller
         return view('backend.order-status.create')->with(array('templates' => $this->orderStatusEmailTemplate->selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = OrderStatusService::create($this->request->all());
+        $result  = OrderStatusService::create($request->all());
         return OrderStatusService::notificationRedirect('order-status.index', $result, 'The order status was inserted.');
     }
 
@@ -87,9 +85,9 @@ class OrderStatusController extends Controller
         );
     }
 
-    public function update($orderStatusId)
+    public function update(Request $request, $orderStatusId)
     {
-        $result  = OrderStatusService::updateById($this->request->all(), $orderStatusId);
+        $result  = OrderStatusService::updateById($request->all(), $orderStatusId);
         return OrderStatusService::notificationRedirect('order-status.index', $result, 'The order status was updated.');
     }
 

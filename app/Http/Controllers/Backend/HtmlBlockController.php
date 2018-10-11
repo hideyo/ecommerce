@@ -19,13 +19,9 @@ use Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade as HtmlBlockSe
 
 class HtmlBlockController extends Controller
 {
-    public function __construct(Request $request) {
-        $this->request = $request;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = HtmlBlockService::getModel()->select(
                 ['id', 'active',
@@ -63,9 +59,9 @@ class HtmlBlockController extends Controller
         return view('backend.html-block.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = HtmlBlockService::create($this->request->all());
+        $result  = HtmlBlockService::create($request->all());
         return HtmlBlockService::notificationRedirect('html-block.index', $result, 'The html block was inserted.');     
     }
 
@@ -80,9 +76,9 @@ class HtmlBlockController extends Controller
         return view('backend.html-block.edit')->with(array('htmlBlock' => HtmlBlockService::find($htmlBlockId)));
     }
 
-    public function update($htmlBlockId)
+    public function update(Request $request, $htmlBlockId)
     {
-        $result  = HtmlBlockService::updateById($this->request->all(), $htmlBlockId);
+        $result  = HtmlBlockService::updateById($request->all(), $htmlBlockId);
             return HtmlBlockService::notificationRedirect('html-block.index', $result, 'The html block was updated.');     
     }
 
@@ -97,12 +93,12 @@ class HtmlBlockController extends Controller
         );
     }
     
-    public function storeCopy($htmlBlockId)
+    public function storeCopy(Request $request, $htmlBlockId)
     {
         $htmlBlock = HtmlBlockService::find($htmlBlockId);
 
         if($htmlBlock) {
-            $result  = HtmlBlockService::createCopy($this->request->all(), $htmlBlockId);
+            $result  = HtmlBlockService::createCopy($request->all(), $htmlBlockId);
             return HtmlBlockService::notificationRedirect('html-block.index', $result, 'The html block was inserted.');      
         }
 
