@@ -20,14 +20,9 @@ use Datatables;
 
 class ContentController extends Controller
 {
-    public function __construct(Request $request) 
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $content = ContentService::getModel()->select(
                 [
@@ -65,9 +60,9 @@ class ContentController extends Controller
         return view('backend.content.create')->with(array('groups' => ContentService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ContentService::create($this->request->all());
+        $result  = ContentService::create($request->all());
         return ContentService::notificationRedirect('content.index', $result, 'The content was inserted.');
     }
 
@@ -76,13 +71,13 @@ class ContentController extends Controller
         return view('backend.content.edit')->with(array('content' => ContentService::find($contentId), 'groups' => ContentService::selectAllGroups()->pluck('title', 'id')->toArray()));
     }
 
-    public function update($contentId)
+    public function update(Request $request, $contentId)
     {
-        $result  = ContentService::updateById($this->request->all(), $contentId);
+        $result  = ContentService::updateById($request->all(), $contentId);
         return ContentService::notificationRedirect('content.index', $result, 'The content was updated.');
     }
 
-    public function destroy($contentId)
+    public function destroy(Request $request, $contentId)
     {
         $result  = ContentService::destroy($contentId);
 
