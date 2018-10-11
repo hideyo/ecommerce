@@ -9,22 +9,14 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Services\Order\Entity\OrderStatusEmailTemplateRepository;
-
-use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
-
 use Illuminate\Http\Request;
 use Auth;
 use Notification;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
+use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 
 class OrderStatusController extends Controller
 {
-    public function __construct(
-        OrderStatusEmailTemplateRepository $orderStatusEmailTemplate
-    ) {
-        $this->orderStatusEmailTemplate = $orderStatusEmailTemplate;
-    }
-
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
@@ -61,7 +53,7 @@ class OrderStatusController extends Controller
 
     public function create()
     {
-        return view('backend.order-status.create')->with(array('templates' => $this->orderStatusEmailTemplate->selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')));
+        return view('backend.order-status.create')->with(array('templates' => OrderStatusEmailTemplateService::selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')));
     }
 
     public function store(Request $request)
@@ -80,7 +72,7 @@ class OrderStatusController extends Controller
             array(
             'orderStatus' => $orderStatus,
             'populatedData' => $populatedData,
-            'templates' => $this->orderStatusEmailTemplate->selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')
+            'templates' => OrderStatusEmailTemplateService::selectAllByShopId(auth('hideyobackend')->user()->selected_shop_id)->pluck('title', 'id')
             )
         );
     }
