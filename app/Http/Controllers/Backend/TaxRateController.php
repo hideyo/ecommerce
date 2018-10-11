@@ -10,14 +10,9 @@ use Datatables;
 
 class TaxRateController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
             $query = TaxRateService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('tax-rate.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $query->title);
@@ -36,9 +31,9 @@ class TaxRateController extends Controller
         return view('backend.tax_rate.create')->with(array());
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = TaxRateService::create($this->request->all());
+        $result  = TaxRateService::create($request->all());
         return TaxRateService::notificationRedirect('tax-rate.index', $result, 'The tax rate was inserted.');
     }
 
@@ -47,9 +42,9 @@ class TaxRateController extends Controller
         return view('backend.tax_rate.edit')->with(array('taxRate' => TaxRateService::find($taxRateId)));
     }
 
-    public function update($taxRateId)
+    public function update(Request $request, $taxRateId)
     {
-        $result  = TaxRateService::updateById($this->request->all(), $taxRateId);
+        $result  = TaxRateService::updateById($request->all(), $taxRateId);
         return TaxRateService::notificationRedirect('tax-rate.index', $result, 'The tax rate was updated.');
     }
 

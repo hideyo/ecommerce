@@ -25,16 +25,9 @@ use DB;
 
 class ProductController extends Controller
 {
-    public function __construct(
-        Request $request
-    ) {
-        $this->request = $request;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $product = ProductService::getModel()->select(
                 ['product.*', 
@@ -194,9 +187,9 @@ class ProductController extends Controller
         return view('backend.product.index')->with('product', ProductService::selectAll());
     }
 
-    public function getRank()
+    public function getRank(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $product = ProductService::getModel()->select(
                 ['product.*', 
@@ -248,9 +241,9 @@ class ProductController extends Controller
         return view('backend.product.create')->with(array('brands' => BrandService::selectAll()->pluck('title', 'id')->toArray(), 'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'), 'productCategories' => ProductCategoryService::selectAllProductPullDown()->pluck('title', 'id')));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ProductService::create($this->request->all());
+        $result  = ProductService::create($request->all());
         return ProductService::notificationRedirect('product.index', $result, 'The product was inserted.');
     }
 
@@ -355,10 +348,10 @@ class ProductController extends Controller
         );
     }
 
-    public function storeCopy($productId)
+    public function storeCopy(Request $request, $productId)
     {
         $product = ProductService::find($productId);
-        $result  = ProductService::createCopy($this->request->all(), $productId);
+        $result  = ProductService::createCopy($request->all(), $productId);
 
         if (isset($result->id)) {
             if ($product->attributes) {
@@ -394,22 +387,21 @@ class ProductController extends Controller
         return view('backend.product.edit_price')->with(array('product' => ProductService::find($id), 'taxRates' => TaxRateService::selectAll()->pluck('title', 'id')));
     }
 
-    public function update($productId)
+    public function update(Request $request, $productId)
     {
-
-        $input = $this->request->all();
+        $input = $request->all();
         $result  = ProductService::updateById($input, $productId);
 
         $redirect = redirect()->route('product.index');
 
         if (isset($result->id)) {
-            if ($this->request->get('seo')) {
+            if ($request->get('seo')) {
                 Notification::success('Product seo was updated.');
                 $redirect = redirect()->route('product.edit_seo', $productId);
-            } elseif ($this->request->get('price')) {
+            } elseif ($request->get('price')) {
                 Notification::success('Product price was updated.');
                 $redirect = redirect()->route('product.edit_price', $productId);
-            } elseif ($this->request->get('product-combination')) {
+            } elseif ($request->get('product-combination')) {
                 Notification::success('Product combination leading attribute group was updated.');
                 $redirect = redirect()->route('product-combination.index', $productId);
             } else {

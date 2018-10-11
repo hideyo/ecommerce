@@ -20,15 +20,9 @@ use Excel;
 
 class SendingMethodCountryPriceController extends Controller
 {
-    public function __construct(
-        Request $request
-    ) {
-        $this->request = $request;
-    }
-
     public function index($sendingMethodId)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $users = SendingMethodService::getCountryModel()->select([
                 
@@ -65,22 +59,22 @@ class SendingMethodCountryPriceController extends Controller
         ));
     }
 
-    public function postImport($sendingMethodId)
+    public function postImport(Request $request, $sendingMethodId)
     {
-        $file = $this->request->file('file');
+        $file = $request->file('file');
         $countries = \Excel::load($file, function($reader) {
         })->get();
 
         if($countries) {
-            $result  = SendingMethodService::importCountries($countries, $this->request->get('tax_rate_id'), $sendingMethodId);
+            $result  = SendingMethodService::importCountries($countries, $request->get('tax_rate_id'), $sendingMethodId);
             Notification::success('The countries are inserted.');
             return redirect()->route('sending-method.country-prices.index', $sendingMethodId);
         }         
     }
 
-    public function store($sendingMethodId)
+    public function store(Request $request, $sendingMethodId)
     {
-        $result  = SendingMethodService::createCountry($this->request->all(), $sendingMethodId);
+        $result  = SendingMethodService::createCountry($request->all(), $sendingMethodId);
         return SendingMethodService::notificationRedirect(array('sending-method.country-prices.index', $sendingMethodId), $result, 'The country was inserted.');
     }
 
@@ -93,9 +87,9 @@ class SendingMethodCountryPriceController extends Controller
             ));
     }
 
-    public function update($sendingMethodId, $id)
+    public function update(Request $request, $sendingMethodId, $id)
     {
-        $result  = SendingMethodService::updateCountryById($this->request->all(), $id);
+        $result  = SendingMethodService::updateCountryById($request->all(), $id);
         return SendingMethodService::notificationRedirect(array('sending-method.country-prices.index', $sendingMethodId), $result, 'The country was updated.');
     }
 

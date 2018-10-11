@@ -20,15 +20,9 @@ use Datatables;
 
 class SendingMethodController extends Controller
 {
-    public function __construct(
-        Request $request
-    ) {
-        $this->request = $request;
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
             $query = SendingMethodService::getModel()
 
             ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
@@ -55,9 +49,9 @@ class SendingMethodController extends Controller
         ));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = SendingMethodService::create($this->request->all());
+        $result  = SendingMethodService::create($request->all());
         return SendingMethodService::notificationRedirect('sending-method.index', $result, 'The sending method was inserted.');
     }
 
@@ -72,9 +66,9 @@ class SendingMethodController extends Controller
         );
     }
 
-    public function update($sendingMethodId)
+    public function update(Request $request, $sendingMethodId)
     {
-        $result  = SendingMethodService::updateById($this->request->all(), $sendingMethodId);
+        $result  = SendingMethodService::updateById($request->all(), $sendingMethodId);
         return SendingMethodService::notificationRedirect('sending-method.index', $result, 'The sending method was updated.');
     }
 

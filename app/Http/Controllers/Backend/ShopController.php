@@ -17,14 +17,9 @@ use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 
 class ShopController extends Controller
 {
-    public function __construct(Request $request)
+    public function index(Request $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ShopService::getModel()
             ->select(['id', 'title', 'logo_file_name']);
@@ -53,9 +48,9 @@ class ShopController extends Controller
         return view('backend.shop.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ShopService::create($this->request->all());
+        $result  = ShopService::create($request->all());
         return ShopService::notificationRedirect('shop.index', $result, 'The shop was inserted.');
     }
 
@@ -64,9 +59,9 @@ class ShopController extends Controller
         return view('backend.shop.edit')->with(array('shop' => ShopService::find($shopId)));
     }
 
-    public function update($shopId)
+    public function update(Request $request, $shopId)
     {
-        $result  = ShopService::updateById($this->request->all(), $shopId);
+        $result  = ShopService::updateById($request->all(), $shopId);
         return ShopService::notificationRedirect('shop.index', $result, 'The shop was updated.');
     }
 

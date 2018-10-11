@@ -22,19 +22,12 @@ use Notification;
 
 class ProductCombinationController extends Controller
 {
-    public function __construct(
-        Request $request)
-    {
-        $this->request = $request;
-    }
-
-
-    public function index($productId)
+    public function index(Request $request, $productId)
     {
         $product = ProductService::find($productId);
 
         if($product) {
-            if ($this->request->wantsJson()) {
+            if ($request->wantsJson()) {
 
                 $query = ProductCombinationService::getModel()->select(
                     ['id', 'tax_rate_id', 'amount', 'price', 'product_id', 'reference_code',
@@ -131,12 +124,12 @@ class ProductCombinationController extends Controller
         return redirect()->route('product.index');            
     }
 
-    public function create($productId)
+    public function create(Request $request, $productId)
     {
         $product = ProductService::find($productId);
 
-        if ($this->request->wantsJson()) {
-            $input = $this->request->all();
+        if ($request->wantsJson()) {
+            $input = $request->all();
             $attributeGroup = AttributeService::findGroup($input['attribute_group_id']);
             if ($attributeGroup->count()) {
                 if ($attributeGroup->attributes()) {
@@ -155,9 +148,9 @@ class ProductCombinationController extends Controller
         return response()->json($result);
     }
 
-    public function store($productId)
+    public function store(Request $request, $productId)
     {
-        $result  = ProductCombinationService::create($this->request->all(), $productId);
+        $result  = ProductCombinationService::create($request->all(), $productId);
         if($result) {
             return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product extra fields are updated.');
 
@@ -167,7 +160,7 @@ class ProductCombinationController extends Controller
         return redirect()->back()->withInput();
     }
 
-    public function edit($productId, $id)
+    public function edit(Request $request, $productId, $id)
     {
         $product = ProductService::find($productId);
         $productCombination = ProductCombinationService::find($id);
@@ -179,8 +172,8 @@ class ProductCombinationController extends Controller
             $attributes[$row->attribute->id]['value'] = $row->attribute->value;
         }
 
-        if ($this->request->wantsJson()) {
-            $input = $this->request->all();
+        if ($request->wantsJson()) {
+            $input = $request->all();
             $attributeGroup = AttributeService::find($input['attribute_group_id']);
             if ($attributeGroup->count()) {
                 if ($attributeGroup->attributes()) {
@@ -192,10 +185,10 @@ class ProductCombinationController extends Controller
         }
     }
 
-    public function update($productId, $id)
+    public function update(Request $request, $productId, $id)
     {
 
-        $result  = ProductCombinationService::updateById($this->request->all(), $productId, $id);
+        $result  = ProductCombinationService::updateById($request->all(), $productId, $id);
         return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product combinations are updated.');
 
     }

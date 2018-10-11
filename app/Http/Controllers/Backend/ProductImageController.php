@@ -16,15 +16,10 @@ use Notification;
 
 class ProductImageController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function index($productId)
+    public function index(Request $request, $productId)
     {
            $product = ProductService::find($productId);
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ProductService::getImageModel()->where('product_id', '=', $productId);
             
@@ -53,9 +48,9 @@ class ProductImageController extends Controller
         return view('backend.product_image.create')->with(array('attributesList' => $lists['attributesList'], 'productAttributesList' => $lists['productAttributesList'], 'product' => $product));
     }
 
-    public function store($productId)
+    public function store(Request $request, $productId)
     {
-        $result  = ProductService::createImage($this->request->all(), $productId);
+        $result  = ProductService::createImage($request->all(), $productId);
         return ProductService::notificationRedirect(array('product.images.index', $productId), $result, 'The product image was inserted.');
     }
 
@@ -112,9 +107,9 @@ class ProductImageController extends Controller
         return array('productAttributesList' => $productAttributesList, 'attributesList' => $attributesList);
     }
 
-    public function update($productId, $productImageId)
+    public function update(Request $request, $productId, $productImageId)
     {
-        $result  = ProductService::updateImageById($this->request->all(), $productId, $productImageId);
+        $result  = ProductService::updateImageById($request->all(), $productId, $productImageId);
         return ProductService::notificationRedirect(array('product.images.index', $productId), $result, 'The product image was update.');
     }
 

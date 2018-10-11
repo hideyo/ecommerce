@@ -19,15 +19,10 @@ use Notification;
 
 class ProductRelatedProductController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }    
-
-    public function index($productId)
+    public function index(Request $request, $productId)
     {
         $product = ProductService::find($productId);
-        if ($this->request->wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ProductRelatedProductService::getModel()->where('product_id', '=', $productId);
             
@@ -58,9 +53,9 @@ class ProductRelatedProductController extends Controller
         return view('backend.product_related_product.create')->with(array('products' => $products, 'product' => $product));
     }
     
-    public function store($productId)
+    public function store(Request $request, $productId)
     {
-        $result  = ProductRelatedProductService::create($this->request->all(), $productId);
+        $result  = ProductRelatedProductService::create($request->all(), $productId);
         return redirect()->route('product.related-product.index', $productId);
     }
 
