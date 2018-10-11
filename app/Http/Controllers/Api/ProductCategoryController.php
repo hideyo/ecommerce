@@ -4,19 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Models\ProductCategory;
+
+use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService
 
 class ProductCategoryController extends Controller
 {
-	public function index() {
-		return ProductCategory::all();
-	}
-
-	public function show(ProductCategory $category) {
-		return $category;
-	}
-
-	public function products(ProductCategory $category) {
-		return $category->products;
-	}
 }
