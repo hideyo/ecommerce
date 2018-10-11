@@ -28,7 +28,7 @@ class BrandImageController extends Controller
             
             $datatables = Datatables::of($image)
 
-            ->addColumn('thumb', function ($image) use ($brandId) {
+            ->addColumn('thumb', function ($image) {
                 return '<img src="'.config('hideyo.public_path').'/brand/100x100/'.$image->brand_id.'/'.$image->file.'"  />';
             })
             ->addColumn('action', function ($image) use ($brandId) {

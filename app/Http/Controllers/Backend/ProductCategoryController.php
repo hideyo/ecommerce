@@ -142,13 +142,11 @@ class ProductCategoryController extends Controller
 
     public function edit($productCategoryId)
     {
-        $category = ProductCategoryService::find($productCategoryId);
         return view('backend.product_category.edit')->with(array('productCategory' => ProductCategoryService::find($productCategoryId), 'categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }
 
     public function editHighlight($productCategoryId)
     {
-        $category = ProductCategoryService::find($productCategoryId);
         $products = ProductService::selectAll()->pluck('title', 'id');
         return view('backend.product_category.edit-highlight')->with(array('products' => $products, 'productCategory' => ProductCategoryService::find($productCategoryId), 'categories' => ProductCategoryService::selectAll()->pluck('title', 'id')));
     }

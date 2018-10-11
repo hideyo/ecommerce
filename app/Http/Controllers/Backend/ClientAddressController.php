@@ -36,7 +36,7 @@ class ClientAddressController extends Controller
             )->with(array('clientDeliveryAddress', 'clientBillAddress'))->where('client_id', '=', $clientId);
             
             $datatables = Datatables::of($addresses)
-            ->addColumn('housenumber', function ($addresses) use ($clientId) {
+            ->addColumn('housenumber', function ($addresses) {
                 return $addresses->housenumber.$addresses->housenumber_suffix;
             })
             ->addColumn('delivery', function ($addresses) {
@@ -44,10 +44,8 @@ class ClientAddressController extends Controller
                     return '<span class="glyphicon glyphicon-ok icon-green"></span>';
                 }
                 
-                return '<span class="glyphicon glyphicon-remove icon-red"></span>';
-                
+                return '<span class="glyphicon glyphicon-remove icon-red"></span>';   
             })
-
             ->addColumn('bill', function ($addresses) {
                 if ($addresses->clientBillAddress()->count()) {
                           return '<span class="glyphicon glyphicon-ok icon-green"></span>';

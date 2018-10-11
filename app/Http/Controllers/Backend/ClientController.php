@@ -24,10 +24,7 @@ class ClientController extends Controller
 {
     public function index(Request $request)
     {
-        $shop  = auth('hideyobackend')->user()->shop;
-
         if ($request->wantsJson()) {
-            $shop  = auth('hideyobackend')->user()->shop();
             $clients = ClientService::getModel()->select(
                 [
                 
@@ -80,7 +77,6 @@ class ClientController extends Controller
     {
         $input = $request->all();
         $result  = ClientService::activate($clientId);
-        $shop  = auth('hideyobackend')->user()->shop;
 
         if ($input['send_mail']) {
                 Mail::send('frontend.email.activate-mail', array('user' => $result->toArray(), 'billAddress' => $result->clientBillAddress->toArray()), function ($message) use ($result) {
@@ -179,8 +175,6 @@ class ClientController extends Controller
         $input = $request->all();
         if (isset($result->id)) {
             if ($result->active) {
-                $shop  = auth('hideyobackend')->user()->shop;
-
                 if ($input['send_mail']) {
                     Mail::send('frontend.email.activate-mail', array('user' => $result->toArray(), 'billAddress' => $result->clientBillAddress->toArray()), function ($message) use ($result) {
                         $message->to($result['email'])->from('info@hideyo.nl', 'Hideyo')->subject('Toegang tot account.');
