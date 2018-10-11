@@ -1,4 +1,18 @@
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
+require('./bootstrap');
+require('../../../node_modules/bootbox/bootbox.js');
+require('../../../node_modules/datatables/media/js/jquery.dataTables.js');
+require('../../../node_modules/select2/dist/js/select2.js');
+
+require('../../../node_modules/jstree/dist/jstree.min.js');
+require('../../../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js');
+require('../../../node_modules/bootstrap-validator/dist/validator.js');
+require('../../../node_modules/summernote/dist/summernote.js');
 
 function recalculate(el){
 
