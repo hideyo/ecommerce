@@ -29,11 +29,15 @@ class SendingMethodController extends Controller
     public function index()
     {
         if ($this->request->wantsJson()) {
-            $query = SendingMethodService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = SendingMethodService::getModel()
+
+            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
 
             $datatables = Datatables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax(url()->route('sending-method.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-sm btn-danger'), $query->title);
-                $links = '<a href="'.url()->route('sending-method.edit', $query->id).'" class="btn btn-sm btn-success"><i class="fi-pencil"></i>Edit</a>  '.$deleteLink;
+                $links = '<a href="'.url()->route('sending-method.country-prices.index', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Country prices ('.$query->countryPrices()->count().')</a>  <a href="/admin/sending-method/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
+            
+
                 return $links;
             });
 

@@ -53,6 +53,12 @@
 
     Route::resource('general-setting', 'GeneralSettingController');
 
+
+Route::post('sending-method/{sendingMethodId}/country-prices/import', array('as' => 'sending-method.import', 'uses' => 'SendingMethodCountryPriceController@postImport'));
+Route::get('sending-method/{sendingMethodId}/country-prices/import', array('as' => 'sending-method.import', 'uses' => 'SendingMethodCountryPriceController@getImport'));
+Route::resource('sending-method/{sendingMethodId}/country-prices', 'SendingMethodCountryPriceController', array('as' => 'sending-method'));
+
+
     Route::resource('sending-method', 'SendingMethodController');
 
     Route::resource('payment-method', 'PaymentMethodController');
