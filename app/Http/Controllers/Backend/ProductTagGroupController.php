@@ -12,15 +12,14 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductTagGroupFacade as ProductTagGroupService;
-
-use Request;
+use Illuminate\Http\Request;
 use Notification;
 
 class ProductTagGroupController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
 
             $query = ProductTagGroupService::getModel()
             ->select(['id','tag'])
@@ -46,9 +45,9 @@ class ProductTagGroupController extends Controller
         ));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = ProductTagGroupService::create(\Request::all());
+        $result  = ProductTagGroupService::create($request->all());
         return ProductTagGroupService::notificationRedirect('product-tag-group.index', $result, 'The product group tag was inserted.');
     }
 
@@ -62,9 +61,9 @@ class ProductTagGroupController extends Controller
         );
     }
 
-    public function update($productTagGroupId)
+    public function update(Request $request, $productTagGroupId)
     {
-        $result  = ProductTagGroupService::updateById(\Request::all(), $productTagGroupId);
+        $result  = ProductTagGroupService::updateById($request->all(), $productTagGroupId);
         return ProductTagGroupService::notificationRedirect('product-tag-group.index', $result, 'The product group tag was updated.');
     }
 

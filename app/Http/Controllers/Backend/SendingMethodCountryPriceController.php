@@ -20,7 +20,7 @@ use Excel;
 
 class SendingMethodCountryPriceController extends Controller
 {
-    public function index($sendingMethodId)
+    public function index(Request $request, $sendingMethodId)
     {
         if ($request->wantsJson()) {
 
