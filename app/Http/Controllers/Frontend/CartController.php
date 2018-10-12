@@ -7,16 +7,14 @@ use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as Pay
 use Hideyo\Ecommerce\Framework\Services\Cart\Entity\CartRepository;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use BrowserDetect;
+use Cart;
 
 class CartController extends Controller
 {
-    public function __construct(
-        Request $request,    
+    public function __construct(    
         CartRepository $cart)
     {
-        $this->request = $request;
         $this->cart = $cart;
-        $this->shopId = config()->get('app.shop_id');
     }
 
     public function getIndex()
@@ -24,23 +22,18 @@ class CartController extends Controller
         $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
         $paymentMethodsList = $this->getPaymentMethodsList($sendingMethodsList);
   
-        if (app('cart')->getContent()->count()) {
+        if (!Cart::getContent()->count()) {
+            return redirect()->to('cart');
+        }
             
-            if($sendingMethodsList->count() AND !app('cart')->getConditionsByType('sending_method')->count()) {
-                self::updateSendingMethod($sendingMethodsList->first()->id);
-            }      
+        if($sendingMethodsList->count() AND !app('cart')->getConditionsByType('sending_method')->count()) {
+            self::updateSendingMethod($sendingMethodsList->first()->id);
+        }      
 
-            if ($paymentMethodsList AND !app('cart')->getConditionsByType('payment_method')->count()) {
+        if ($paymentMethodsList AND !app('cart')->getConditionsByType('payment_method')->count()) {
+            $this->cart->updatePaymentMethod($paymentMethodsList->first()->id);
+        }
 
-                $this->cart->updatePaymentMethod($paymentMethodsList->first()->id);
-            }
-
-        } else {
-            app('cart')->clear();
-            app('cart')->clearCartConditions();           
-        }  
-
-        $shop = ShopService::find(config()->get('app.shop_id'));
         $template = "frontend.cart.index";
 
         if (BrowserDetect::isMobile()) {
@@ -51,7 +44,6 @@ class CartController extends Controller
             'user' => auth('web')->user(), 
             'sendingMethodsList' => $sendingMethodsList
         ));
-
     }
 
     public function getPaymentMethodsList($sendingMethodsList) 
@@ -74,13 +66,11 @@ class CartController extends Controller
         );
 
         if($result){
-
             return response()->json(array(
                 'result' => true, 
                 'producttotal' => app('cart')->getContent()->count(),
                 'total_inc_tax_number_format' => app('cart')->getTotalWithTax(),
                 'total_ex_tax_number_format' => app('cart')->getTotalWithoutTax()
-
             ));
         }
         
@@ -154,6 +144,4 @@ class CartController extends Controller
         $this->cart->updatePaymentMethod($paymentMethodId);
         return response()->json(array('payment_method' => app('cart')->getConditionsByType('payment_method')));
     }
-
-
 }

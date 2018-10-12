@@ -65,7 +65,6 @@ class AccountController extends Controller
         return $content;
     }
 
-
     public function getEditAccount()
     {
         return view('frontend.account.edit-account')->with(array('user' => $this->auth->user()));
@@ -89,7 +88,6 @@ class AccountController extends Controller
         $shop = app('shop');
         return view('frontend.account.edit-account-address-'.$type)->with(array('sendingMethods' => $shop->sendingMethods, 'user' => $this->auth->user()));
     }
-
 
     public function postEditAddress(Request $request, $type)
     {
@@ -369,7 +367,6 @@ class AccountController extends Controller
         $validateRegister = ClientService::validateRegister($userdata);
 
         if($validateRegister->fails()) {
-
             foreach ($validator->errors()->all() as $error) {
                 Notification::error($error);
             }

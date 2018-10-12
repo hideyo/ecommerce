@@ -20,21 +20,19 @@ class CheckoutController extends Controller
     {
         $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
 
-        if (Cart::getContent()->count()) {
+        if (!Cart::getContent()->count()) {
+            return redirect()->to('cart');
+        }
 
-            $paymentMethodsList = Cart::getConditionsByType('sending_method')->first()->getAttributes()['data']['related_payment_methods_list'];
-         
-            if(!Cart::getConditionsByType('sending_method')->count()) {
-                Notification::error('Selecteer een verzendwijze');
-                return redirect()->to('cart');
-            }
+        $paymentMethodsList = Cart::getConditionsByType('sending_method')->first()->getAttributes()['data']['related_payment_methods_list'];
+     
+        if(!Cart::getConditionsByType('sending_method')->count()) {
+            Notification::error('Selecteer een verzendwijze');
+            return redirect()->to('cart');
+        }
 
-            if(!Cart::getConditionsByType('payment_method')->count()) {
-                Notification::error('Selecteer een betaalwijze');
-                return redirect()->to('cart');
-            }
-
-        } else {
+        if(!Cart::getConditionsByType('payment_method')->count()) {
+            Notification::error('Selecteer een betaalwijze');
             return redirect()->to('cart');
         }
 
@@ -71,16 +69,10 @@ class CheckoutController extends Controller
 
     public function postCheckoutLogin(Request $request)
     {
-        // create the validation rules ------------------------
-        $rules = array(
-            'email'         => 'required|email',     // required and must be unique in the ducks table
-            'password'      => 'required'
-        );
+        $validateLogin = ClientService::validateLogin($request->all());
 
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $error) {
+        if ($validateLogin->fails()) {
+            foreach ($validateLogin->errors()->all() as $error) {
                 Notification::error($error);
             }
 
@@ -96,9 +88,7 @@ class CheckoutController extends Controller
             'shop_id' => config()->get('app.shop_id')
         );
 
-        /* Try to authenticate the credentials */
         if (auth('web')->attempt($userdata)) {
-            // we are now logged in, go to admin
             return redirect()->to('cart/checkout');
         }
 
@@ -106,7 +96,6 @@ class CheckoutController extends Controller
         return redirect()->to('cart/checkout')->withErrors(true, 'login')->withInput(); 
     }
 
-    //to-do: transfer logic to repo
     public function postCheckoutRegister(Request $request)
     {
         if (!Cart::getContent()->count()) {  
@@ -154,9 +143,9 @@ class CheckoutController extends Controller
                 if ($client->account_created) {
                     Notification::error('Je hebt al een account. Login aan de linkerkant of vraag een nieuw wachtwoord aan.');
                     return redirect()->to('cart/checkout')->withInput()->withErrors('Dit emailadres is al in gebruik. Je kan links inloggen.', 'register');
-                } else {
-                    $register = ClientService::createAccount($userdata, config()->get('app.shop_id'));
                 }
+                
+                $register = ClientService::createAccount($userdata, config()->get('app.shop_id'));
             }
 
             if ($register) {
@@ -178,10 +167,10 @@ class CheckoutController extends Controller
                 auth('web')->attempt($userdata);
 
                 return redirect()->to('cart/checkout')->withErrors('Je bent geregistreerd. Er is een bevestigingsmail gestuurd.', 'login');
-            } else {
-                Notification::error('Je hebt al een account');
-                return redirect()->to('cart/checkout')->withErrors(true, 'register')->withInput();
             }
+            
+            Notification::error('Je hebt al een account');
+            return redirect()->to('cart/checkout')->withErrors(true, 'register')->withInput();    
         }
         
         unset($userdata['password']);
@@ -198,9 +187,7 @@ class CheckoutController extends Controller
         }
 
         session()->put('noAccountUser', $userdata);
-        return redirect()->to('cart/checkout');
-       
-        
+        return redirect()->to('cart/checkout');   
     }
 
     public function postComplete(Request $request)
