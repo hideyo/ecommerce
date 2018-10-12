@@ -30,7 +30,6 @@ class ProductCategoryController extends Controller
             }
 
             if ($category->isLeaf()) {
-
                 if ($category->isChild()) {
                     $childrenProductCategories = ProductCategoryService::selectCategoriesByParentId(config()->get('app.shop_id'), $category->parent_id);
                 } else {

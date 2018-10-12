@@ -77,10 +77,9 @@ class AccountController extends Controller
 
         if ($result) {
             Notification::success('Je account gegevens zijn gewijzigd en je dient opnieuw in te loggen met de nieuwe gegevens.');
-        } else {
-            Notification::error('Wijziging is niet mogelijk.');
         }
-
+        
+        Notification::error('Wijziging is niet mogelijk.');
         $this->auth->logout();
         return redirect()->to('account/login');
     }
@@ -118,31 +117,32 @@ class AccountController extends Controller
             // redirect our user back to the form with the errors from the validator
             return redirect()->to('account/edit-address/'.$type)
                 ->with(array('type' => $type))->withInput();
-        } else {
-                $user = $this->auth->user();
-
-            if ($type == 'bill') {
-                $id = $user->clientBillAddress->id;
-
-                if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = ClientService::createAddress($userdata, $user->id);
-                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
-                } else {
-                    $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
-                }
-            } elseif ($type == 'delivery') {
-                $id = $user->clientDeliveryAddress->id;
-
-                if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = ClientService::createAddress($userdata, $user->id);
-                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
-                } else {
-                    $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
-                }
-            }
-
-            return redirect()->to('account');
         }
+     
+        $user = $this->auth->user();
+
+        if ($type == 'bill') {
+            $id = $user->clientBillAddress->id;
+
+            if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
+                $clientAddress = ClientService::createAddress($userdata, $user->id);
+                ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+            } else {
+                $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
+            }
+        } elseif ($type == 'delivery') {
+            $id = $user->clientDeliveryAddress->id;
+
+            if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
+                $clientAddress = ClientService::createAddress($userdata, $user->id);
+                ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+            } else {
+                $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
+            }
+        }
+
+        return redirect()->to('account');
+        
     }
 
     public function postEditAccount(Request $request)

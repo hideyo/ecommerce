@@ -15,7 +15,6 @@ class ProductController extends Controller
         $product = ProductService::selectOneByShopIdAndId(config()->get('app.shop_id'), $productId, $request->get('combination_id'));
         
         if ($product) {
-
             if ($product->slug != $productSlug or $product->productCategory->slug != $categorySlug) {
                 return redirect()->route('product.item', array('productCategorySlug' => $product->productCategory->slug, 'productId' => $product->id, 'slug' => $product->slug));
             }
@@ -90,15 +89,12 @@ class ProductController extends Controller
      
         if ($product) {
             if ($product->attributes->count()) {      
-
                 $pullDowns = ProductCombinationService::generatePulldowns($product, $leadingAttributeId, $product->attributeGroup, $secondAttributeId);
                 $newPullDowns = $pullDowns['newPullDowns'];
                 $productAttribute = $pullDowns['productAttribute'];                
                 $productImages = ProductService::ajaxProductImages($product, $productAttribute->combinations->pluck('attribute_id')->toArray(), $productAttribute->id);
-                
-                $typeTemplate = "";
 
-                return view('frontend.product.ajax'.$typeTemplate)->with(array(
+                return view('frontend.product.ajax')->with(array(
                     'newPullDowns' => $newPullDowns,
                     'productImages' => $productImages,            
                     'leadAttributeId' => $leadingAttributeId,

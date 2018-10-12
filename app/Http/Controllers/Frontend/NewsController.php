@@ -27,7 +27,6 @@ class NewsController extends Controller
     {
         $page = $request->get('page', 1);
         $news = NewsService::selectByGroupAndByShopIdAndPaginate(config()->get('app.shop_id'), $newsGroupSlug, 25);
-
         $newsGroup = NewsService::selectOneGroupByShopIdAndSlug(config()->get('app.shop_id'), $newsGroupSlug);
         $newsGroups =  NewsService::selectAllActiveGroupsByShopId(config()->get('app.shop_id'));
         

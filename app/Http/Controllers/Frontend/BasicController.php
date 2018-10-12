@@ -21,7 +21,6 @@ class BasicController extends Controller
         return view('frontend.basic.contact');
     }
 
-
     public function postContact(Request $request)
     {
         // create the validation rules ------------------------
@@ -33,17 +32,12 @@ class BasicController extends Controller
         $validator = Validator::make($input, $rules);
 
         if ($validator->fails()) {
-            // get the error messages from the validator
-            $messages = $validator->messages();
-            // redirect our user back to the form with the errors from the validator
             Notification::error($validator->errors()->all());  
         }
 
         Mail::send('frontend.email.contact', ['data' => $input], function ($m) use ($input) {
-
             $m->from('info@dutchbridge.nl', 'Dutchbridge');
             $m->replyTo($input['email'], $input['name']);
-
             $m->to('info@dutchbridge.nl')->subject(': thnx for your contact!');
         });
       

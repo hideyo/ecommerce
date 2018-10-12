@@ -30,7 +30,6 @@ class CheckoutController extends Controller
             }
 
             if(!Cart::getConditionsByType('payment_method')->count()) {
-
                 Notification::error('Selecteer een betaalwijze');
                 return redirect()->to('cart');
             }
@@ -38,8 +37,6 @@ class CheckoutController extends Controller
         } else {
             return redirect()->to('cart');
         }
-
-
 
         if (auth('web')->guest()) {
             $noAccountUser = session()->get('noAccountUser');
@@ -72,7 +69,6 @@ class CheckoutController extends Controller
             'paymentMethodsList' => $paymentMethodsList));
     }
 
-
     public function postCheckoutLogin(Request $request)
     {
         // create the validation rules ------------------------
@@ -84,7 +80,6 @@ class CheckoutController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-
             foreach ($validator->errors()->all() as $error) {
                 Notification::error($error);
             }
