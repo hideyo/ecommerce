@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Hideyo\Ecommerce\Framework\Services\Redirect\RedirectFacade as RedirectService;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+
+            $url = $request->url();
+            
+            RedirectService::updateClicks($url);
+
+            $findUrl = RedirectService::findByUrlAndActive($url);
+
+            if ($findUrl) {
+                return redirect($findUrl->redirect_url, 301);
+            } 
+
+            return response()->view('errors.404', [], 404);
+        }
+
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect('/account/login', 301);
+        }
+
+        if ($exception instanceof CustomException) {
+            return response()->view('errors.503', [], 500);
+        }
+        
         return parent::render($request, $exception);
     }
 }
