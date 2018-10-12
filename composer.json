@@ -46,7 +46,7 @@
         "hisorange/browser-detect": "2.*",
         "flynsarmy/db-blade-compiler": "5.4.2",
         "laravel/passport": "^4.0@dev",
-        "hideyo/ecommerce-framework": "@dev"
+        "hideyo/ecommerce-framework": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
