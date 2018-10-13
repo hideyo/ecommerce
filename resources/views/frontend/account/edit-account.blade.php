@@ -14,7 +14,7 @@
 
 <div class="account">
     <div class="row">
-        <div class="small-10 medium-10 large-5 columns">
+        <div class="col-sm-12 col-md-12 col-lg-5">
             <div class="account-block">
                 <h5>Account</h5>
 
@@ -47,10 +47,10 @@
 
         </div>
 
-        <div class="small-10 medium-10 large-9 large-offset-1  columns">
+        <div class="col-sm-12 col-md-12 col-lg-offset-2 col-lg-5 login">
 
             <div class="row">
-                <div class="small-10 medium-10 large-7 columns">
+                <div class="small-15 medium-10 large-7 columns">
                     <div class="address-block">
                         <h3>Factuuradres</h3>
 
@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-                <div class="small-10 medium-10 large-7 columns">
+                <div class="small-15 medium-10 large-7 columns">
                     <div class="address-block">
                         <h3>Afleveradres</h3>
           

@@ -19,9 +19,9 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-5">
             <div class="account-block">
-                <h5>Account</h5>
-  
-                <table>
+                <h3>Account</h3>
+                @notification('foundation')
+                <table class="table">
                     <tbody>
                         <tr>
                             <td>Email:</td>
@@ -34,7 +34,7 @@
                     </tbody>
                 </table>   
 
-                <a href="/account/edit-account" class="button float-right button-simple">Wijzig gegevens</a>        
+                <a href="/account/edit-account" class="btn float-right btn-info">Wijzig gegevens</a>        
             </div>
 
         </div>

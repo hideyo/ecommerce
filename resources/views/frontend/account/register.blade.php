@@ -34,43 +34,94 @@
                     {!! Form::password('password', array('required' => '', 'class' => "form-control")) !!}
                 </div>
 
- 				<div class="form-group">
-                    <label for="middle-label">{!! trans('form.firstname') !!}</label>
-                    {!! Form::text('firstname', null, array('required' => '', 'class' => "form-control")) !!}
-                </div>
+			    <div class="row">
 
-                <div class="form-group">
-                	<label for="middle-label">{!! trans('form.lastname') !!}</label>
-                    {!! Form::text('lastname', null, array('required' => '', 'class' => "form-control")) !!}
-                </div>
+			        <div class="col-sm-12 col-md-6 col-lg-6">
 
-				<div class="form-group">
-				    <label for="middle-label">{!! trans('form.zipcode') !!}</label>
-				    {!! Form::text('zipcode', null, array('class' => 'zipcode form-control checkzipcode', 'data-url' => '/account/check-zipcode', 'required' => '', 'class' => "form-control")) !!}
+		 				<div class="form-group">
+		                    <label for="middle-label">{!! trans('form.firstname') !!}</label>
+		                    {!! Form::text('firstname', null, array('required' => '', 'class' => "form-control")) !!}
+		                </div>
 
-				</div>
+			        </div>
 
-				<div class="form-group">
-				    <label for="middle-label">{!! trans('form.housenumber') !!}</label>
-				    {!! Form::text('housenumber', null, array('class' => 'housenumber form-control checkhousenumber', 'data-url' => '/account/check-zipcode', 'required' => '', 'class' => "form-control")) !!}
+			        <div class="col-sm-12 col-md-6 col-lg-6">
 
-				</div>
+		                <div class="form-group">
+		                	<label for="middle-label">{!! trans('form.lastname') !!}</label>
+		                    {!! Form::text('lastname', null, array('required' => '', 'class' => "form-control")) !!}
+		                </div>
 
-	            <div class="form-group">
-	                <label for="middle-label">{!! trans('form.houseletter') !!}</label>
-	                {!! Form::text('housenumber_suffix', null, array('class' => 'form-control')) !!}
 
-	            </div>
+			        </div>
 
-				<div class="form-group">
-				    <label for="middle-label">{!! trans('form.street') !!}</label>
-				    {!! Form::text('street', null, array('class' => 'fillstreet', 'required' => '', 'class' => "form-control")) !!}
-				</div>
+			    </div>
 
-				<div class="form-group">
-				    <label for="middle-label">{!! trans('form.city') !!}</label>
-				    {!! Form::text('city', null, array('class' => 'fillcity', 'required' => '', 'class' => "form-control")) !!}
-				</div>
+
+
+
+			    <div class="row">
+
+			        <div class="col-sm-12 col-md-4 col-lg-6">
+
+						<div class="form-group">
+						    <label for="middle-label">{!! trans('form.zipcode') !!}</label>
+						    {!! Form::text('zipcode', null, array('class' => 'zipcode form-control checkzipcode', 'data-url' => '/account/check-zipcode', 'required' => '', 'class' => "form-control")) !!}
+
+						</div>
+
+			        </div>
+
+			        <div class="col-sm-12 col-md-3 col-lg-3">
+
+						<div class="form-group">
+						    <label for="middle-label">{!! trans('form.housenumber') !!}</label>
+						    {!! Form::text('housenumber', null, array('class' => 'housenumber form-control checkhousenumber', 'data-url' => '/account/check-zipcode', 'required' => '', 'class' => "form-control")) !!}
+
+						</div>
+
+
+			        </div>
+
+			        <div class="col-sm-12 col-md-3 col-lg-3">
+
+
+			            <div class="form-group">
+			                <label for="middle-label">{!! trans('form.houseletter') !!}</label>
+			                {!! Form::text('housenumber_suffix', null, array('class' => 'form-control')) !!}
+
+			            </div>
+
+
+			        </div>
+
+
+			    </div>
+
+
+
+			    <div class="row">
+
+			        <div class="col-sm-12 col-md-6 col-lg-6">
+
+						<div class="form-group">
+						    <label for="middle-label">{!! trans('form.street') !!}</label>
+						    {!! Form::text('street', null, array('class' => 'fillstreet', 'required' => '', 'class' => "form-control")) !!}
+						</div>
+
+			        </div>
+
+			        <div class="col-sm-12 col-md-6 col-lg-6">
+
+						<div class="form-group">
+						    <label for="middle-label">{!! trans('form.city') !!}</label>
+						    {!! Form::text('city', null, array('class' => 'fillcity', 'required' => '', 'class' => "form-control")) !!}
+						</div>
+
+
+			        </div>
+
+			    </div>
 
 				<div class="form-group">
 					<label for="middle-label">{!! trans('form.company') !!}</label>

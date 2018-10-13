@@ -18,9 +18,9 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-5">
             <div class="account-block">
-                <h5>Account</h5>
+                <h3>Account</h3>
                 @notification('foundation')
-                <table>
+                <table class="table">
                     <tbody>
                         <tr>
                             <td>Email:</td>
@@ -33,7 +33,7 @@
                     </tbody>
                 </table>   
 
-                <a href="/account/edit-account" class="button float-right button-simple">Wijzig gegevens</a>        
+                <a href="/account/edit-account" class="btn float-right btn-info">Wijzig gegevens</a>        
             </div>
 
         </div>
@@ -41,7 +41,7 @@
         <div class="col-sm-12 col-md-12 col-lg-offset-2 col-lg-5 login">
 
             <div class="row">
-                <div class="small-15 medium-10 large-7 columns">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="address-block">
                         <h3>Factuuradres</h3>
 
@@ -67,12 +67,12 @@
                             </li>
                             <li>{!! $user->clientBillAddress['phone']  !!}</li>
                         </ul> 
-                        <a href="/account/edit-address/bill" class="button button-simple">Wijzig factuuradres</a>        
+                        <a href="/account/edit-address/bill" class="btn btn-info">Wijzig factuuradres</a>        
          
                     </div>
                 </div>
 
-                <div class="small-15 medium-10 large-7 columns">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="address-block">
                         <h3>Afleveradres</h3>
           
@@ -95,23 +95,12 @@
                             </li>
                             <li>{!! $user->clientDeliveryAddress['phone']  !!}</li>
                         </ul> 
-                        <a href="/account/edit-address/delivery" class="button button-simple">Wijzig afleveradres</a>        
+                        <a href="/account/edit-address/delivery" class="btn btn-info">Wijzig afleveradres</a>        
             
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
-
     </div>
-
-
-
-    
-
 </div>
 @stop
