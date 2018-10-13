@@ -111,7 +111,7 @@ class ProductCombinationController extends Controller
                     return implode(', ', $items);
                 });
 
-                return $datatables->make(true);
+                return $datatables->rawColumns(['amount', 'action'])->make(true);
 
             }
             

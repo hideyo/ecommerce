@@ -35,7 +35,7 @@ class ProductImageController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['thumb', 'action'])->make(true);
         }
         
         return view('backend.product_image.index')->with(array('product' => $product));
