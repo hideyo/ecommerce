@@ -225,6 +225,9 @@ $(document).ready(function() {
       focus: true                // set focus to editable area after initializing summernote
     });
 
+    $('.price, .price_inc_tax, .tax-rate').keyup(function() {
+        recalculate(this);
+    });
 
     $('.price').trigger('keyup');
 

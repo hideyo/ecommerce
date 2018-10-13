@@ -39,16 +39,6 @@
                 </div>
             </div>
 
-            @if($this_user->shop->wholesale)
-                <div class="form-group">
-                    {!! Form::label('commercial_price', 'Commercial price', array('class' => 'col-sm-3 control-label')) !!}
-                    <div class="col-sm-5">
-                        {!! Form::text('commercial_price', null, array('class' => 'price form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
-                    </div>
-                </div>
-            @endif
-
-
             <div class="form-group">
                 {!! Form::label('price_inc_tax', 'Price with tax', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
