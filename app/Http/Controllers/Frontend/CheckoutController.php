@@ -227,7 +227,7 @@ class CheckoutController extends Controller
             $data['payment_method'] = Cart::getConditionsByType('payment_method');
         }
 
-        $orderInsertAttempt = OrderService::createByUserAndShopId($data, config()->get('app.shop_id'), $noAccountUser);
+        $orderInsertAttempt = OrderService::createOrderFrontend($data, config()->get('app.shop_id'), $noAccountUser);
 
         if ($orderInsertAttempt AND $orderInsertAttempt->count()) {
             if ($orderInsertAttempt->OrderPaymentMethod and $orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id) {

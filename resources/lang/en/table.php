@@ -77,7 +77,8 @@ return [
     'file'                          => 'File',
     'sketch'                        => 'Sketch',
     'cart-discount'                 => 'Discount',
-    'last_login'                    => 'Last login'
-
+    'last_login'                    => 'Last login',
+    'delivery-address'              => 'Delivery address',
+    'bill-address'                  => 'Bill address'
 
 ];

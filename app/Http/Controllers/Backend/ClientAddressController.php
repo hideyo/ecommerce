@@ -51,7 +51,7 @@ class ClientAddressController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['bill', 'delivery', 'action'])->make(true);
         }
         
         return view('backend.client_address.index')->with(array('client' => $client));

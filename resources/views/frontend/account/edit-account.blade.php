@@ -20,26 +20,21 @@
 
                 {!! Form::model($user, array('method' => 'post', 'url' => array('/account/edit-account'), 'class' => 'form', 'data-abide' => '', 'novalidate' => '')) !!}
 
-
                 <div class="form-group">
                 	<label for="middle-label">{!! trans('form.email') !!}</label>
                 	{!! Form::email('email', null, array('required' => '', 'class' => "form-control")) !!}
                 </div>
-
 
                 <div class="form-group">
                 	<label for="middle-label">{!! trans('form.password') !!}</label>
                 	{!! Form::password('password', array('required' => '', 'class' => "form-control")) !!}
                 </div>
 
-
-
                 <div class="row">
                     <div class="small-15 columns text-right">
                         <button type="submit" class="btn btn-success">{!! trans('buttons.edit') !!}</button>
                     </div>
                 </div>
-
 
                 </form> 
 
@@ -97,17 +92,9 @@
                 </div>
             </div>
 
-
-
         </div>
 
-
-
     </div>
-
-
-
-    
 
 </div>
 @stop
