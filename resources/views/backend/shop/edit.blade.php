@@ -37,14 +37,7 @@
             </div>
         </div>
 
-        <div class="form-group">   
-            {!! Form::label('email', 'Email', array('class' => 'col-sm-3 control-label')) !!}
 
-            <div class="col-sm-5">
-                {!! Form::email('email', null, array('class' => 'form-control', 'required' => 'required')) !!}
-            </div>
-        </div>
-    
 
         <div class="form-group">
             {!! Form::label('description', 'Description', array('class' => 'col-sm-3 control-label')) !!}
