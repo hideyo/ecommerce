@@ -54,7 +54,6 @@ class CheckoutController extends Controller
         }
 
         $user = auth('web')->user();
-        self::checkCountryPrice($user->clientDeliveryAddress->country);
 
         if (!$user->clientDeliveryAddress()->count()) {
             ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $user->clientBillAddress->id, 'delivery');
