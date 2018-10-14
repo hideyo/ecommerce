@@ -52,8 +52,8 @@
 
                         @include('frontend.account._default_account_fields')       
 
-                        <a href="/account" class="button button-grey">Annuleer</a>
-                        <button type="submit" class="button btn-default">Wijzig</button>
+                        <a href="/account" class="btn btn-danger">Annuleer</a>
+                        <button type="submit" class="btn btn-success">Wijzig</button>
 
                         {!! Form::close() !!}      
          
@@ -86,7 +86,7 @@
                             </li>
                             <li>{!! $user->clientDeliveryAddress['phone']  !!}</li>
                         </ul> 
-                        <a href="/account/edit-address/delivery" class="button button-simple">Wijzig afleveradres</a>        
+                        <a href="/account/edit-address/delivery" class="btn btn-success">Wijzig afleveradres</a>        
             
                     </div>
                 </div>

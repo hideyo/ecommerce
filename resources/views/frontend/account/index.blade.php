@@ -33,7 +33,7 @@
                     </tbody>
                 </table>   
 
-                <a href="/account/edit-account" class="btn float-right btn-info">Wijzig gegevens</a>        
+                <a href="/account/edit-account" class="btn float-right btn-success">Wijzig gegevens</a>        
             </div>
 
         </div>
@@ -67,7 +67,7 @@
                             </li>
                             <li>{!! $user->clientBillAddress['phone']  !!}</li>
                         </ul> 
-                        <a href="/account/edit-address/bill" class="btn btn-info">Wijzig factuuradres</a>        
+                        <a href="/account/edit-address/bill" class="btn btn-success">Wijzig factuuradres</a>        
          
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                             </li>
                             <li>{!! $user->clientDeliveryAddress['phone']  !!}</li>
                         </ul> 
-                        <a href="/account/edit-address/delivery" class="btn btn-info">Wijzig afleveradres</a>        
+                        <a href="/account/edit-address/delivery" class="btn btn-success">Wijzig afleveradres</a>        
             
                     </div>
                 </div>

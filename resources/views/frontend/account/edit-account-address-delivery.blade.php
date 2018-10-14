@@ -64,7 +64,7 @@
                             </li>
                             <li>{!! $user->clientBillAddress['phone']  !!}</li>
                         </ul> 
-                        <a href="/account/edit-address/bill" class="button button-simple">Wijzig factuuradres</a>        
+                        <a href="/account/edit-address/bill" class="btn btn-success">Wijzig factuuradres</a>        
          
                     </div>
                 </div>
@@ -78,8 +78,8 @@
 
                         @include('frontend.account._default_account_fields')       
 
-                        <a href="/account" class="button button-grey">Annuleer</a>
-                        <button type="submit" class="button btn-default">Wijzig</button>
+                        <a href="/account" class="btn btn-danger">Annuleer</a>
+                        <button type="submit" class="btn btn-success">Wijzig</button>
 
                         {!! Form::close() !!}             
             
