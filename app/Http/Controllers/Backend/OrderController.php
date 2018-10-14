@@ -39,8 +39,6 @@ class OrderController extends Controller
                 ->from('order as order')
                 ->select(
                 [
-
-        
                 'order.id',
                 'order.created_at',
                 'order.generated_custom_order_id',
@@ -124,7 +122,7 @@ class OrderController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['status', 'client', 'action'])->make(true);
         }
         
         return view('backend.order.index')->with(array('revenueThisMonth' => $revenueThisMonth, 'order' => OrderService::selectAll())); 
@@ -282,9 +280,7 @@ class OrderController extends Controller
             'clientDeliveryZipcode' => $order->orderDeliveryAddress->zipcode,
             'clientDeliveryCity' => $order->orderDeliveryAddress->city,
             'clientDeliveryCountry' => $order->orderDeliveryAddress->country,
-            'clientDeliveryCompany' => $order->orderDeliveryAddress->company,
-
-
+            'clientDeliveryCompany' => $order->orderDeliveryAddress->company
         );
         foreach ($replace as $key => $val) {
             $content = str_replace("[" . $key . "]", $val, $content);

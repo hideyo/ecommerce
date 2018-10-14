@@ -20,10 +20,7 @@ class ProductTagGroupController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-
-            $query = ProductTagGroupService::getModel()
-            ->select(['id','tag'])
-            ->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
+            $query = ProductTagGroupService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \DataTables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax(url()->route('product-tag-group.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

@@ -23,12 +23,7 @@ class SendingMethodCountryPriceController extends Controller
     public function index(Request $request, $sendingMethodId)
     {
         if ($request->wantsJson()) {
-
-            $users = SendingMethodService::getCountryModel()->select([
-                
-                'id',
-                'name']
-            )->where('sending_method_id', '=', $sendingMethodId);
+            $users = SendingMethodService::getCountryModel()->where('sending_method_id', '=', $sendingMethodId);
             
             $datatables = \DataTables::of($users)->addColumn('action', function ($users) use ($sendingMethodId) {
                 $delete = \Form::deleteajax(url()->route('sending-method.country-prices.destroy', array('sendingMethodId' => $sendingMethodId, 'id' => $users->id)), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));

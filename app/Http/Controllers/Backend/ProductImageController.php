@@ -18,9 +18,8 @@ class ProductImageController extends Controller
 {
     public function index(Request $request, $productId)
     {
-           $product = ProductService::find($productId);
+        $product = ProductService::find($productId);
         if ($request->wantsJson()) {
-
             $query = ProductService::getImageModel()->where('product_id', '=', $productId);
             
             $datatables = \DataTables::of($query)

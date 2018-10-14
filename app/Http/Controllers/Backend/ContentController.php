@@ -23,14 +23,10 @@ class ContentController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-
             $content = ContentService::getModel()->select(
-                [
-                
-                ContentService::getModel()->getTable().'.id',
+                [ContentService::getModel()->getTable().'.id',
                 ContentService::getModel()->getTable().'.title', ContentService::getModel()->getTable().'.content_group_id', ContentService::getGroupModel()->getTable().'.title as contenttitle']
             )->where(ContentService::getModel()->getTable().'.shop_id', '=', auth('hideyobackend')->user()->selected_shop_id)
-
 
             ->with(array('contentGroup'))        ->leftJoin(ContentService::getGroupModel()->getTable(), ContentService::getGroupModel()->getTable().'.id', '=', ContentService::getModel()->getTable().'.content_group_id');
             

@@ -21,7 +21,6 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
-
             $query = NewsService::getModel()->select(
                 [
                 NewsService::getModel()->getTable().'.id',

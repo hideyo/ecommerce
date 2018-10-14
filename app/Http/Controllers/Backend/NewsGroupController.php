@@ -31,7 +31,6 @@ class NewsGroupController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('backend.news_group.index')->with('newsGroup', NewsService::selectAll());

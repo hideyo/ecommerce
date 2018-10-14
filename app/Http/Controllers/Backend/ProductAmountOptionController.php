@@ -107,7 +107,6 @@ class ProductAmountOptionController extends Controller
 
     public function update($productId, $id)
     {
-
         $result  = $this->productAmountOption->updateById(Request::all(), $productId, $id);
 
         if (!$result->id) {

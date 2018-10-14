@@ -183,10 +183,8 @@ class ProductCombinationController extends Controller
 
     public function update(Request $request, $productId, $id)
     {
-
         $result  = ProductCombinationService::updateById($request->all(), $productId, $id);
         return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product combinations are updated.');
-
     }
 
     public function destroy($productId, $id)

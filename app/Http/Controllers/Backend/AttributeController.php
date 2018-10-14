@@ -28,7 +28,6 @@ class AttributeController extends Controller
     public function index(Request $request, $attributeGroupId)
     {
         if ($request->wantsJson()) {
-
             $query = AttributeService::getModel()->where('attribute_group_id', '=', $attributeGroupId);
             
             $datatables = DataTables::of($query)
@@ -39,7 +38,6 @@ class AttributeController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('backend.attribute.index')

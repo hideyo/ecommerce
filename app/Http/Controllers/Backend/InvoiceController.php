@@ -71,7 +71,6 @@ class InvoiceController extends Controller
         return $pdf->download('invoice-'.$invoice->generated_custom_invoice_id.'.pdf');
     }
 
-
     public function create()
     {
         return view('backend.invoice.create')->with(array(

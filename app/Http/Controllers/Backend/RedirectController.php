@@ -15,15 +15,15 @@ use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use Request;
 use Notification;
 use Excel;
+use DataTables;
 
 class RedirectController extends Controller
 {
     public function index()
     {
         if (Request::wantsJson()) {
-
             $query = RedirectService::selectAll();
-            $datatables = \DataTables::of($query)
+            $datatables = DataTables::of($query)
 
             ->addColumn('url', function ($query) {
                 return '<a href="'.$query->url.'" target="_blank">'.$query->url.'</a>';

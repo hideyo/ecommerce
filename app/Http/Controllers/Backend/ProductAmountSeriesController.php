@@ -41,7 +41,6 @@ class ProductAmountSeriesController extends Controller
             });
 
             return $datatables->make(true);
-
         }
         
         return view('backend.product-amount-series.index')->with(array('product' => $product));

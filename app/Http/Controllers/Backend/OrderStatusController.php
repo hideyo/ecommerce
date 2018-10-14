@@ -24,7 +24,6 @@ class OrderStatusController extends Controller
             $query = OrderStatusService::getModel()->where('shop_id', '=', auth('hideyobackend')->user()->selected_shop_id);
             
             $datatables = \DataTables::of($query)
-
             ->addColumn('title', function ($query) {
      
                 if ($query->color) {
@@ -33,7 +32,6 @@ class OrderStatusController extends Controller
                 
                 return $query->title;
             })
-
             ->addColumn('action', function ($query) {
                 $deleteLink = Form::deleteajax('/admin/order-status/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="/admin/order-status/'.$query->id.'/edit" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;

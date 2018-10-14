@@ -13,6 +13,8 @@ require('../../../node_modules/jstree/dist/jstree.min.js');
 require('../../../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js');
 require('../../../node_modules/bootstrap-validator/dist/validator.js');
 require('../../../node_modules/summernote/dist/summernote.js');
+require('../../../node_modules/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.js');
+
 
 function recalculate(el){
 

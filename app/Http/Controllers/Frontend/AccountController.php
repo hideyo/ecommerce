@@ -220,7 +220,7 @@ class AccountController extends Controller
             );
 
             Mail::send('frontend.email.reset-password-mail', $data, function ($message) use ($data) {
-                $message->to($data['email'])->from('info@philandphae.com', 'Phil & Phae')->subject('Wachtwoord vergeten');
+                $message->to($data['email'])->from('info@hideyo.io', 'Hideyo')->subject('Wachtwoord vergeten');
             });
 
             Notification::success('Er is een e-mail gestuurd. Hiermee kan je je wachtwoord resetten.');

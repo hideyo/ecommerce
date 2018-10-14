@@ -219,7 +219,7 @@ class ProductController extends Controller
                 return $product->categorytitle;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['rank', 'action'])->make(true);
 
         }
         

@@ -21,11 +21,9 @@ class BrandImageController extends Controller
     {
         $brand = BrandService::find($brandId);
         if ($request->wantsJson()) {
-
             $image = BrandService::getModelImage()->where('brand_id', '=', $brandId);
             
             $datatables = DataTables::of($image)
-
             ->addColumn('thumb', function ($image) {
                 return '<img src="'.config('hideyo.public_path').'/brand/100x100/'.$image->brand_id.'/'.$image->file.'"  />';
             })

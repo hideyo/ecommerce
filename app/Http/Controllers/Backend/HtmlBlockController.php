@@ -16,7 +16,6 @@ use Form;
 
 use Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade as HtmlBlockService;
 
-
 class HtmlBlockController extends Controller
 {
     public function index(Request $request)
