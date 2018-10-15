@@ -13,15 +13,14 @@ use Hideyo\Ecommerce\Framework\Services\Invoice\InvoiceFacade as InvoiceService;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 
-use \Request;
-use \Notification;
-use \Redirect;
+use Illuminate\Http\Request;
+use Notification;
 
 class InvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
 
             $invoice = InvoiceService::getModel()->select(
                 [
@@ -69,17 +68,17 @@ class InvoiceController extends Controller
         ));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = InvoiceService::create(Request::all());
+        $result  = InvoiceService::create($request->all());
 
         if (isset($result->id)) {
-            \Notification::success('The invoice was inserted.');
-            return \Redirect::route('sending-method.index');
+            Notification::success('The invoice was inserted.');
+            return redirect()->route('sending-method.index');
         }
         
-        \Notification::error($result->errors()->all());
-        return \Redirect::back()->withInput();
+        Notification::error($result->errors()->all());
+        return redirect()->back()->withInput();
     }
 
     public function edit($invoiceId)
@@ -91,17 +90,17 @@ class InvoiceController extends Controller
         ));
     }
 
-    public function update($invoiceId)
+    public function update(Request $request, $invoiceId)
     {
-        $result  = InvoiceService::updateById(Request::all(), $invoiceId);
+        $result  = InvoiceService::updateById($request->all(), $invoiceId);
 
         if (isset($result->id)) {
-            \Notification::success('The invoice was updated.');
-            return \Redirect::route('sending-method.index');
+            Notification::success('The invoice was updated.');
+            return redirect()->route('sending-method.index');
         }
         
-        \Notification::error($result->errors()->all());
-        return \Redirect::back()->withInput();
+        Notification::error($result->errors()->all());
+        return redirect()->back()->withInput();
     }
 
     public function destroy($invoiceId)
