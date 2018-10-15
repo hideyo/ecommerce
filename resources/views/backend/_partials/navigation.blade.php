@@ -14,7 +14,7 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{!! $this_user->shop->title !!} <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						@foreach($available_shops as $shop)
-						<li><a href="{{ URL::route('change.language.profile', array('shopId' => $shop->id)) }}">{!! $shop->title !!}</a></li>
+						<li><a href="{{ URL::route('change.shop', array('shopId' => $shop->id)) }}">{!! $shop->title !!}</a></li>
 						@endforeach
 					</ul>
 				</li>

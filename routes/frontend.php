@@ -1,6 +1,5 @@
 <?php 
   
-
 Route::get('/text/{slug}', array('as' => 'text', 'uses' => 'ContentController@getItem'));
 Route::get('/text-overview/{slug}', 'ContentController@getOverview');
 
@@ -9,9 +8,7 @@ Route::put('/contact', array('as' => 'contact', 'uses' => 'BasicController@postC
 
 Route::get('/nieuws/{newsGroupSlug}/{slug}', array('as' => 'newsfrontend.item', 'uses' => 'NewsController@getItem'));
 Route::get('/nieuws/{newsGroupSlug}', array('as' => 'news.group', 'uses' => 'NewsController@getByGroup'));
-
 Route::get('/nieuws', array('as' => 'newsfrontend.index', 'uses' => 'NewsController@getIndex'));
-
 
 Route::group(['prefix' => 'account'], function () {
 
@@ -80,13 +77,11 @@ Route::group(['prefix' => 'cart'], function () {
 
 });
 
-
 //product routes
 Route::get('{productCategorySlug}/{productId}/{productSlug}/{leadingAttributeId?}/{combinations?}', array('as' => 'product.item', 'uses' => 'ProductController@getIndex'));
 
 //productCategory routes
 Route::get('/{slug}', array('as' => 'product-category.item', 'uses' => 'ProductCategoryController@getItem'));
-
 
 //other
 Route::get('/', array('as' => 'index', 'uses' => 'BasicController@index'));

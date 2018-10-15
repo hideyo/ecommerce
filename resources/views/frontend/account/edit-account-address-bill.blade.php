@@ -10,10 +10,7 @@
             <li><a href="#">Overzicht</a></li>
         </ul>
     </div>
-</div>
-
-
-         
+</div>      
 
 <div class="account">
     <div class="row">
@@ -45,7 +42,6 @@
                 <div class="small-15 medium-10 large-7 columns">
                     <div class="address-block">
                         <h3>Factuuradres</h3>
-
 
                         @notification()
                         {!! Form::model($user->clientBillAddress, array('method' => 'post', 'url' => array('/account/edit-address/bill'), 'files' => true, 'class' => 'box login')) !!}
@@ -92,16 +88,9 @@
                 </div>
             </div>
 
-
         </div>
 
-
-
     </div>
-
-
-
-    
 
 </div>
 @stop

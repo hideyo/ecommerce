@@ -30,8 +30,6 @@
 
     </td>
 
-
-
     <td class="amount">   
         @if($product['attributes']['product_amount_series'])  
         {!! Form::select('amount', $product['product_amount_series_range'], $product['cart']['count'], array('class' => 'form-control update-amount', 'data-width' => 'auto', 'data-url' => '/cart/update-amount-product/'.$product['id'])) !!}

@@ -11,17 +11,16 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Redirect\RedirectFacade as RedirectService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
-
-use Request;
+use Illuminate\Http\Request;
 use Notification;
 use Excel;
 use DataTables;
 
 class RedirectController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
             $query = RedirectService::selectAll();
             $datatables = DataTables::of($query)
 
@@ -51,7 +50,7 @@ class RedirectController extends Controller
 
     public function store()
     {
-        $result  = RedirectService::create(Request::all());
+        $result  = RedirectService::create($request->all());
         return RedirectService::notificationRedirect('redirect.index', $result, 'The redirect was inserted.');
     }
 
@@ -71,7 +70,7 @@ class RedirectController extends Controller
 
     public function postImport()
     {
-        $file = Request::file('file');
+        $file = $request->file('file');
         Excel::load($file, function ($reader) {
 
             $results = $reader->get();
@@ -112,7 +111,7 @@ class RedirectController extends Controller
 
     public function update($redirectId)
     {
-        $result  = RedirectService::updateById(Request::all(), $redirectId);
+        $result  = RedirectService::updateById($request->all(), $redirectId);
         return RedirectService::notificationRedirect('redirect.index', $result, 'The redirect was updated.');
     }
 

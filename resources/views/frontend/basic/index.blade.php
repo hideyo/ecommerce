@@ -41,7 +41,6 @@
 		    <h2>Populair products</h2>
 		</div>
 
-
 	    @foreach ($populairProducts as $product)
 	    @include('frontend.product_category._product-row-item')
 	    @endforeach

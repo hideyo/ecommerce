@@ -15,9 +15,8 @@ use Hideyo\Ecommerce\Framework\Services\Order\OrderFacade as OrderService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
-
+use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Request;
 use Notification;
 use Hideyo\Ecommerce\Framework\Services\Order\Events\OrderChangeStatus;
 use Event;
@@ -26,14 +25,14 @@ use PDF;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $shop  = auth('hideyobackend')->user()->shop;
         $now = Carbon::now();
 
         $revenueThisMonth = null;
 
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
 
             $order = OrderService::getModel()
                 ->from('order as order')
@@ -128,9 +127,9 @@ class OrderController extends Controller
         return view('backend.order.index')->with(array('revenueThisMonth' => $revenueThisMonth, 'order' => OrderService::selectAll())); 
     }
 
-    public function getPrintOrders()
+    public function getPrintOrders(Request $request)
     {
-        $orders = Request::session()->get('print_orders');
+        $orders = $request->session()->get('print_orders');
         return view('admin.order.print-orders')->with(array('orders' => $orders));
     }
 
@@ -139,9 +138,9 @@ class OrderController extends Controller
         return view('backend.order.print')->with(array('orderStatuses' => OrderStatusService::selectAll()->pluck('title', 'id')));
     }
     
-    public function postDownloadPrint()
+    public function postDownloadPrint(Request $request)
     {
-        $data = Request::all();
+        $data = $request->all();
 
         if ($data and $data['order']) {
 
@@ -202,18 +201,18 @@ class OrderController extends Controller
         }
     }
 
-    public function postPrint()
+    public function postPrint(Request $request)
     {
-        $data = Request::all();
+        $data = $request->all();
 
         $orders = OrderService::selectAllByShopIdAndStatusId($data['order_status_id'], $data['start_date'], $data['end_date']);
 
         if ($orders) {
-            Request::session()->put('print_orders', $orders->toArray());
+            $request->session()->put('print_orders', $orders->toArray());
             return response()->json(array('orders' => $orders->toArray() ));
         }
 
-        Request::session()->destroy('print_orders');
+        $request->session()->destroy('print_orders');
         return response()->json(false);
     }
 
@@ -223,9 +222,9 @@ class OrderController extends Controller
         return view('backend.order.show')->with(array('order' => $order, 'orderStatuses' => OrderStatusService::selectAll()->pluck('title', 'id')));
     }
 
-    public function updateStatus($orderId)
+    public function updateStatus(Request $request, $orderId)
     {
-        $orderStatusId = Request::get('order_status_id');
+        $orderStatusId = $request->get('order_status_id');
         if ($orderStatusId) {
             $result = OrderService::updateStatus($orderId, $orderStatusId);
             Event::fire(new OrderChangeStatus($result));
@@ -294,9 +293,9 @@ class OrderController extends Controller
         return view('backend.order.edit')->with(array('order' => OrderService::find($orderId)));
     }
 
-    public function update($orderId)
+    public function update(Request $request, $orderId)
     {
-        $result  = OrderService::updateById(Request::all(), $orderId);
+        $result  = OrderService::updateById($request->all(), $orderId);
 
         if ($result->errors()->all()) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());

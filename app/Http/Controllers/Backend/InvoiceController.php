@@ -9,9 +9,9 @@
  */
 
 use App\Http\Controllers\Controller;
-use Hideyo\Ecommerce\Framework\Repositories\InvoiceRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
-use Hideyo\Ecommerce\Framework\Repositories\PaymentMethodRepository;
+use Hideyo\Ecommerce\Framework\Services\Invoice\InvoiceFacade as InvoiceService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
+use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 
 use \Request;
 use \Notification;
@@ -19,21 +19,11 @@ use \Redirect;
 
 class InvoiceController extends Controller
 {
-    public function __construct(
-        InvoiceRepository $invoice,
-        TaxRateRepository $taxRate,
-        PaymentMethodRepository $paymentMethod
-    ) {
-        $this->taxRate = $taxRate;
-        $this->invoice = $invoice;
-        $this->paymentMethod = $paymentMethod;
-    }
-
     public function index()
     {
         if (Request::wantsJson()) {
 
-            $invoice = $this->invoice->getModel->select(
+            $invoice = InvoiceService::getModel()->select(
                 [
                 'id', 'generated_custom_invoice_id', 'order_id',
                 'price_with_tax']
@@ -56,17 +46,17 @@ class InvoiceController extends Controller
             return $datatables->make(true);
         }
         
-        return view('backend.invoice.index')->with('invoice', $this->invoice->selectAll());
+        return view('backend.invoice.index')->with('invoice', InvoiceService::selectAll());
     }
 
     public function show($invoiceId)
     {
-        return view('backend.invoice.show')->with('invoice', $this->invoice->find($invoiceId));
+        return view('backend.invoice.show')->with('invoice', InvoiceService::find($invoiceId));
     }
 
     public function download($invoiceId)
     {
-        $invoice = $this->invoice->find($invoiceId);
+        $invoice = InvoiceService::find($invoiceId);
         $pdf = \PDF::loadView('invoice.pdf', array('invoice' => $invoice));
         return $pdf->download('invoice-'.$invoice->generated_custom_invoice_id.'.pdf');
     }
@@ -74,14 +64,14 @@ class InvoiceController extends Controller
     public function create()
     {
         return view('backend.invoice.create')->with(array(
-            'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'),
-            'paymentMethods' => $this->paymentMethod->selectAll()->pluck('title', 'id')
+            'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
+            'paymentMethods' => PaymentMethodService::selectAll()->pluck('title', 'id')
         ));
     }
 
     public function store()
     {
-        $result  = $this->invoice->create(Request::all());
+        $result  = InvoiceService::create(Request::all());
 
         if (isset($result->id)) {
             \Notification::success('The invoice was inserted.');
@@ -95,15 +85,15 @@ class InvoiceController extends Controller
     public function edit($invoiceId)
     {
         return view('backend.invoice.edit')->with(array(
-            'taxRates' => $this->taxRate->selectAll()->pluck('title', 'id'),
-            'invoice' => $this->invoice->find($invoiceId),
-            'paymentMethods' => $this->paymentMethod->selectAll()->pluck('title', 'id'),
+            'taxRates' => TaxRateService::selectAll()->pluck('title', 'id'),
+            'invoice' => InvoiceService::find($invoiceId),
+            'paymentMethods' => PaymentMethodService::selectAll()->pluck('title', 'id'),
         ));
     }
 
     public function update($invoiceId)
     {
-        $result  = $this->invoice->updateById(Request::all(), $invoiceId);
+        $result  = InvoiceService::updateById(Request::all(), $invoiceId);
 
         if (isset($result->id)) {
             \Notification::success('The invoice was updated.');
@@ -116,7 +106,7 @@ class InvoiceController extends Controller
 
     public function destroy($invoiceId)
     {
-        $result  = $this->invoice->destroy($invoiceId);
+        $result  = InvoiceService::destroy($invoiceId);
 
         if ($result) {
             Notification::success('The invoice was deleted.');

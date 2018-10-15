@@ -10,22 +10,21 @@
 
 use App\Http\Controllers\Controller;
 
-use Dutchbridge\Validators\UserValidator;
-use Dutchbridge\Datatable\UserNumberDatatable;
 use Hideyo\Ecommerce\Framework\Services\User\UserFacade as UserService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
+use Illuminate\Http\Request;
 use Notification;
-use Redirect;
-use Request;
+use DataTables;
+use Form;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (Request::wantsJson()) {
+        if ($request->wantsJson()) {
             $query = UserService::getModel()->select(['id','email', 'username']);
-            $datatables = \DataTables::of($query)->addColumn('action', function ($query) {
-                $deleteLink = \Form::deleteajax(url()->route('user.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
+            $datatables = DataTables::of($query)->addColumn('action', function ($query) {
+                $deleteLink = Form::deleteajax(url()->route('user.destroy', $query->id), 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
                 $links = '<a href="'.url()->route('user.edit', $query->id).'" class="btn btn-default btn-sm btn-success"><i class="entypo-pencil"></i>Edit</a>  '.$deleteLink;
             
                 return $links;
@@ -43,9 +42,9 @@ class UserController extends Controller
         return view('backend.user.create', array('shops' => $shops));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $result  = UserService::signup(Request::all());
+        $result  = UserService::signup($request->all());
         return UserService::notificationRedirect('user.index', $result, 'The user was inserted.');
     }
 
@@ -53,17 +52,6 @@ class UserController extends Controller
     {
         $shops = ShopService::selectAll()->pluck('title', 'id');
         return view('backend.user.edit')->with(array('user' => UserService::find($id), 'shops' => $shops));
-    }
-
-    public function editProfile()
-    {
-        if (auth()->user()) {
-            $id = auth()->id();
-        }
-
-        $shops = ShopService::selectAll()->pluck('title', 'id');
-        $languages = $this->language->getModel()->pluck('language', 'id');
-        return view('backend.user.profile')->with(array('user' => User::find($id), 'languages' => $languages, 'shops' => $shops));
     }
 
     public function changeShopProfile($shopId)
@@ -78,35 +66,9 @@ class UserController extends Controller
         return redirect()->route('shop.index');
     }
 
-    public function updateProfile()
+    public function update(Request $request, $id)
     {
-        if (auth()->user()) {
-            $id = auth()->id();
-        }
-
-        $result  = UserService::updateProfileById(Request::all(), Request::file('avatar'), $id);
-        return UserService::notificationRedirect('user.index', $result, 'The user was updated.');
-    }
-
-    public function updateLanguage()
-    {
-        $rules = [
-        'language' => 'in:en,fr' //list of supported languages of your application.
-        ];
-
-        $language = Request::get('lang'); //lang is name of form select field.
-
-        $validator = Validator::make(compact($language), $rules);
-
-        if ($validator->passes()) {
-            Session::put('language', $language);
-            App::setLocale($language);
-        }
-    }
-
-    public function update($id)
-    {
-        $result  = UserService::updateById(Request::all(), Request::file('avatar'), $id);
+        $result  = UserService::updateById($request->all(), $request->file('avatar'), $id);
         return UserService::notificationRedirect('user.index', $result, 'The user was updated.');
     }
 

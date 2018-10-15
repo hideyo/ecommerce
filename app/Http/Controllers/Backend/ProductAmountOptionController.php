@@ -11,11 +11,11 @@
 use App\Http\Controllers\Controller;
 
 use Dutchbridge\Datatable\ProductAmountOptionDatatable;
-use Hideyo\Ecommerce\Framework\Repositories\ProductAmountOptionRepository;
-use Hideyo\Ecommerce\Framework\Services\Product\Entity\ProductRepository;
-use Hideyo\Ecommerce\Framework\Repositories\ExtraFieldRepository;
-use Hideyo\Ecommerce\Framework\Repositories\AttributeGroupRepository;
-use Hideyo\Ecommerce\Framework\Repositories\TaxRateRepository;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductAmountOptionFacade as ProductAmountOptionService;
+use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
+use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
+use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeService;
+use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;;
 
 use Request;
 use Notification;
@@ -24,18 +24,6 @@ use Form;
 
 class ProductAmountOptionController extends Controller
 {
-    public function __construct(
-        ProductAmountOptionRepository $productAmountOption,
-        ProductRepository $product,
-        AttributeGroupRepository $attributeGroup,
-        TaxRateRepository $taxRate
-    ) {
-        $this->productAmountOption = $productAmountOption;
-        $this->product = $product;
-        $this->attributeGroup = $attributeGroup;
-        $this->taxRate = $taxRate;
-    }
-
     public function index($productId)
     {   
         $datatable =  new ProductAmountOptionDatatable();

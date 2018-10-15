@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Controller;
 
-use Hideyo\Ecommerce\Framework\Repositories\ExceptionRepository;
+use Hideyo\Ecommerce\Framework\Services\Exception\ExceptionFacade as ExceptionService;
 
 use Illuminate\Http\Request;
 use Notification;
@@ -10,16 +10,11 @@ use Notification;
 class ErrorController extends Controller
 {
 
-    public function __construct(ExceptionRepository $error)
-    {
-        $this->error = $error;
-    }
-
     public function index(Request $request)
     {
         if ($request->wantsJson()) {
 
-            $query = $this->error->getModel();
+            $query = ExceptionService::getModel();
             
             $datatables = \DataTables::of($query)->addColumn('action', function ($query) {
                 $deleteLink = \Form::deleteajax('/admin/general-setting/'. $query->id, 'Delete', '', array('class'=>'btn btn-default btn-sm btn-danger'));
@@ -31,7 +26,7 @@ class ErrorController extends Controller
             return $datatables->make(true);
 
         } else {
-            return view('backend.error.index')->with('error', $this->error->selectAll());
+            return view('backend.error.index')->with('error', ExceptionService::selectAll());
         }
     }
 }
