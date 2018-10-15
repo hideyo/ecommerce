@@ -24,7 +24,7 @@ $icon-font-path: "/fonts/";
 @import '../../../../node_modules/select2-bootstrap-css/lib/select2-bootstrap.scss';
 @import '../../../../node_modules/font-awesome/scss/font-awesome.scss';
 @import '../../../../node_modules/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.css';
-
+@import '../../../../node_modules/jstree/src/themes/default/style.css';
 @import "datatables";
 @import "login";
 
@@ -33,9 +33,7 @@ $icon-font-path: "/fonts/";
 @import "icheck";
 @import "wchar";
 
-
-//@import "backend/jstree";
-//@import "backend/datepicker";
+//@import "datepicker";
 //@import "backend/codemirror";
 
 
