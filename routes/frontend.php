@@ -20,8 +20,6 @@ Route::group(['prefix' => 'account'], function () {
 	Route::get('/reset-password/{code}/{email}', 'AccountController@getResetPassword');
 	Route::post('/reset-password/{code}/{email}', 'AccountController@postResetPassword');
 
-	Route::post('/subscribe-newsletter', array('as' => 'account.newsletter.subscribe', 'uses' => 'AccountController@postSubscriberNewsletter'));
-
 	Route::get('/confirm/{code}/{email}', 'AccountController@getConfirm');
 	Route::get('/check-zipcode/{zipcode?}/{housenumber?}', 'AccountController@getZipcode');
 

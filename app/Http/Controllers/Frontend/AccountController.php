@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
+use Illuminate\Http\Request;
 use Validator;
 use Mail;
 use Notification;
@@ -24,72 +24,45 @@ class AccountController extends Controller
         $result = ClientService::changeAccountDetails($confirmationCode, $email, config()->get('app.shop_id'));
 
         if ($result) {
-            Notification::success('Je account gegevens zijn gewijzigd en je dient opnieuw in te loggen met de nieuwe gegevens.');
+            Notification::success('Your account details has been changed. Please login with your new credentials');
+            auth('web')->logout();
+            return redirect()->to('account/login');
         }
         
-        Notification::error('Wijziging is niet mogelijk.');
-        auth('web')->logout();
-        return redirect()->to('account/login');
+        Notification::error('Not confirmed.');
+        return redirect()->to('account');
     }
 
     public function getEditAddress($type)
     {
-        $shop = app('shop');
-        return view('frontend.account.edit-account-address-'.$type)->with(array('sendingMethods' => $shop->sendingMethods, 'user' => auth('web')->user()));
+        return view('frontend.account.edit-account-address-'.$type)->with(array('sendingMethods' => app('shop')->sendingMethods, 'user' => auth('web')->user()));
     }
 
     public function postEditAddress(Request $request, $type)
     {
-        $userdata = $request->all();
+        $validate = ClientService::validateAddress($request->all());
 
-        // create the validation rules ------------------------
-        $rules = array(
-            'firstname'     => 'required',
-            'lastname'      => 'required',
-            'zipcode'       => 'required|max:8',
-            'housenumber'   => 'required|numeric',
-            'street'        => 'required',
-            'city'          => 'required',
-            'country'       => 'required'
-        );
-
-        $validator = Validator::make($userdata, $rules);
-
-        if ($validator->fails()) {
-            // get the error messages from the validator
-            foreach ($validator->errors()->all() as $error) {
+        if ($validate->fails()) {
+            foreach ($validate->errors()->all() as $error) {
                 Notification::error($error);
             }
 
-            // redirect our user back to the form with the errors from the validator
-            return redirect()->to('account/edit-address/'.$type)
-                ->with(array('type' => $type))->withInput();
-        }
-     
-        $user = auth('web')->user();
-
-        if ($type == 'bill') {
-            $id = $user->clientBillAddress->id;
-
-            if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                $clientAddress = ClientService::createAddress($userdata, $user->id);
-                ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
-            } else {
-                $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
-            }
-        } elseif ($type == 'delivery') {
-            $id = $user->clientDeliveryAddress->id;
-
-            if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                $clientAddress = ClientService::createAddress($userdata, $user->id);
-                ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
-            } else {
-                $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
-            }
+            return redirect()->to('account/edit-address/'.$type)->with(array('type' => $type))->withInput();
         }
 
-        return redirect()->to('account');
-        
+        $id = auth('web')->user()->clientBillAddress->id;
+        if ($type == 'delivery') {
+            $id = auth('web')->user()->clientDeliveryAddress->id; 
+        }
+
+        if (auth('web')->user()->clientDeliveryAddress->id == auth('web')->user()->clientBillAddress->id) {
+            $clientAddress = ClientService::createAddress($request->all(), auth('web')->user()->id);
+            ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), auth('web')->user()->id, $clientAddress->id, $type);  
+        } else {
+            $clientAddress = ClientService::editAddress(auth('web')->user()->id, $id, $request->all());
+        }
+ 
+        return redirect()->to('account');     
     }
 
     public function postEditAccount(Request $request)
@@ -158,8 +131,7 @@ class AccountController extends Controller
 
     public function postRegister(Request $request)
     {
-        $userdata = $request->all();
-        $validateRegister = ClientService::validateRegister($userdata);
+        $validateRegister = ClientService::validateRegister($request->all());
 
         if($validateRegister->fails()) {
             foreach ($validator->errors()->all() as $error) {
@@ -169,12 +141,12 @@ class AccountController extends Controller
             return redirect()->back()->withInput();
         }
 
-        $register = ClientService::register($userdata, config()->get('app.shop_id'));
+        $register = ClientService::register($request->all(), config()->get('app.shop_id'));
 
         if ($register) {
             $data = $register->toArray();
             Mail::send('frontend.email.register-mail', array('user' => $register->toArray(), 'password' => $request->get('password'), 'billAddress' => $register->clientBillAddress->toArray()), function ($message) use ($data) {
-                $message->to($data['email'])->from('info@hidey.io', 'Hideyo')->subject(trans('register-completed-subject'));
+                $message->to($data['email'])->from('info@hideyo.io', 'Hideyo')->subject(trans('register-completed-subject'));
             });
             Notification::success(trans('you-are-registered-consumer'));
             return redirect()->to('account/login');
@@ -202,9 +174,7 @@ class AccountController extends Controller
                 ->withErrors($validator, 'forgot')->withInput();
         }
 
-        $userdata = $request->all();
-
-        $forgotPassword = ClientService::getConfirmationCodeByEmail($userdata['email'], config()->get('app.shop_id'));
+        $forgotPassword = ClientService::getConfirmationCodeByEmail($request->get('email'), config()->get('app.shop_id'));
 
         if ($forgotPassword) {
             $firstname = false;
@@ -214,17 +184,16 @@ class AccountController extends Controller
             }
 
             $data = array(
-                'email' => $userdata['email'],
+                'email' => $request->get('email'),
                 'firstname' => $firstname,
                 'code' => $forgotPassword->confirmation_code
             );
 
             Mail::send('frontend.email.reset-password-mail', $data, function ($message) use ($data) {
-                $message->to($data['email'])->from('info@hideyo.io', 'Hideyo')->subject('Wachtwoord vergeten');
+                $message->to($data['email'])->from('info@hideyo.io', 'Hideyo')->subject('Forgot password');
             });
 
-            Notification::success('Er is een e-mail gestuurd. Hiermee kan je je wachtwoord resetten.');
-
+            Notification::success('Email is sent with password reset link.');
             return redirect()->back();
         }
         
@@ -253,10 +222,6 @@ class AccountController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            // get the error messages from the validator
-            $messages = $validator->messages();
-
-            // redirect our user back to the form with the errors from the validator
             return redirect()->to('account/reset-password/'.$confirmationCode.'/'.$email)
                 ->withErrors($validator, 'reset')->withInput();
         }
@@ -265,29 +230,16 @@ class AccountController extends Controller
 
         if ($result) {
             $result = ClientService::changePassword(array('confirmation_code' => $confirmationCode, 'email' => $email, 'password' => $request->get('password')), config()->get('app.shop_id'));
-            Notification::success('Je wachtwoord is veranderd en je kan nu inloggen.');
+            Notification::success('Password resetting completed. You can now login');
             return redirect()->to('account/login');
         }
-    }
-
-    public function postSubscriberNewsletter(Request $request)
-    {
-        $userData = $request->all();
-        $result = ClientService::subscribeNewsletter($userData['email'], config()->get('app.shop_id'));
-        $result = array(
-            "result" => true,
-            "html" => view('frontend.newsletter.completed')->render()
-        );
-
-        ClientService::registerMailChimp($userData['email']);
-        return response()->json($result);
     }
 
     public function getConfirm($code, $email)
     {
         $result = ClientService::validateConfirmationCode($code, $email, config()->get('app.shop_id'));
 
-        if ($result->count()) {
+        if ($result) {
             ClientService::confirmClient($code, $email, config()->get('app.shop_id'));
             Notification::success('Account is activated.');
             return redirect()->to('account/login');
@@ -300,9 +252,9 @@ class AccountController extends Controller
     public function getLogout(Request $request)
     {
         auth('web')->logout();
-        $referrer = $request->headers->get('referer');
-        if ($referrer) {
-            if (strpos($referrer, 'checkout') !== false) {
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            if (strpos($referer, 'checkout') !== false) {
                 return redirect()->to('cart/checkout');
             }
         }
