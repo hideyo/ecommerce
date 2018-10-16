@@ -19,11 +19,11 @@ class CartController extends Controller
             return redirect()->to('cart');
         }
             
-        if($sendingMethodsList->count() AND !app('cart')->getConditionsByType('sending_method')->count()) {
+        if($sendingMethodsList->count() AND !Cart::getConditionsByType('sending_method')->count()) {
             self::updateSendingMethod($sendingMethodsList->first()->id);
         }      
 
-        if ($paymentMethodsList AND !app('cart')->getConditionsByType('payment_method')->count()) {
+        if ($paymentMethodsList AND !Cart::getConditionsByType('payment_method')->count()) {
             Cart::updatePaymentMethod($paymentMethodsList->first()->id);
         }
 
@@ -61,9 +61,9 @@ class CartController extends Controller
         if($result){
             return response()->json(array(
                 'result' => true, 
-                'producttotal' => app('cart')->getContent()->count(),
-                'total_inc_tax_number_format' => app('cart')->getTotalWithTax(),
-                'total_ex_tax_number_format' => app('cart')->getTotalWithoutTax()
+                'producttotal' => Cart::getContent()->count(),
+                'total_inc_tax_number_format' => Cart::getTotalWithTax(),
+                'total_ex_tax_number_format' => Cart::getTotalWithoutTax()
             ));
         }
         
@@ -72,10 +72,10 @@ class CartController extends Controller
 
     public function deleteProduct($productId)
     {
-        $result = app('cart')->remove($productId);
+        $result = Cart::remove($productId);
 
-        if (app('cart')->getContent()->count()) {
-            return response()->json(array('result' => $result, 'totals' => true, 'producttotal' => app('cart')->getContent()->count()));
+        if (Cart::getContent()->count()) {
+            return response()->json(array('result' => $result, 'totals' => true, 'producttotal' => Cart::getContent()->count()));
         }
         
         return response()->json(false);        
@@ -85,8 +85,8 @@ class CartController extends Controller
     {
         Cart::updateAmountProduct($productId, $amount, $request->get('leading_attribute_id'), $request->get('product_attribute_id'));
 
-        if (app('cart')->getContent()->count() AND app('cart')->get($productId)) {
-            $product = app('cart')->get($productId);
+        if (Cart::getContent()->count() AND Cart::get($productId)) {
+            $product = Cart::get($productId);
             $amountNa = false;
 
             if($product->quantity < $amount) {
@@ -129,12 +129,12 @@ class CartController extends Controller
     public function updateSendingMethod($sendingMethodId)
     {
         Cart::updateSendingMethod($sendingMethodId);
-        return response()->json(array('sending_method' => app('cart')->getConditionsByType('sending_method')));
+        return response()->json(array('sending_method' => Cart::getConditionsByType('sending_method')));
     }
 
     public function updatePaymentMethod($paymentMethodId)
     {
         Cart::updatePaymentMethod($paymentMethodId);
-        return response()->json(array('payment_method' => app('cart')->getConditionsByType('payment_method')));
+        return response()->json(array('payment_method' => Cart::getConditionsByType('payment_method')));
     }
 }

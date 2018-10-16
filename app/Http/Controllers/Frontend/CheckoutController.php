@@ -101,50 +101,36 @@ class CheckoutController extends Controller
             return redirect()->to('cart/checkout');
         }
 
-        $userdata = $request->all();
-
-        $rules = array(
-            'email'         => 'required|email',     // required and must be unique in the ducks table
-            'password'      => 'required',
-            'firstname'     => 'required',
-            'lastname'      => 'required',
-            'zipcode'       => 'required',
-            'housenumber'   => 'required|numeric',
-            'street'        => 'required',
-            'city'          => 'required'
-            );
-
-        if (!$userdata['password']) {
-            unset($rules['email']);
-            unset($rules['password']);
+        $noAccount = true;
+        if ($userdata['password']) {
+            $noAccount = false;
         } 
 
-        $validator = Validator::make($request->all(), $rules);
+        $validateRegister = ClientService::validateRegister($request->all(), $noAccount);
 
-        if ($validator->fails()) {
-            // get the error messages from the validator
+        if($validateRegister->fails()) {
             foreach ($validator->errors()->all() as $error) {
                 Notification::error($error);
             }
-            // redirect our user back to the form with the errors from the validator
+
             return redirect()->to('cart/checkout')
-            ->withErrors(true, 'register')->withInput();
+            ->withErrors(true, 'register')->withInput();;
         }
 
-        if ($userdata['password']) {
-            $registerAttempt = ClientService::validateRegister($userdata, config()->get('app.shop_id'));
+        if ($request->get('password')) {
+            $registerAttempt = ClientService::validateRegister($request->all(), config()->get('app.shop_id'));
 
             if ($registerAttempt) {
-                $register = ClientService::register($userdata, config()->get('app.shop_id'), true);
+                $register = ClientService::register($request->all(), config()->get('app.shop_id'), true);
             } else {
-                $client = ClientService::findByEmail($userdata['email'], config()->get('app.shop_id'));
+                $client = ClientService::findByEmail($request->get('email'), config()->get('app.shop_id'));
 
                 if ($client->account_created) {
                     Notification::error('Je hebt al een account. Login aan de linkerkant of vraag een nieuw wachtwoord aan.');
                     return redirect()->to('cart/checkout')->withInput()->withErrors('Dit emailadres is al in gebruik. Je kan links inloggen.', 'register');
                 }
                 
-                $register = ClientService::createAccount($userdata, config()->get('app.shop_id'));
+                $register = ClientService::createAccount($request->all(), config()->get('app.shop_id'));
             }
 
             if ($register) {
@@ -208,10 +194,11 @@ class CheckoutController extends Controller
             'browser_detect' => serialize(BrowserDetect::toArray())
         );
 
-
         if (auth('web')->check()) {
             $data['user_id'] = auth('web')->user()->id;
-        } else {
+        }
+
+        if ($noAccountUser){
             $data['user_id'] = $noAccountUser['client_id'];
         }     
 
@@ -289,27 +276,13 @@ class CheckoutController extends Controller
             return redirect()->to('cart/checkout');
         } 
         
-        $userdata = $request->all();
+        $validate = ClientService::validateAddress($request->all());
 
-        // create the validation rules ------------------------
-        $rules = array(
-            'firstname'     => 'required',
-            'lastname'      => 'required',
-            'zipcode'       => 'required',
-            'housenumber'   => 'required|numeric',
-            'street'        => 'required',
-            'city'          => 'required'
-        );
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            // get the error messages from the validator
-            foreach ($validator->errors()->all() as $error) {
+        if ($validate->fails()) {
+            foreach ($validate->errors()->all() as $error) {
                 Notification::error($error);
             }
 
-            // redirect our user back to the form with the errors from the validator
             return redirect()->to('cart/edit-address/'.$type)
             ->with(array('type' => $type))->withInput();
         }
@@ -318,36 +291,25 @@ class CheckoutController extends Controller
             $noAccountUser = session()->get('noAccountUser');
             if ($noAccountUser) {
                 if ($type == 'bill') {
-                    $noAccountUser = array_merge($noAccountUser, $userdata);
+                    $noAccountUser = array_merge($noAccountUser, $request->all());
                 } elseif ($type == 'delivery') {
-                    $noAccountUser['delivery'] = array_merge($noAccountUser['delivery'], $userdata);
+                    $noAccountUser['delivery'] = array_merge($noAccountUser['delivery'], $request->all());
                 }
 
                 session()->put('noAccountUser', $noAccountUser);
             }
         } else {
             $user = auth('web')->user();
-
-            if ($type == 'bill') {
-                $id = $user->clientBillAddress->id;
-
-                if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-
-
-                    $clientAddress = ClientService::createAddress($userdata, $user->id);
-                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
-                } else {
-                    $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
-                }
-            } elseif ($type == 'delivery') {
+            $id = $user->clientBillAddress->id;
+            if ($type == 'delivery') {
                 $id = $user->clientDeliveryAddress->id;
+            }
 
-                if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
-                    $clientAddress = ClientService::createAddress($userdata, $user->id);
-                    ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
-                } else {
-                    $clientAddress = ClientService::editAddress($user->id, $id, $userdata);
-                }
+            if ($user->clientDeliveryAddress->id == $user->clientBillAddress->id) {
+                $clientAddress = ClientService::createAddress($request->all(), $user->id);
+                ClientService::setBillOrDeliveryAddress(config()->get('app.shop_id'), $user->id, $clientAddress->id, $type);
+            } else {
+                $clientAddress = ClientService::editAddress($user->id, $id, $request->all());
             }
         }
 
