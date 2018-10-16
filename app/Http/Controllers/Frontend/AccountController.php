@@ -114,9 +114,7 @@ class AccountController extends Controller
             return redirect()->back()->withInput();
         }
 
-        $login = ClientService::login($request);
-
-        if($login) {
+        if(ClientService::login($request)) {
             return redirect()->to('/account');
         }
         

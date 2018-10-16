@@ -6,7 +6,17 @@
             "name": "Matthijs Neijenhuijs",
             "email": "matthijs@hideyo.io"
         }
-    ],  
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/Users/isomis/www/ecommerce-framework",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+
     "license": "GPL-3.0+",
     "minimum-stability": "dev",
     "type": "project",
@@ -35,7 +45,7 @@
         "hisorange/browser-detect": "2.*",
         "flynsarmy/db-blade-compiler": "5.4.2",
         "laravel/passport": "^4.0@dev",
-        "hideyo/ecommerce-framework": "dev-master"
+        "hideyo/ecommerce-framework": "@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

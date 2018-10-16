@@ -4,19 +4,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
-use Hideyo\Ecommerce\Framework\Services\Cart\Entity\CartRepository;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use BrowserDetect;
 use Cart;
 
 class CartController extends Controller
 {
-    public function __construct(    
-        CartRepository $cart)
-    {
-        $this->cart = $cart;
-    }
-
     public function getIndex()
     {
         $sendingMethodsList = SendingMethodService::selectAllActiveByShopId(config()->get('app.shop_id'));
@@ -31,7 +24,7 @@ class CartController extends Controller
         }      
 
         if ($paymentMethodsList AND !app('cart')->getConditionsByType('payment_method')->count()) {
-            $this->cart->updatePaymentMethod($paymentMethodsList->first()->id);
+            Cart::updatePaymentMethod($paymentMethodsList->first()->id);
         }
 
         $template = "frontend.cart.index";
@@ -57,7 +50,7 @@ class CartController extends Controller
 
     public function postProduct(Request $request, $productId, $productCombinationId = false)
     {
-        $result = $this->cart->postProduct(
+        $result = Cart::postProduct(
             $request->get('product_id'), 
             $productCombinationId, 
             $request->get('leading_attribute_id'), 
@@ -90,7 +83,7 @@ class CartController extends Controller
 
     public function updateAmountProduct(Request $request, $productId, $amount)
     {
-        $this->cart->updateAmountProduct($productId, $amount, $request->get('leading_attribute_id'), $request->get('product_attribute_id'));
+        Cart::updateAmountProduct($productId, $amount, $request->get('leading_attribute_id'), $request->get('product_attribute_id'));
 
         if (app('cart')->getContent()->count() AND app('cart')->get($productId)) {
             $product = app('cart')->get($productId);
@@ -135,13 +128,13 @@ class CartController extends Controller
 
     public function updateSendingMethod($sendingMethodId)
     {
-        $this->cart->updateSendingMethod($sendingMethodId);
+        Cart::updateSendingMethod($sendingMethodId);
         return response()->json(array('sending_method' => app('cart')->getConditionsByType('sending_method')));
     }
 
     public function updatePaymentMethod($paymentMethodId)
     {
-        $this->cart->updatePaymentMethod($paymentMethodId);
+        Cart::updatePaymentMethod($paymentMethodId);
         return response()->json(array('payment_method' => app('cart')->getConditionsByType('payment_method')));
     }
 }
