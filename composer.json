@@ -6,7 +6,7 @@
             "name": "Matthijs Neijenhuijs",
             "email": "matthijs@hideyo.io"
         }
-    ],
+    ],  
     "license": "GPL-3.0+",
     "minimum-stability": "dev",
     "type": "project",
