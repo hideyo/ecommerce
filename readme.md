@@ -12,9 +12,9 @@ Author: Matthijs Neijenhuijs
 
 ## System Requirements
 
-Hideyo is designed to run on a machine with PHP 5.5.9 and MySQL 5.5.
+Hideyo is designed to run on a machine with PHP 7 and MySQL 5.5.
 
-* PHP >= 5.5.9 with
+* PHP >=7.0.0 with
     * OpenSSL PHP Extension
     * PDO PHP Extension
     * Mbstring PHP Extension
