@@ -111,14 +111,6 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('ingredients', 'Ingredients', array('class' => 'col-sm-3 control-label')) !!}
-            <div class="col-sm-5">
-                {!! Form::textarea('ingredients', null, array('class' => 'form-control ckeditor')) !!}
-            </div>
-        </div>
-    
-
-        <div class="form-group">
             {!! Form::label('tax_rate_id', 'Tax rate', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-5">
                 {!! Form::select('tax_rate_id', $taxRates, null, array('class' => 'tax-rate form-control')) !!}

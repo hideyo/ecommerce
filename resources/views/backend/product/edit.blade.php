@@ -74,19 +74,19 @@
                 </div>
             </div>
 
-        <div class="form-group">
-            {!! Form::label('ean_code', 'Ean code', array('class' => 'col-sm-3 control-label')) !!}
-            <div class="col-sm-5">
-                {!! Form::text('ean_code', null, array('class' => 'form-control', 'data-validate' => 'number')) !!}
+            <div class="form-group">
+                {!! Form::label('ean_code', 'Ean code', array('class' => 'col-sm-3 control-label')) !!}
+                <div class="col-sm-5">
+                    {!! Form::text('ean_code', null, array('class' => 'form-control', 'data-validate' => 'number')) !!}
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            {!! Form::label('mpn_code', 'MPN code', array('class' => 'col-sm-3 control-label')) !!}
-            <div class="col-sm-5">
-                {!! Form::text('mpn_code', null, array('class' => 'form-control', 'data-validate' => 'number')) !!}
+            <div class="form-group">
+                {!! Form::label('mpn_code', 'MPN code', array('class' => 'col-sm-3 control-label')) !!}
+                <div class="col-sm-5">
+                    {!! Form::text('mpn_code', null, array('class' => 'form-control', 'data-validate' => 'number')) !!}
+                </div>
             </div>
-        </div>
 
 
             <div class="form-group">
@@ -110,30 +110,12 @@
                 </div>
             </div>
 
-
-            <div class="form-group">
-                {!! Form::label('ingredients', 'Ingredients', array('class' => 'col-sm-3 control-label')) !!}
-                <div class="col-sm-5">
-                    {!! Form::textarea('ingredients', null, array('class' => 'form-control ckeditor')) !!}
-                </div>
-            </div>
-
-
             <div class="form-group">
                 {!! Form::label('weight', 'Weight', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-5">
                     {!! Form::text('weight', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
                 </div>
             </div>
-
-            <div class="form-group">
-                {!! Form::label('weight_title', 'Weight title', array('class' => 'col-sm-3 control-label')) !!}
-                <div class="col-sm-5">
-                    {!! Form::text('weight_title', null, array('class' => 'form-control', 'required' => 'required', 'data-sign' => '&euro;')) !!}
-                </div>
-            </div>
-
-
 
             <div class="form-group">
                 {!! Form::label('rank', 'Rank', array('class' => 'col-sm-3 control-label')) !!}

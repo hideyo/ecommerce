@@ -178,6 +178,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         'Flynsarmy\DbBladeCompiler\DbBladeCompilerServiceProvider',
+        Unisharp\Ckeditor\ServiceProvider::class,
 
 
         /*
