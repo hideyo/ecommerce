@@ -79,6 +79,7 @@ return [
     'cart-discount'                 => 'Discount',
     'last_login'                    => 'Last login',
     'delivery-address'              => 'Delivery address',
-    'bill-address'                  => 'Bill address'
+    'bill-address'                  => 'Bill address',
+    'url'                           => 'Url'
 
 ];

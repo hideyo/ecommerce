@@ -27,6 +27,7 @@
                 <tr>
                     <th class="col-md-3">{{{ trans('table.id') }}}</th>
                     <th class="col-md-1">{{{ trans('table.image') }}}</th>
+                    <th class="col-md-1">{{{ trans('table.url') }}}</th>
                     <th class="col-md-3">{{{ trans('table.title') }}}</th>
                     <th class="col-md-3">{{{ trans('table.actions') }}}</th>
                 </tr>
@@ -43,6 +44,7 @@
                 columns: [
                 {data: 'id', name: 'id'},
                 {data: 'image', name: 'image', bVisible: true, bSearchable: false},
+                {data: 'url', name: 'url'},
                 {data: 'title', name: 'title'},
                 {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
