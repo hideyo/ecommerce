@@ -37,7 +37,7 @@ class ShopController extends Controller
                 }
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['image', 'action'])->make(true);
         }
         
         return view('backend.shop.index')->with('shop', ShopService::selectAll());
