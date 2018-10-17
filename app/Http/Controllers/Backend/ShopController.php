@@ -33,7 +33,7 @@ class ShopController extends Controller
 
             ->addColumn('image', function ($query) {
                 if ($query->logo_file_name) {
-                    return '<img src="http://shop.brulo.nl/files/'.$query->id.'/logo/'.$query->logo_file_name.'"  />';
+                    return '<img src="/files/'.$query->id.'/logo/'.$query->logo_file_name.'"  />';
                 }
             });
 
