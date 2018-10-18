@@ -25,7 +25,7 @@
         <table id="datatable" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th class="col-md-3">{{{ trans('table.id') }}}</th>
+                    <th class="col-md-1">{{{ trans('table.id') }}}</th>
                     <th class="col-md-3">{{{ trans('table.title') }}}</th>
                     <th class="col-md-2">{{{ trans('table.category') }}}</th>
                     <th class="col-md-2">{{{ trans('table.all-products') }}}</th>

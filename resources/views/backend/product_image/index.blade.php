@@ -25,8 +25,8 @@
             <thead>
                 <tr>
                     <th class="col-md-1">{{{ trans('table.image') }}}</th>
-                    <th class="col-md-8">{{{ trans('table.file') }}}</th>
-                    <th class="col-md-8">{{{ trans('table.rank') }}}</th>
+                    <th class="col-md-6">{{{ trans('table.file') }}}</th>
+                    <th class="col-md-2">{{{ trans('table.rank') }}}</th>
                     <th class="col-md-3">{{{ trans('table.actions') }}}</th>
                 </tr>
             </thead>
