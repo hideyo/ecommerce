@@ -17,7 +17,8 @@
     <div class="row">
 
         <div class="col-lg-12 ">
-        	<p>complete</p>
+            <h1>Order completed</h1>
+        	<p>order received</p>
         </div>   
 
     </div>

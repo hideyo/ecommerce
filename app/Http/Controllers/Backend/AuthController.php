@@ -57,7 +57,7 @@ class AuthController extends Controller
             return redirect()->intended('/admin');
         }
 
-        Notification::error('inloggegevens zijn fout');
+        Notification::error('inlog is incorrect');
      
         return redirect('/admin/security/login')
                     ->withInput($request->only('email', 'remember'));
