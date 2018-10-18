@@ -40,7 +40,7 @@ class ProductAmountSeriesController extends Controller
                 return $links;
             });
 
-            return $datatables->rawColums(['active', 'action'])->make(true);
+            return $datatables->rawColumns(['active', 'action'])->make(true);
         }
         
         return view('backend.product-amount-series.index')->with(array('product' => $product));
