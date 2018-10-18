@@ -102,7 +102,7 @@ class CheckoutController extends Controller
         }
 
         $noAccount = true;
-        if ($userdata['password']) {
+        if ($request->get('password')) {
             $noAccount = false;
         } 
 
@@ -137,7 +137,7 @@ class CheckoutController extends Controller
                 $data = $register;
                 $data['shop'] = app('shop');
         
-                Mail::send('frontend.email.register-mail', array('password' => $userdata['password'], 'user' => $data->toArray(), 'billAddress' => $data->clientBillAddress->toArray()), function ($message) use ($data) {
+                Mail::send('frontend.email.register-mail', array('password' => $request->get('password'), 'user' => $data->toArray(), 'billAddress' => $data->clientBillAddress->toArray()), function ($message) use ($data) {
             
                     $message->to($data['email'])->from($data['shop']->email, $data['shop']->title)->subject('Je bent geregistreerd.');
                 });
@@ -158,6 +158,7 @@ class CheckoutController extends Controller
             return redirect()->to('cart/checkout')->withErrors(true, 'register')->withInput();    
         }
         
+        $userdata = $request->all();
         unset($userdata['password']);
         $registerAttempt = ClientService::validateRegisterNoAccount($userdata, config()->get('app.shop_id'));
 
