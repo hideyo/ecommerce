@@ -23,7 +23,7 @@
             <li>
                 <a href="{!! URL::route('client.order.index', $client->id) !!}">
                     <span class="visible-xs"><i class="entypo-gauge"></i></span>
-                    <span class="hidden-xs">Orders</span>
+                    <span class="hidden-xs">Orders ({!! $client->Orders()->count() !!})</span>
                 </a>
             </li>
 
