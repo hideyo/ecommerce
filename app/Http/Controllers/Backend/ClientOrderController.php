@@ -94,7 +94,7 @@ class ClientOrderController extends Controller
                 return $links;
             });
 
-            return $datatables->make(true);
+            return $datatables->rawColumns(['status', 'action'])->make(true);
         }
         
         return view('backend.client_order.index')->with(array('client' => $client));
