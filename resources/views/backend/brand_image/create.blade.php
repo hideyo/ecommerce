@@ -2,11 +2,11 @@
 
 @section('main')
 
-<div class="row">
+<div class="row rowTopPadding">
     <div class="col-sm-3 col-md-2 sidebar">
         @include('backend._partials.brand-tabs', array('brandImages' => true))
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-9 col-md-10 main">
         <ol class="breadcrumb">
             <li><a href="{{ URL::route('dashboard.index') }}">Dashboard</a></li>
             <li><a href="{!! URL::route('brand.index') !!}">Brand</a></li>
@@ -20,7 +20,7 @@
 
         <h2>Brand <small>images create</small></h2>
         <hr/>
-        <div class="row">
+        <div class="row rowTopPadding">
             <div class="col-md-12">
                 <div class="panel-body">
 

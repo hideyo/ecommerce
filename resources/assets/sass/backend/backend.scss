@@ -113,8 +113,8 @@ body {
 }
 @media (min-width: 768px) {
   .sidebar {
-    position: fixed;
-    top: 51px;
+    float: left;
+    width: 15%;
     bottom: 0;
     left: 0;
     z-index: 1000;
@@ -149,11 +149,19 @@ body {
  * Main content
  */
 
+.rowTopPadding {
+  padding-top: 50px;
+}
+
 .main {
   padding: 20px;
+  float: right;
+  display: block;
+  width: 100%;
 }
 @media (min-width: 768px) {
   .main {
+    width: 85%;
     padding-right: 40px;
     padding-left: 40px;
   }
