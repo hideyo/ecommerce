@@ -2,14 +2,14 @@
 
 @section('main')
 
-<div class="row">
+<div class="row rowTopPadding">
     <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
             <li class="active"><a href="{{ URL::route('invoice.index') }}">Overview <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Show</a></li>
         </ul>
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-9 col-md-10 main">
         <ol class="breadcrumb">
             <li><a href="{{ URL::route('dashboard.index') }}">Dashboard</a></li>
             <li><a href="{{ URL::route('invoice.index') }}">Invoices</a></li>  
@@ -22,7 +22,7 @@
         <hr/>
         {!! Notification::showAll() !!}
 
-        <div class="row">
+        <div class="row rowTopPadding">
             <div class="col-md-12"> 
                 <div class="col-md-4">                 
 
@@ -63,7 +63,7 @@
                         </tr>
                     </table>                   
             
-                    <div class="row">
+                    <div class="row rowTopPadding">
                         @if($invoice->invoiceDeliveryAddress)
                         <div class="col-md-12">
                             <div class="panel panel-default">
@@ -136,7 +136,7 @@
                 </div>
                 <div class="col-md-8">
    
-                    <div class="row">
+                    <div class="row rowTopPadding">
                         <div class="col-md-12">
 
                             <div class="panel panel-default">

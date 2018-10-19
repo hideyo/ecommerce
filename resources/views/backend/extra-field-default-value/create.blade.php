@@ -1,7 +1,7 @@
 @extends('backend._layouts.default')
 
 @section('main')
-<div class="row">
+<div class="row rowTopPadding">
     <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
             <li><a href="{!! URL::route('extra-field.index') !!}">Overview <span class="sr-only">(current)</span></a></li>
@@ -10,7 +10,7 @@
 
         </ul>
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-9 col-md-10 main">
         <ol class="breadcrumb">
             <li><a href="/admin/dashboard">Dashboard</a></li>
             <li><a href="{{ URL::route('extra-field.index') }}">Extra field </a></li>  
