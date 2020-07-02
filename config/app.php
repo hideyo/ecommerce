@@ -168,17 +168,13 @@ return [
         */
         Laravel\Tinker\TinkerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Krucas\Notification\NotificationServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-
-        Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider::class,
-        Baum\Providers\BaumServiceProvider::class,
+        Felixkiss\UniqueWithValidator\ServiceProvider::class,
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
-        'hisorange\BrowserDetect\Provider\BrowserDetectService',
         Yajra\Datatables\DatatablesServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         'Flynsarmy\DbBladeCompiler\DbBladeCompilerServiceProvider',
-        Unisharp\Ckeditor\ServiceProvider::class,
+        Baum\BaumServiceProvider::class,
 
 
         /*
@@ -244,9 +240,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Notification' => Krucas\Notification\Facades\Notification::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'BrowserDetect' => 'hisorange\BrowserDetect\Facade\Parser',
         'Cart' => Hideyo\Ecommerce\Framework\Services\Cart\CartFacade::class,
         'ProductService'     => Hideyo\Ecommerce\Framework\Services\Product\ProductFacade::class,
         'HtmlBlockService'   => Hideyo\Ecommerce\Framework\Services\HtmlBlock\HtmlBlockFacade::class,

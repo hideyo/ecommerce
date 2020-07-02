@@ -221,7 +221,7 @@ class CheckoutController extends Controller
             if ($orderInsertAttempt->OrderPaymentMethod and $orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id) {
                 $orderStatus = OrderService::updateStatus($orderInsertAttempt->id, $orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id);
                 if ($orderInsertAttempt->OrderPaymentMethod->paymentMethod->order_confirmed_order_status_id) {
-                    Event::fire(new OrderChangeStatus($orderStatus));
+                    Event::dispatch(new OrderChangeStatus($orderStatus));
                 }
             }
 

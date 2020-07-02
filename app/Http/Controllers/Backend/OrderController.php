@@ -227,7 +227,7 @@ class OrderController extends Controller
         $orderStatusId = $request->get('order_status_id');
         if ($orderStatusId) {
             $result = OrderService::updateStatus($orderId, $orderStatusId);
-            Event::fire(new OrderChangeStatus($result));
+            Event::dispatch(new OrderChangeStatus($result));
             \Notification::success('The status was updated to '.$result->OrderStatus->title);
         }
 

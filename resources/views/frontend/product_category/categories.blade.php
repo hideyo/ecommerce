@@ -45,7 +45,7 @@
                     </div>
                     
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <h3>{{ str_limit($category['title'],21) }}</h3>
+                        <h3>{{ $category['title'] }}</h3>
                         <p class="hide-for-medium-only">{{ $category->short_description  }}</p>                 
                     </div>
                 </a>

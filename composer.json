@@ -8,34 +8,30 @@
         }
     ],
     "license": "GPL-3.0+",
-    "minimum-stability": "dev",
     "type": "project",
     "require": {
-        "php": ">=7.0.0",
-        "fideloper/proxy": "~3.3",        
-        "laravel/framework": "5.5.*",
-        "laravel/tinker": "~1.0",
-        "edvinaskrucas/notification": "5.*",
-        "cviebrock/eloquent-sluggable": "^4.1",
-        "yajra/laravel-datatables-oracle": "~8.0",
-        "barryvdh/laravel-debugbar": "2.4",
-        "laravelcollective/html": "^5.2",
-        "baum/baum": "~1.1",
-        "intervention/image": "~2.3",
-        "intervention/imagecache": "^2.3",
-        "felixkiss/uniquewith-validator": "2.*",
-        "nesbot/carbon": "^1.33",
+        "php": "^7.2",
+        "barryvdh/laravel-debugbar": "^3.2",
+        "cviebrock/eloquent-sluggable": "6.0.*",
+        "felixkiss/uniquewith-validator": "3.4",
+        "fideloper/proxy": "^4.0",
+        "flynsarmy/db-blade-compiler": "5.4.4",
+        "hideyo/ecommerce-framework": "@dev",
+        "hisorange/browser-detect": "4.2.2",
+        "intervention/image": "2.5.1",
+        "intervention/imagecache": "2.4.1",
+        "khill/lavacharts": "^3.1",
+        "laracasts/flash": "^3.1",
+        "laravel/framework": "6.18.8",
+        "laravel/passport": "^9.0",
+        "laravel/tinker": "2.0",
+        "laravelcollective/html": "^6.1.2",
+        "maatwebsite/excel": "~3.1.19",
+        "nesbot/carbon": "2.35.0",
         "predis/predis": "~1.1@dev",
-        "maatwebsite/excel": "~3.0.0",
-        "elasticquent/elasticquent": "1.0.6",
-        "khill/lavacharts": "~3.0",
-        "tylercd100/lern": "^3.6",
-        "unisharp/laravel-ckeditor": "^4.5",
-        "unisharp/laravel-filemanager": "^1.6",
-        "hisorange/browser-detect": "2.*",
-        "flynsarmy/db-blade-compiler": "5.4.2",
-        "laravel/passport": "^4.0@dev",
-        "hideyo/ecommerce-framework": "dev-master"
+        "tylercd100/lern": "^5.0.0",
+        "unisharp/laravel-filemanager": "v2.1.0",
+        "yajra/laravel-datatables-oracle": "^9.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -75,6 +71,12 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
-    }
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+
+
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

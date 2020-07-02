@@ -10,7 +10,7 @@
                 @if($footerNews) 
                 <ul>
                     @foreach($footerNews as $news)
-                    <li><a href="{!! URL::route('newsfrontend.item', array($news->newsGroup->slug, $news->slug)) !!}" title="{!! $news->title !!}">{!! str_limit($news->title, 38) !!}</a></li>
+                    <li><a href="{!! URL::route('newsfrontend.item', array($news->newsGroup->slug, $news->slug)) !!}" title="{!! $news->title !!}">{!! $news->title !!}</a></li>
                     @endforeach
                 </ul>
                 @endif
