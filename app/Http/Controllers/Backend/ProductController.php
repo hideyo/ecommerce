@@ -15,9 +15,7 @@ use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Hideyo\Ecommerce\Framework\Services\Brand\BrandFacade as BrandService;
 use Illuminate\Http\Request;
-use Notification;
 use Excel;
-use DB;
 
 class ProductController extends Controller
 {
@@ -326,7 +324,7 @@ class ProductController extends Controller
         })->download('xls');
 
 
-        Notification::success('The product export is completed.');
+        flash('The product export is completed.');
         return redirect()->route('product.index');
     }
 
@@ -362,12 +360,12 @@ class ProductController extends Controller
                 }
             }
 
-            Notification::success('The product copy is inserted.');
+            flash('The product copy is inserted.');
             return redirect()->route('product.index');
         }
 
         foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
+            flash($error);
         }
         
         return redirect()->back()->withInput();
@@ -392,23 +390,23 @@ class ProductController extends Controller
 
         if (isset($result->id)) {
             if ($request->get('seo')) {
-                Notification::success('Product seo was updated.');
+                flash('Product seo was updated.');
                 $redirect = redirect()->route('product.edit_seo', $productId);
             } elseif ($request->get('price')) {
-                Notification::success('Product price was updated.');
+                flash('Product price was updated.');
                 $redirect = redirect()->route('product.edit_price', $productId);
             } elseif ($request->get('product-combination')) {
-                Notification::success('Product combination leading attribute group was updated.');
+                flash('Product combination leading attribute group was updated.');
                 $redirect = redirect()->route('product-combination.index', $productId);
             } else {
-                Notification::success('Product was updated.');
+                flash('Product was updated.');
             }
 
             return $redirect;
         }
 
         foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
+            flash($error);
         }
 
         return redirect()->back()->withInput()->withErrors($result->errors()->all());
@@ -419,7 +417,7 @@ class ProductController extends Controller
         $result  = ProductService::destroy($id);
 
         if ($result) {
-            Notification::success('The product was deleted.');
+            flash('The product was deleted.');
             return redirect()->route('product.index');
         }
     }

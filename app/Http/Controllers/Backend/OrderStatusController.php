@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusFacade as OrderStatusService;
@@ -82,7 +81,7 @@ class OrderStatusController extends Controller
         $result  = OrderStatusService::destroy($orderStatusId);
 
         if ($result) {
-            Notification::success('The order status was deleted.');
+            flash('The order status was deleted.');
             return redirect()->route('order-status.index');
         }
     }

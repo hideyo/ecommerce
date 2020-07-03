@@ -14,7 +14,6 @@ use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFiel
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -81,7 +80,7 @@ class ExtraFieldController extends Controller
         $result  = ExtraFieldService::destroy($id);
 
         if ($result) {
-            Notification::success('Extra field was deleted.');
+            flash('Extra field was deleted.');
             return redirect()->route('extra-field.index');
         }
     }

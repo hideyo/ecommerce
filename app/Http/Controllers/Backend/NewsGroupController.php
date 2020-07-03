@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 
 use Hideyo\Ecommerce\Framework\Services\News\NewsFacade as NewsService;
 
@@ -63,7 +62,7 @@ class NewsGroupController extends Controller
         $result  = NewsService::destroyGroup($newsGroupId);
 
         if ($result) {
-            Notification::success('The news group was deleted.');
+            flash('The news group was deleted.');
             return redirect()->route('news-group.index');
         }
     }

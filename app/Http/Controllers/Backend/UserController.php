@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\User\UserFacade as UserService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -62,7 +61,7 @@ class UserController extends Controller
 
         $shop = ShopService::find($shopId);
         $result  = UserService::updateShopProfileById($shop, $id);
-        Notification::success('The shop changed.');
+        flash('The shop changed.');
         return redirect()->route('shop.index');
     }
 
@@ -77,7 +76,7 @@ class UserController extends Controller
         $result  = UserService::destroy($id);
 
         if ($result) {
-            Notification::success('The user was deleted.');
+            flash('The user was deleted.');
             return redirect()->route('user.index');
         }
     }

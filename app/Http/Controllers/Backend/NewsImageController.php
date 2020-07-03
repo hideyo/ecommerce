@@ -9,7 +9,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -71,7 +70,7 @@ class NewsImageController extends Controller
         $result  = NewsService::destroyImage($newsImageId);
 
         if ($result) {
-            Notification::success('The file was deleted.');
+            flash('The file was deleted.');
             return redirect()->route('news-images.index', $newsId);
         }
     }

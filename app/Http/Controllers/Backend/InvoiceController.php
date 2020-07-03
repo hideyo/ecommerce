@@ -14,7 +14,6 @@ use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 
 use Illuminate\Http\Request;
-use Notification;
 
 class InvoiceController extends Controller
 {
@@ -73,11 +72,11 @@ class InvoiceController extends Controller
         $result  = InvoiceService::create($request->all());
 
         if (isset($result->id)) {
-            Notification::success('The invoice was inserted.');
+            flash('The invoice was inserted.');
             return redirect()->route('sending-method.index');
         }
         
-        Notification::error($result->errors()->all());
+        flash($result->errors()->all());
         return redirect()->back()->withInput();
     }
 
@@ -95,11 +94,11 @@ class InvoiceController extends Controller
         $result  = InvoiceService::updateById($request->all(), $invoiceId);
 
         if (isset($result->id)) {
-            Notification::success('The invoice was updated.');
+            flash('The invoice was updated.');
             return redirect()->route('sending-method.index');
         }
         
-        Notification::error($result->errors()->all());
+        flash($result->errors()->all());
         return redirect()->back()->withInput();
     }
 
@@ -108,7 +107,7 @@ class InvoiceController extends Controller
         $result  = InvoiceService::destroy($invoiceId);
 
         if ($result) {
-            Notification::success('The invoice was deleted.');
+            flash('The invoice was deleted.');
             return Redirect::route('sending-method.index');
         }
     }

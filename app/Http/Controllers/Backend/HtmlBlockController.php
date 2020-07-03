@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -106,7 +105,7 @@ class HtmlBlockController extends Controller
         $result  = HtmlBlockService::destroy($htmlBlockId);
 
         if ($result) {
-            Notification::success('The html block was deleted.');
+            flash('The html block was deleted.');
             return redirect()->route('html-block.index');
         }
     }

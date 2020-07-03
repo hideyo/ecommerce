@@ -3,7 +3,6 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use DataTables;
 
@@ -51,7 +50,7 @@ class TaxRateController extends Controller
     {
         $result = TaxRateService::destroy($taxRateId);
         if ($result) {
-            Notification::error('The tax rate was deleted.');
+            flash('The tax rate was deleted.');
             return redirect()->route('tax-rate.index');
         }
     }

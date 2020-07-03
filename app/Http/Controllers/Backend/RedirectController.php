@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Redirect\RedirectFacade as RedirectService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
 use Illuminate\Http\Request;
-use Notification;
 use Excel;
 use DataTables;
 
@@ -78,11 +77,11 @@ class RedirectController extends Controller
             if ($results->count()) {
                 $result = RedirectService::importCsv($results, auth('hideyobackend')->user()->selected_shop_id);
 
-                Notification::success('The redirects are imported.');
+                flash('The redirects are imported.');
        
                 return redirect()->route('redirect.index');
             } else {
-                Notification::success('The redirects imported are failed.');
+                flash('The redirects imported are failed.');
                 return redirect()->route('redirect.import');
             }
         });
@@ -120,7 +119,7 @@ class RedirectController extends Controller
         $result  = RedirectService::destroy($redirectId);
 
         if ($result) {
-            Notification::success('Redirect item is deleted.');
+            flash('Redirect item is deleted.');
             return redirect()->route('redirect.index');
         }
     }

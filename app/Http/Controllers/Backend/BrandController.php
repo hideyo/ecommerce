@@ -9,7 +9,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use DataTables;
 
@@ -61,7 +60,7 @@ class BrandController extends Controller
     {
         $result  = BrandService::destroy($brandId);
         if ($result) {
-            Notification::error('The brand was deleted.');
+            flash('The brand was deleted.');
             return redirect()->route('brand.index');
         }
     }

@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -72,7 +71,7 @@ class ContentGroupController extends Controller
         $result  = ContentService::destroyGroup($contentGroupId);
 
         if ($result) {
-            Notification::success('The content was deleted.');
+            flash('The content was deleted.');
             return redirect()->route('content-group.index');
         }
     }

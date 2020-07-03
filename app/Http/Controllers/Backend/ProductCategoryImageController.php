@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
@@ -70,7 +69,7 @@ class ProductCategoryImageController extends Controller
         $result  = ProductCategoryService::destroyImage($productCategoryImageId);
 
         if ($result) {
-            Notification::success('The file was deleted.');
+            flash('The file was deleted.');
             return redirect()->route('product-category.images.index', $productCategoryId);
         }
     }

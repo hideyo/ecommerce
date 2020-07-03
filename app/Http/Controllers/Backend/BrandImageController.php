@@ -9,7 +9,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -68,7 +67,7 @@ class BrandImageController extends Controller
         $result  = BrandService::destroyImage($brandImageId);
 
         if ($result) {
-            Notification::success('The file was deleted.');
+            flash('The file was deleted.');
             return redirect()->route('brand.images.index', $brandId);
         }
     }

@@ -14,7 +14,6 @@ use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as Pay
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 
 use Illuminate\Http\Request;
-use Notification;
 use Input;
 use Excel;
 
@@ -62,7 +61,7 @@ class SendingMethodCountryPriceController extends Controller
 
         if($countries) {
             $result  = SendingMethodService::importCountries($countries, $request->get('tax_rate_id'), $sendingMethodId);
-            Notification::success('The countries are inserted.');
+            flash('The countries are inserted.');
             return redirect()->route('sending-method.country-prices.index', $sendingMethodId);
         }         
     }
@@ -93,7 +92,7 @@ class SendingMethodCountryPriceController extends Controller
         $result  = SendingMethodService::destroyCountry($id);
 
         if ($result) {
-            Notification::success('The country price was deleted.');
+            flash('The country price was deleted.');
             return redirect()->route('sending-method.country-prices.index', $sendingMethodId);
         }
     }

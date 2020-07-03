@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -54,7 +53,7 @@ class GeneralSettingController extends Controller
     {
         $result  = GeneralSettingService::destroy($generalSettingId);
         if ($result) {
-            Notification::error('The general setting was deleted.');
+            flash('The general setting was deleted.');
             return redirect()->route('general-setting.index');
         }
     }

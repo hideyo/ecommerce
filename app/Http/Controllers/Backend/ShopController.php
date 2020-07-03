@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
@@ -70,7 +69,7 @@ class ShopController extends Controller
         $result = ShopService::destroy($shopId);
         
         if ($result) {
-            Notification::success('The shop was deleted.');
+            flash('The shop was deleted.');
             return redirect()->route('shop.index');
         }
     }

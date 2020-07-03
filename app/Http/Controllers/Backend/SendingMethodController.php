@@ -14,7 +14,6 @@ use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as Sen
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use DataTables;
 
@@ -75,7 +74,7 @@ class SendingMethodController extends Controller
         $result  = SendingMethodService::destroy($sendingMethodId);
 
         if ($result) {
-            Notification::success('The sending method was deleted.');
+            flash('The sending method was deleted.');
             return redirect()->route('sending-method.index');
         }
     }

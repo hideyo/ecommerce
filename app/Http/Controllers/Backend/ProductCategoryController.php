@@ -13,7 +13,6 @@ use Dutchbridge\Datatable\ProductCategoryDatatable;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\ProductCategory\ProductCategoryFacade as ProductCategoryService;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -163,7 +162,7 @@ class ProductCategoryController extends Controller
         $result  = ProductCategoryService::destroy($productCategoryId);
 
         if ($result) {
-            Notification::success('Category was deleted.');
+            flash('Category was deleted.');
             return redirect()->route('product-category.index');
         }
     }

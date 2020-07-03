@@ -12,9 +12,7 @@ use App\Http\Controllers\Controller;
  */
 
 use Hideyo\Ecommerce\Framework\Services\Content\ContentFacade as ContentService;
-
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use DataTables;
 
@@ -78,7 +76,7 @@ class ContentController extends Controller
         $result  = ContentService::destroy($contentId);
 
         if ($result) {
-            Notification::success('The content was deleted.');
+            flash('The content was deleted.');
             return redirect()->route('content.index');
         }
     }

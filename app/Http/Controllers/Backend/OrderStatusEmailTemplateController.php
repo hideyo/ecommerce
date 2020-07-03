@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 use Hideyo\Ecommerce\Framework\Services\Order\OrderStatusEmailTemplateFacade as OrderStatusEmailTemplateService;
@@ -68,7 +67,7 @@ class OrderStatusEmailTemplateController extends Controller
         $result  = OrderStatusEmailTemplateService::destroy($templateId);
 
         if ($result) {
-            Notification::success('template was deleted.');
+            flash('template was deleted.');
             return redirect()->route('order-status-email-template.index');
         }
     }

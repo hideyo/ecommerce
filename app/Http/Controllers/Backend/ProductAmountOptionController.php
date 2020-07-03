@@ -18,7 +18,6 @@ use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeSe
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;;
 
 use Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -68,16 +67,16 @@ class ProductAmountOptionController extends Controller
         $result  = $this->productAmountOption->create(Request::all(), $productId);
  
         if (isset($result->id)) {
-            Notification::success('The product amount option is updated.');
+            flash('The product amount option is updated.');
             return redirect()->route('admin.product.{productId}.product-amount-option.index', $productId);
         }
 
         if ($result) {
             foreach ($result->errors()->all() as $error) {
-                Notification::error($error);
+                flash($error);
             }
         } else {
-            Notification::error('amount option already exist');
+            flash('amount option already exist');
         }
         
         return redirect()->back()->withInput();
@@ -101,7 +100,7 @@ class ProductAmountOptionController extends Controller
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
         }
         
-        Notification::success('The product amount option is updated.');
+        flash('The product amount option is updated.');
         return redirect()->route('admin.product.{productId}.product-amount-option.index', $productId);
     }
 
@@ -110,7 +109,7 @@ class ProductAmountOptionController extends Controller
         $result  = $this->productAmountOption->destroy($id);
 
         if ($result) {
-            Notification::success('The product amount option is deleted.');
+            flash('The product amount option is deleted.');
             return redirect()->route('admin.product.{productId}.product-amount-option.index', $productId);
         }
     }

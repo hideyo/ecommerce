@@ -183,10 +183,6 @@ $("body .main-cart").on("click", ".coupon_button", function(e){
 
 });
 
-
-
-
-
 $("body .gift-voucher").on("click", ".gift_voucher_button", function(e){
 
     var $this = $( ".gift_voucher_code" );
@@ -208,7 +204,6 @@ $("body .gift-voucher").on("click", ".gift_voucher_button", function(e){
 $("body .main-cart").on("change", ".sending_method_id, .sending_method_country_price_id, .payment_method_id", function(e){
 
     var $this = $(this);
-
     var url = $(this).attr('data-url') + "/" + $this.val();
 
     $.get(url, {}, function(data){
@@ -216,7 +211,6 @@ $("body .main-cart").on("change", ".sending_method_id, .sending_method_country_p
             updateCart();
         }
     }, 'json');
-
 });
 
 $("body .main-cart").on("click", ".delete-product", function(e){
@@ -233,7 +227,6 @@ $("body .main-cart").on("click", ".delete-product", function(e){
          
             $($this).parents('.product-row').remove();  
   
-            
             if(data.totals) {                
                 updateCart();           
             }                
@@ -303,5 +296,3 @@ $(document).click(function() {
 });
   
 })();
-
-

@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -98,7 +97,7 @@ class NewsController extends Controller
         $result  = NewsService::destroy($newsId);
 
         if ($result) {
-            Notification::success('The news was deleted.');
+            flash('The news was deleted.');
             return redirect()->route('news.index');
         }
     }

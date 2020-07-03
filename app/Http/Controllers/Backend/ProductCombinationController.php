@@ -15,9 +15,7 @@ use Hideyo\Ecommerce\Framework\Services\Product\ProductCombinationFacade as Prod
 use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
 use Hideyo\Ecommerce\Framework\Services\Attribute\AttributeFacade as AttributeService;
 use Hideyo\Ecommerce\Framework\Services\TaxRate\TaxRateFacade as TaxRateService;
-
 use Illuminate\Http\Request;
-use Notification;
 
 
 class ProductCombinationController extends Controller
@@ -152,7 +150,7 @@ class ProductCombinationController extends Controller
             return ProductCombinationService::notificationRedirect(array('product-combination.index', $productId), $result, 'The product extra fields are updated.');
         }
 
-        Notification::error('combination already exist');
+        flash('combination already exist');
         return redirect()->back()->withInput();
     }
 
@@ -192,7 +190,7 @@ class ProductCombinationController extends Controller
         $result  = ProductCombinationService::destroy($id);
 
         if ($result) {
-            Notification::success('The product combination is deleted.');
+            flash('The product combination is deleted.');
             return redirect()->route('product-combination.index', $productId);
         }
     }

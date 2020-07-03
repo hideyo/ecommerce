@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -79,7 +78,7 @@ class FaqItemController extends Controller
         $result  = FaqService::destroy($faqItemId);
 
         if ($result) {
-            Notification::success('The faq was deleted.');
+            flash('The faq was deleted.');
             return redirect()->route('faq.index');
         }
     }

@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -101,7 +100,7 @@ class AttributeController extends Controller
         $result  = AttributeService::destroy($attributeId);
 
         if ($result) {
-            Notification::success('Atrribute was deleted.');
+            flash('Atrribute was deleted.');
             return redirect()->route('attribute.index', $attributeGroupId);
         }
     }

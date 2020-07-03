@@ -12,7 +12,6 @@
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Illuminate\Http\Request;
-use Notification;
 
 class ProductImageController extends Controller
 {
@@ -117,7 +116,7 @@ class ProductImageController extends Controller
         $result  = ProductService::destroyImage($productImageId);
 
         if ($result) {
-            Notification::success('The product image is deleted.');
+            flash('The product image is deleted.');
             return redirect()->route('product.images.index', $productId);
         }
     }

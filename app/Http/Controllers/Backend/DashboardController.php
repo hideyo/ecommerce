@@ -2,10 +2,6 @@
 
 use App\Http\Controllers\Controller;
 
-use Notification;
-use Lava;
-use Carbon\Carbon;
-
 class DashboardController extends Controller
 {
     public function index()

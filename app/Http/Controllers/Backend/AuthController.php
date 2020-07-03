@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Closure;
-use Notification;
 
 class AuthController extends Controller
 {
@@ -57,7 +55,7 @@ class AuthController extends Controller
             return redirect()->intended('/admin');
         }
 
-        Notification::error('inlog is incorrect');
+        flash('inlog is incorrect');
      
         return redirect('/admin/security/login')
                     ->withInput($request->only('email', 'remember'));

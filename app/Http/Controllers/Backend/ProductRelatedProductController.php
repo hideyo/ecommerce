@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductRelatedProductFacade as ProductRelatedProductService;
 use Illuminate\Http\Request;
-use Notification;
 
 class ProductRelatedProductController extends Controller
 {
@@ -61,7 +60,7 @@ class ProductRelatedProductController extends Controller
         $result  = ProductRelatedProductService::destroy($productRelatedProductId);
 
         if ($result) {
-            Notification::success('The related product is deleted.');
+            flash('The related product is deleted.');
             return redirect()->route('product.related-product.index', $productId);
         }
     }

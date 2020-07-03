@@ -11,9 +11,7 @@ use App\Http\Controllers\Controller;
  */
 
 use Hideyo\Ecommerce\Framework\Services\Client\ClientFacade as ClientService;
-
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use DataTables;
 
@@ -86,7 +84,7 @@ class ClientAddressController extends Controller
         $result  = ClientService::destroyAddress($id);
 
         if ($result) {
-            Notification::success('The client address is deleted.');
+            flash('The client address is deleted.');
             return redirect()->route('client.addresses.index', $clientId);
         }
     }

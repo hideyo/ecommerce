@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Exception\ExceptionFacade as ExceptionService;
 
 use Illuminate\Http\Request;
-use Notification;
 
 class ErrorController extends Controller
 {

@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -72,7 +71,7 @@ class AttributeGroupController extends Controller
         $result  = AttributeService::destroyGroup($attributeGroupId);
 
         if ($result) {
-            Notification::success('Attribute group was deleted.');
+            flash('Attribute group was deleted.');
             return redirect()->route('attribute-group.index');
         }
     }

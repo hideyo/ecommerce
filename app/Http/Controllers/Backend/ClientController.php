@@ -78,14 +78,14 @@ class ClientController extends Controller
                 Notification::container('foundation')->success('Uw account is geactiveerd.');
         }
         
-        Notification::success('The client was activate.');
+        flash('The client was activate.');
         return redirect()->route('client.index');
     }
 
     public function postDeActivate($clientId)
     {
         ClientService::deactivate($clientId);
-        Notification::success('The client was deactivate.');
+        flash('The client was deactivate.');
         return redirect()->route('client.index');
     }
 
@@ -157,7 +157,7 @@ class ClientController extends Controller
         })->download('xls');
 
 
-        Notification::success('The product export is completed.');
+        flash('The product export is completed.');
         return redirect()->route('product.index');
     }
 
@@ -177,12 +177,12 @@ class ClientController extends Controller
                 
             }
 
-            Notification::success('The client was updated.');
+            flash('The client was updated.');
             return redirect()->route('client.index');
         }
         
         foreach ($result->errors()->all() as $error) {
-            Notification::error($error);
+            flash($error);
         }
         return redirect()->back()->withInput();
     }
@@ -192,7 +192,7 @@ class ClientController extends Controller
         $result  = ClientService::destroy($clientId);
 
         if ($result) {
-            Notification::success('The client was deleted.');
+            flash('The client was deleted.');
             return redirect()->route('client.index');
         }
     }

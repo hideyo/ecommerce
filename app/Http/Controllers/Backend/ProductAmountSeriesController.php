@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductAmountSeriesFacade as ProductAmountSeriesService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -76,7 +75,7 @@ class ProductAmountSeriesController extends Controller
         $result  = ProductAmountSeriesService::destroy($id);
 
         if ($result) {
-            Notification::success('The product amount series is deleted.');
+            flash('The product amount series is deleted.');
             return redirect()->route('product.product-amount-series.index', $productId);
         }
     }

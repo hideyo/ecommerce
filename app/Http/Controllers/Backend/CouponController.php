@@ -19,7 +19,6 @@ use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as Sen
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -92,7 +91,7 @@ class CouponController extends Controller
         $result  = CouponService::destroy($couponId);
 
         if ($result) {
-            Notification::success('The coupon was deleted.');
+            flash('The coupon was deleted.');
             return redirect()->route('coupon.index');
         }
     }

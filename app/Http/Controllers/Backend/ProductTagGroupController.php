@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Hideyo\Ecommerce\Framework\Services\Product\ProductTagGroupFacade as ProductTagGroupService;
 use Illuminate\Http\Request;
-use Notification;
 
 class ProductTagGroupController extends Controller
 {
@@ -69,7 +68,7 @@ class ProductTagGroupController extends Controller
         $result  = ProductTagGroupService::destroy($productTagGroupId);
 
         if ($result) {
-            Notification::success('The product group tag was deleted.');
+            flash('The product group tag was deleted.');
             return redirect()->route('product-tag-group.index');
         }
     }

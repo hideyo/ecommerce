@@ -10,7 +10,6 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 
 use Hideyo\Ecommerce\Framework\Services\Coupon\CouponFacade as CouponService;
@@ -63,7 +62,7 @@ class CouponGroupController extends Controller
         $result  = CouponService::destroyGroup($couponGroupId);
 
         if ($result) {
-            Notification::success('The coupon was deleted.');
+            flash('The coupon was deleted.');
             return redirect()->route('coupon-group.index');
         }
     }

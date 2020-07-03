@@ -17,7 +17,6 @@ use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as Pay
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;use Hideyo\Ecommerce\Framework\Services\Product\ProductFacade as ProductService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Notification;
 use Hideyo\Ecommerce\Framework\Services\Order\Events\OrderChangeStatus;
 use Event;
 use Excel;
@@ -228,7 +227,7 @@ class OrderController extends Controller
         if ($orderStatusId) {
             $result = OrderService::updateStatus($orderId, $orderStatusId);
             Event::dispatch(new OrderChangeStatus($result));
-            \Notification::success('The status was updated to '.$result->OrderStatus->title);
+            \flash('The status was updated to '.$result->OrderStatus->title);
         }
 
         return redirect()->route('order.show', $orderId);
@@ -300,7 +299,7 @@ class OrderController extends Controller
         if ($result->errors()->all()) {
             return redirect()->back()->withInput()->withErrors($result->errors()->all());
         } else {
-            Notification::success('The order was updated.');
+            flash('The order was updated.');
             return redirect()->route('admin.order.index');
         }
     }

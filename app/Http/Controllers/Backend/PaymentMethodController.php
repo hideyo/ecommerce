@@ -9,7 +9,6 @@
  */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Notification;
 use Form;
 use DataTables;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
@@ -93,7 +92,7 @@ class PaymentMethodController extends Controller
         $result  = PaymentMethodService::destroy($paymentMethodId);
 
         if ($result) {
-            Notification::success('The payment method was deleted.');
+            flash('The payment method was deleted.');
             return redirect()->route('payment-method.index');
         }
     }

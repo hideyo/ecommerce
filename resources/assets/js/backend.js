@@ -1,20 +1,12 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 require('../../../node_modules/bootbox/bootbox.js');
 require('../../../node_modules/datatables/media/js/jquery.dataTables.js');
 require('../../../node_modules/select2/dist/js/select2.js');
-
 require('../../../node_modules/jstree/dist/jstree.min.js');
 require('../../../node_modules/bootstrap-datepicker/js/bootstrap-datepicker.js');
 require('../../../node_modules/bootstrap-validator/dist/validator.js');
 require('../../../node_modules/summernote/dist/summernote.js');
 require('../../../node_modules/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.js');
-
 
 function recalculate(el){
 
@@ -115,7 +107,6 @@ $(document).ready(function() {
             }, 'json');
 
         }
-
     }
 
     $("body").on("change", ".order_status_email_template_id", function(e){
@@ -191,8 +182,6 @@ $(document).ready(function() {
 
     });
 
-
-
     $("body").on("change", ".change-amount-product-attribute", function(e){
      
         var $this = $(this);
@@ -212,13 +201,11 @@ $(document).ready(function() {
 
     });
 
-
     if(document.getElementById('codeeditor')){
         var editords = CodeMirror.fromTextArea(document.getElementById('codeeditor'), {
         lineNumbers: true
         });
     }
-
 
     $('.summernote').summernote({
       height: 300,                 // set editor height
@@ -236,12 +223,6 @@ $(document).ready(function() {
     $(".select2").select2();
 
     $('.datepicker').datepicker({
-
         format: 'dd/mm/yyyy'
-
-    });
-
-
-    
+    }); 
 });
-

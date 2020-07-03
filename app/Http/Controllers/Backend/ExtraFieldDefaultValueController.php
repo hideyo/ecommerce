@@ -9,9 +9,7 @@
 
 use App\Http\Controllers\Controller;
 use Hideyo\Ecommerce\Framework\Services\ExtraField\ExtraFieldFacade as ExtraFieldService;
-
 use Illuminate\Http\Request;
-use Notification;
 use DataTables;
 use Form;
 
@@ -64,7 +62,7 @@ class ExtraFieldDefaultValueController extends Controller
         $result  = ExtraFieldService::destroyValue($id);
 
         if ($result) {
-            Notification::success('Extra field was deleted.');
+            flash('Extra field was deleted.');
             return redirect()->route('extra-field.values.index', $extraFieldId);
         }
     }
