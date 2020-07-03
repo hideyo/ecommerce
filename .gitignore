@@ -13,17 +13,11 @@ node_modules/
 *.log
 
 # Project
-public/assets/
-public/uploads/
-/public/storage
-
 /storage/*.key
 /vendor
 /.idea
 /.vagrant
 
-/public/hideyo
-/public/files
 storage/framework/cache/*
 storage/framework/sessions/*
 storage/framework/views/*
@@ -40,13 +34,6 @@ yarn-error.log
 composer.lock
 node_modules
 bower_components
-
-/public/images
-/public/js
-/public/css
-/public/fonts
-/public/upload
-/public/filemanager
 
 /log
 /log/

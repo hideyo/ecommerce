@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Hideyo\Ecommerce\Framework\Services\SendingMethod\SendingMethodFacade as SendingMethodService;
 use Hideyo\Ecommerce\Framework\Services\PaymentMethod\PaymentMethodFacade as PaymentMethodService;
 use Hideyo\Ecommerce\Framework\Services\Shop\ShopFacade as ShopService;
-use BrowserDetect;
+use Browser;
 use Cart;
 
 class CartController extends Controller
@@ -29,7 +29,7 @@ class CartController extends Controller
 
         $template = "frontend.cart.index";
 
-        if (BrowserDetect::isMobile()) {
+        if (Browser::isMobile()) {
             $template = "frontend.cart.index-mobile";
         }
 
@@ -119,7 +119,7 @@ class CartController extends Controller
         
         $template = "frontend.cart._totals";
         
-        if (BrowserDetect::isMobile()) {
+        if (Browser::isMobile()) {
             $template = "frontend.cart._totals-mobile";
         }
 
