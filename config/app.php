@@ -188,7 +188,6 @@ return [
         Hideyo\Ecommerce\Framework\Providers\HideyoServiceProvider::class,
         Hideyo\Ecommerce\Framework\Providers\RouteServiceProvider::class,
         Hideyo\Ecommerce\Framework\Providers\CartServiceProvider::class,
-        Hideyo\Ecommerce\Framework\Providers\ComposerServiceProvider::class,
         Hideyo\Ecommerce\Framework\Providers\HtmlServiceProvider::class
     ],
 
