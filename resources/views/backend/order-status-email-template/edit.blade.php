@@ -20,7 +20,7 @@
         </ol>
         <h2>Order Email templates <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         <div class="row">
             <div class="col-md-8">
                 {!! Form::model($orderHtmlTemplate, array('method' => 'put', 'route' => array('order-status-email-template.update', $orderHtmlTemplate->id), 'files' => true, 'class' => 'form-horizontal  validate')) !!}

@@ -19,7 +19,7 @@
 
         <h2>Extra field <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($extraField, array('method' => 'put', 'route' => array('extra-field.update', $extraField->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

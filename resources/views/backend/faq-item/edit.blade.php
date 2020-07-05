@@ -18,7 +18,7 @@
 
         <h2>Faq <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($faq, array('method' => 'put', 'route' => array('faq.update', $faq->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

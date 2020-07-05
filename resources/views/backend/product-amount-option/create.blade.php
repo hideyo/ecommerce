@@ -20,7 +20,7 @@
 
 <h2>Product amount options  <small>create</small></h2>
 <hr/>
-      {!! Notification::showAll() !!}
+      @include('flash::message')
 <div class="row">
     <div class="col-md-12">
      

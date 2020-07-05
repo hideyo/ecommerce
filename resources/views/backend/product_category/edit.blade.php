@@ -16,7 +16,7 @@
         </ol>
         <h2>Productcategory <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         <div class="row">
             <div class="col-md-12">
                 {!! Form::model($productCategory, array('method' => 'put', 'route' => array('product-category.update', $productCategory->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

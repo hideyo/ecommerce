@@ -14,7 +14,7 @@
       <ol class="breadcrumb">
           <li><a href=""><i class="entypo-folder"></i>Dashboard</a></li>
       </ol>
-      {!! Notification::showAll() !!}
+      @include('flash::message')
 
         @if($revenueThisMonth)
         <div class="row">

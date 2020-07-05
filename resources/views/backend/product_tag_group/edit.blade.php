@@ -17,7 +17,7 @@
 
         <h2>Product tag group<small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($productTagGroup, array('method' => 'put', 'route' => array('product-tag-group.update', $productTagGroup->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

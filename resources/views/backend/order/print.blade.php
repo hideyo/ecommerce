@@ -20,7 +20,7 @@
 
         <h2>Order <small>print</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
      	{!! Form::open(array('route' => array('order.print'), 'files' => true, 'class' => 'form-horizontal form-groups-bordered validate print-form', "data-url" => "/admin/order/print/products")) !!}
 

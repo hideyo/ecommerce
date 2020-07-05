@@ -17,7 +17,7 @@
 
         <h2>Order statuses <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($orderStatus, array('method' => 'put', 'route' => array('order-status.update', $orderStatus->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

@@ -18,7 +18,7 @@
 
         <h2>Product <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('product.store'), 'files' => true, 'role' => 'form', 'class' => 'form-horizontal', 'data-focus' => 'true', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">

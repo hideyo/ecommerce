@@ -18,7 +18,7 @@
 
         <h2>Order Email templates <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         <div class="row">
             <div class="col-md-8">
     {!! Form::open(array('route' => array('order-status-email-template.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

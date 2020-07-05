@@ -23,7 +23,7 @@
 
         <h2>Client <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
  
 

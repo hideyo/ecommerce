@@ -24,7 +24,7 @@
             <div class="col-md-12">
                 <div class="panel-body">
 
-                    {!! Notification::showAll() !!}
+                    @include('flash::message')
     			    {!! Form::open(array('route' => array('brand.images.store', $brand->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
     				    <input type="hidden" name="_token" value="{!! Session::token() !!}">
 

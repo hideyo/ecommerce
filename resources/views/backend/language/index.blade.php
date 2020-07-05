@@ -12,7 +12,7 @@
 
 <h2>Language <small>overview</small></h2>
 <br/>
-{{ Notification::showAll() }}
+@include('flash::message')
 
 {{ Datatable::table()
 ->addColumn('id','language', 'actions')       // these are the column headings to be shown

@@ -19,7 +19,7 @@
 
         <h2>Sending method country price <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('sending-method.country-prices.store', $sendingMethod->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered', 'data-toggle' => 'validator')) !!}
             <input type="hidden" name="_token" value="{!! Session::token() !!}">

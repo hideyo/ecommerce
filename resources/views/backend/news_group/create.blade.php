@@ -17,7 +17,7 @@
 
         <h2>Newsgroup <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('news-group.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <input type="hidden" name="_token" value="{!! Session::token() !!}">

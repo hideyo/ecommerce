@@ -18,7 +18,7 @@
 
         <h2>couponGroup <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($couponGroup, array('method' => 'put', 'route' => array('coupon-group.update', $couponGroup->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

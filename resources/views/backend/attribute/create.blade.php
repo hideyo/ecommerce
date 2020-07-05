@@ -19,7 +19,7 @@
 
         <h2>Attribute <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('attribute.store', $attributeGroup->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
  

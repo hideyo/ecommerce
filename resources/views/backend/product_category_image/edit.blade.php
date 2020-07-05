@@ -20,7 +20,7 @@
         <a href="{!! URL::route('product-category.images.index', $productCategory->id) !!}" class="btn btn-green btn-icon icon-left pull-right">back to images<i class="entypo-plus"></i></a>
 
         <h2>Productcategory <small>images edit</small></h2>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         <hr/>
         {!! Form::model($productCategoryImage, array('method' => 'put', 'route' => array('product-category.images.update', $productCategory->id, $productCategoryImage->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">

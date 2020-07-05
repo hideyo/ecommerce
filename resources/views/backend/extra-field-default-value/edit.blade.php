@@ -19,7 +19,7 @@
 
         <h2>Extra field default value  <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($extraFieldDefaultValue, array('method' => 'put', 'route' => array('extra-field.values.update', $extraFieldDefaultValue->extra_field_id, $extraFieldDefaultValue->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

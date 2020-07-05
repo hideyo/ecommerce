@@ -11,7 +11,7 @@
 <h2>User <small>dashboard</small></h2>
 <hr/>
 @include('_partials.notifications')
-        {{ Notification::showAll() }}
+        @include('flash::message')
 @if (Session::get('error'))
     <div class="alert alert-error alert-danger">
         @if (is_array(Session::get('error')))

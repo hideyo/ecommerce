@@ -17,7 +17,7 @@
 
         <h2>Invoices <small>overview</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         <table id="datatable" class="table table-striped table-bordered">
             <thead>

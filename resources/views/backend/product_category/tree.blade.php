@@ -18,7 +18,7 @@
 
         <h2>Product categories <small>tree</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         
       <div class="panel panel-primary" data-collapsed="0">
             <div class="panel-body">

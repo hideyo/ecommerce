@@ -17,7 +17,7 @@
 
         <h2>News <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($news, array('method' => 'put', 'route' => array('news.update', $news->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

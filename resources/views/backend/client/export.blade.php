@@ -20,7 +20,7 @@
     
         <h2>Clients <small>export</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         
         {!! Form::open(array('route' => array('client.export'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

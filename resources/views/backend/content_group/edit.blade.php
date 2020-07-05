@@ -18,7 +18,7 @@
 
         <h2>ContentGroup <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($contentGroup, array('method' => 'put', 'route' => array('content-group.update', $contentGroup->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

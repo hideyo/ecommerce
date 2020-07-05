@@ -7,7 +7,7 @@
 
         <h2>User <small>roles</small></h2>
         <br/>
-        {{ Notification::showAll() }}
+        @include('flash::message')
 
         {{ Datatable::table()
         ->addColumn('id','name','actions')       // these are the column headings to be shown

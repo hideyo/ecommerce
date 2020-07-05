@@ -17,7 +17,7 @@
 
         <h2>User <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
            {!! Form::model($user, array('method' => 'put', 'route' => array('user.update', $user->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
                      <input type="hidden" name="_token" value="{!! Session::token() !!}">

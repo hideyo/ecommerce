@@ -17,7 +17,7 @@
 
         <h2>Payment method <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($paymentMethod, array('method' => 'put', 'route' => array('payment-method.update', $paymentMethod->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

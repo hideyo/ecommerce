@@ -17,7 +17,7 @@
         <ol class="breadcrumb">
             <li><a href=""><i class="entypo-folder"></i>Stats</a></li>
         </ol>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
     </div>
 </div>
 @stop

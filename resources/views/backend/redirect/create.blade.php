@@ -21,7 +21,7 @@
 
         <h2>Redirect <small>create</small></h2>
         <br/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('redirect.store'), 'files' => true, 'class' => 'form-horizontal  validate')) !!}
         

@@ -17,7 +17,7 @@
 
         <h2>General setting <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($generalSetting, array('method' => 'put', 'route' => array('general-setting.update', $generalSetting->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <div class="form-group">   

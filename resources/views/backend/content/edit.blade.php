@@ -18,7 +18,7 @@
 
         <h2>Content <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($content, array('method' => 'put', 'route' => array('content.update', $content->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

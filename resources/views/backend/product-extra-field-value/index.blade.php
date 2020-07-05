@@ -19,7 +19,7 @@
 
         <h2>Product <small>extra fields</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         @if($extraFields)
         {!! Form::open(array('route' => array('product.product-extra-field-value.store', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

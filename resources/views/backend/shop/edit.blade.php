@@ -17,7 +17,7 @@
 
         <h2>Shop <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
     {!! Form::model($shop, array('method' => 'put', 'route' => array('shop.update', $shop->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 		<input type="hidden" name="_token" value="{!! Session::token() !!}">

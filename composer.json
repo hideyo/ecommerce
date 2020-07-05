@@ -75,17 +75,6 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-
-    "repositories": [
-        {
-            "type": "path",
-            "url": "/home/vagrant/code/ecommerce-framework",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
-
     "minimum-stability": "dev",
     "prefer-stable": true
 }

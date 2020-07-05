@@ -21,7 +21,7 @@
 
         <h2>Html block <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($htmlBlock, array('method' => 'put', 'route' => array('html-block.update', $htmlBlock->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

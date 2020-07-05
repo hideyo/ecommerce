@@ -21,7 +21,7 @@
 
         <h2>Redirect <small>import</small></h2>
         <br/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('redirect.import'), 'files' => true, 'class' => 'form-horizontal  validate')) !!}
         

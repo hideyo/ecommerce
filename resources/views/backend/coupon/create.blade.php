@@ -18,7 +18,7 @@
 
         <h2>Coupon <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('coupon.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

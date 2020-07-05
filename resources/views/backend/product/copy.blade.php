@@ -19,7 +19,7 @@
 
         <h2>Product <small>copy</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         {!! Form::model($product, array('route' => array('product.store-copy', $product->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}

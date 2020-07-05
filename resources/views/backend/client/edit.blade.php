@@ -18,7 +18,7 @@
 
         <h2>Client <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 <div class="row">
     <div class="col-md-12">

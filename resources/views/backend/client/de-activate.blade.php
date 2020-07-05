@@ -20,7 +20,7 @@
         <p>De-activate this client:</p>
         <hr/>
 
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 <div class="row">
     <div class="col-md-12">

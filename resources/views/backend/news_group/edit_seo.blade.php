@@ -18,7 +18,7 @@
 
         <h2>Newsgroup <small>edit seo</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($newsGroup, array('method' => 'put', 'route' => array('news-group.update', $newsGroup->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">     

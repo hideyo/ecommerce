@@ -21,7 +21,7 @@
 
         <h2>Redirect <small>edit</small></h2>
         <br/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($redirect, array('method' => 'put', 'route' => array('redirect.update', $redirect->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

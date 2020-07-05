@@ -19,7 +19,7 @@
 
         <h2>Attribute  <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($attribute, array('method' => 'put', 'route' => array('attribute.update', $attribute->attribute_group_id, $attribute->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

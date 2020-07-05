@@ -17,7 +17,7 @@
 
         <h2>Sending method country price <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($sendingMethodCountry, array('method' => 'put', 'route' => array('sending-method.country-prices.update', $sendingMethod->id, $sendingMethodCountry->id), 'files' => true, 'class' => 'form-horizontal form-groups-bordered', 'data-toggle' => 'validator')) !!}
 

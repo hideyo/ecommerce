@@ -22,7 +22,7 @@
 
         <h2>Products <small>overview</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         <table id="datatable" class="table table-striped table-bordered">
             <thead>

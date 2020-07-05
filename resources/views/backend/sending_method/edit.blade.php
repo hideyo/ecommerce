@@ -17,7 +17,7 @@
 
         <h2>Sending method <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($sendingMethod, array('method' => 'put', 'route' => array('sending-method.update', $sendingMethod->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
 

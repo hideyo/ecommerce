@@ -19,7 +19,7 @@
 
         <h2>Extra field default value <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
     {!! Form::open(array('route' => array('extra-field.values.store', $extraField->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">

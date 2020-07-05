@@ -15,7 +15,7 @@
 
         <h2>Brands <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($brand, array('method' => 'put', 'route' => array('brand.update', $brand->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             

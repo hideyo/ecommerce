@@ -20,7 +20,7 @@
         <a href="{!! URL::route('brand.images.index', $brand->id) !!}" class="btn btn-green btn-icon icon-left pull-right">back to images<i class="entypo-plus"></i></a>
 
         <h2>Brand <small>images edit</small></h2>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         <hr/>
         {!! Form::model($brandImage, array('method' => 'put', 'route' => array('brand.images.update', $brand->id, $brandImage->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
         <input type="hidden" name="_token" value="{!! Session::token() !!}">

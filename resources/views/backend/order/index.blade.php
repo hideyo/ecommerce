@@ -20,7 +20,7 @@
 
         <h2>Order <small>overview</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
         @if($revenueThisMonth)
         <div class="row">
 

@@ -17,7 +17,7 @@
 
         <h2>Tax rate <small>edit</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::model($taxRate, array('method' => 'put', 'route' => array('tax-rate.update', $taxRate->id), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <div class="form-group">

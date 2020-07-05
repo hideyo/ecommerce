@@ -18,7 +18,7 @@
 
 		<h2>Product <small>amount series</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
 
         <h3>Create Quick</h3>

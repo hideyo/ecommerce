@@ -11,7 +11,7 @@
                 <h1>Login</h1>
                 
                 {!! Form::open(array('class' => 'form-signin', 'data-toggle' => 'validator')) !!}
-                {!! Notification::showAll() !!}
+                @include('flash::message')
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label for="inputEmail" class="sr-only">Email address</label>

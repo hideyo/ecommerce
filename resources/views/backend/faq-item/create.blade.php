@@ -17,7 +17,7 @@
 
         <h2>Faq item <small>create</small></h2>
         <hr/>
-        {!! Notification::showAll() !!}
+        @include('flash::message')
 
         {!! Form::open(array('route' => array('faq.store'), 'files' => true, 'class' => 'form-horizontal', 'data-toggle' => 'validator')) !!}
             <input type="hidden" name="_token" value="{!! Session::token() !!}">

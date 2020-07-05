@@ -5,7 +5,7 @@
 
         <h2>User Log <small>overview</small></h2>
         <br/>
-        {{ Notification::showAll() }}
+        @include('flash::message')
 
         {{ Datatable::table()
         ->addColumn('id','name', 'message')       // these are the column headings to be shown
